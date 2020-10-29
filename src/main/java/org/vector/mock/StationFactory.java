@@ -6,6 +6,20 @@ import java.util.*;
 
 public class StationFactory {
 
+    private static StationFactory instance;
+
+    private StationFactory() {
+    }
+
+    public static StationFactory getInstance() {
+
+        if (instance == null) {
+
+            instance = new StationFactory();
+        }
+        return instance;
+    }
+
     public List<Station> generateStations(int number) {
         return generateStation(number);
     }
@@ -15,7 +29,13 @@ public class StationFactory {
         List<Station> stations = new ArrayList<>(number);
 
         for (int i = 0; i < number; i++) {
-            stations.add(new Station(randomStationName()));
+
+            stations.add(new Station());
+        }
+
+        for (int i = 0; i < number; i++) {
+
+            stations.get(i).setName(randomStationName());
         }
 
         return stations;
@@ -46,6 +66,7 @@ public class StationFactory {
         names.add("Луцк");
 
         Random random = new Random();
+
         int index = random.nextInt(names.size());
 
         return names.get(index);

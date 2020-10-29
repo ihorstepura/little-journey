@@ -7,7 +7,22 @@ import java.util.*;
 
 public class TicketFactory {
 
-    private final RouteFactory routeFactory = new RouteFactory();
+    private static TicketFactory instance;
+
+    private final RouteFactory routeFactory = RouteFactory.getInstance();
+
+    private TicketFactory() {
+
+    }
+
+    public static TicketFactory getInstance() {
+
+        if (instance == null) {
+
+            instance = new TicketFactory();
+        }
+        return instance;
+    }
 
     public List<Ticket> generateTickets(int number) {
 
@@ -31,7 +46,6 @@ public class TicketFactory {
             tickets.get(i).setCost(randomTicketCost());
             tickets.get(i).setDuration(randomDuration());
         }
-
 
         return tickets;
     }

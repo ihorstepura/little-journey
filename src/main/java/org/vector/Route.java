@@ -6,15 +6,6 @@ public class Route {
 
     private Station arrival;
 
-    public Route() {
-
-    }
-
-    public Route(Station departure, Station arrival) {
-        this.departure = departure;
-        this.arrival = arrival;
-    }
-
     public Station getDeparture() {
         return departure;
     }
