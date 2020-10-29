@@ -1,5 +1,6 @@
 package org.vector;
 
+import org.vector.gui.LittleJourneyGui;
 import org.vector.mock.DataRandomizer;
 import org.vector.mock.TicketFactory;
 import org.vector.utils.DataFilter;
@@ -13,8 +14,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        DataFilter filter = new DataFilter();
-        filter.filter();
+        LittleJourneyGui gui = new LittleJourneyGui();
+        gui.showWindow();
+
+        /*DataFilter filter = new DataFilter();
+        filter.filter();*/
 
         /*TicketFactory ticketFactory = TicketFactory.getInstance();
 
