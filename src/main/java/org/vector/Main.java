@@ -1,17 +1,33 @@
 package org.vector;
 
+import org.vector.mock.DataRandomizer;
 import org.vector.mock.TicketFactory;
+import org.vector.utils.DataFilter;
+import org.vector.utils.DataSelector;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        TicketFactory ticketFactory = TicketFactory.getInstance();
+        DataFilter filter = new DataFilter();
+        filter.filter();
 
-        List<Ticket> tickets = ticketFactory.generateTickets(1);
+        /*TicketFactory ticketFactory = TicketFactory.getInstance();
 
-        System.out.println(tickets);
+        List<Ticket> tickets = ticketFactory.generateTickets(100);
+
+        List<Ticket> selectedByRoute = DataSelector.selectByRoute(tickets, "Львов", "Ужгород");
+        List<Ticket> selectedByPrice = DataSelector.selectByPrice(tickets, 300, 400);
+        List<Ticket> selectedByTime = DataSelector.selectByTravelTime(tickets,
+                new Date(DataRandomizer.randomDuration().getTime()),
+                new Date(DataRandomizer.randomDuration().getTime()));
+
+        System.out.println(selectedByRoute);
+        System.out.println(selectedByPrice);
+        System.out.println(selectedByTime);*/
     }
 }

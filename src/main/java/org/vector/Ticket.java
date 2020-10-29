@@ -1,5 +1,6 @@
 package org.vector;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -44,7 +45,7 @@ public class Ticket {
 
     private String dateFormatter(Date date) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm");
 
         return dateFormat.format(date);
     }

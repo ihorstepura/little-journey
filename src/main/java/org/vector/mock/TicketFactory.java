@@ -43,7 +43,7 @@ public class TicketFactory {
         for (int i = 0; i < number; i++) {
 
             tickets.get(i).setRoute(routes.get(i));
-            tickets.get(i).setCost(randomTicketCost());
+            tickets.get(i).setCost(randomCost());
             tickets.get(i).setDuration(randomDuration());
         }
 
@@ -52,15 +52,11 @@ public class TicketFactory {
 
     private Date randomDuration() {
 
-        Random random = new Random();
-
-        long time = System.currentTimeMillis() + random.nextInt();
-
-        return new Date(time);
+        return DataRandomizer.randomDuration();
     }
 
-    private double randomTicketCost() {
+    private double randomCost() {
 
-        return 20 + (Math.random() * 1000);
+        return DataRandomizer.randomTicketCost();
     }
 }
