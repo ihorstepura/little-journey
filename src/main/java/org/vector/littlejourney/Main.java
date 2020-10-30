@@ -1,6 +1,6 @@
 package org.vector.littlejourney;
 
-import org.vector.littlejourney.guidialog.JourneyInfoDialog;
+import org.vector.littlejourney.gui.dialog.JourneyInfoDialog;
 
 public class Main {
 

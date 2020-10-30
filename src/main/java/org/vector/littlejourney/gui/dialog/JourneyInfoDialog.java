@@ -1,4 +1,4 @@
-package org.vector.littlejourney.guidialog;
+package org.vector.littlejourney.gui.dialog;
 
 import org.vector.littlejourney.Ticket;
 import org.vector.littlejourney.mock.TicketFactory;
