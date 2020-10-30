@@ -30,6 +30,9 @@ public class DataRandomizer {
         names.add("Полтава");
         names.add("Хмельницкий");
         names.add("Луцк");
+        names.add("Никополь");
+        names.add("Николаев");
+        names.add("Ровно");
 
         Random random = new Random();
 

@@ -7,9 +7,6 @@ import org.vector.utils.DataSelector;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class LittleJourneyGui extends JDialog {
@@ -23,7 +20,7 @@ public class LittleJourneyGui extends JDialog {
     private JTextField minTime;
     private JTextField maxTime;
     private JTextArea resultText;
-    private JLabel depLabel;
+    private JComboBox<String> timeList;
 
     public LittleJourneyGui() {
 
@@ -37,13 +34,21 @@ public class LittleJourneyGui extends JDialog {
 
         arrivalStation.setFont(bigFontTR);
         departureStation.setFont(bigFontTR);
-        buttonSearch.setFont(bigFontTR);
         minCost.setFont(bigFontTR);
         maxCost.setFont(bigFontTR);
         minTime.setFont(bigFontTR);
         maxTime.setFont(bigFontTR);
         resultText.setFont(littleFontTR);
 
+        for (int i = 0; i < 10; i++) {
+
+            timeList.addItem("0" + i + ":00");
+        }
+
+        for (int i = 10; i < 24; i++) {
+
+            timeList.addItem(i + ":00");
+        }
 
         buttonSearch.addActionListener(new ActionListener() {
 
@@ -63,10 +68,6 @@ public class LittleJourneyGui extends JDialog {
 
         String minimalCost = minCost.getText();
         String maximalCost = maxCost.getText();
-
-        //Date minimalTime = new Date(minTime.getText());
-        //Date maximalTime = new Date(maxTime.getText());
-
 
         if (departure.equals("") || arrival.equals("")) {
 
@@ -107,7 +108,6 @@ public class LittleJourneyGui extends JDialog {
 
     public void showWindow() {
         LittleJourneyGui dialog = new LittleJourneyGui();
-        //dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
     }
@@ -118,7 +118,7 @@ public class LittleJourneyGui extends JDialog {
 
         TicketFactory ticketFactory = TicketFactory.getInstance();
 
-        tickets = ticketFactory.generateTickets(10000);
+        tickets = ticketFactory.generateTickets(10_000);
 
         return tickets;
     }
