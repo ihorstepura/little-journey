@@ -1,7 +1,9 @@
-package org.vector.utils;
+package org.vector.littlejourney.utils;
 
-import org.vector.Ticket;
+import org.vector.littlejourney.Ticket;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +54,24 @@ public class DataSelector {
 
                 selectedTickets.add(ticket);
 
+            }
+        }
+
+        return selectedTickets;
+    }
+
+    public static List<Ticket> selectByTravelTime(List<Ticket> tickets, String time) {
+
+        List<Ticket> selectedTickets = new ArrayList<>();
+
+        for (Ticket ticket : tickets) {
+
+            DateFormat format = new SimpleDateFormat("hh:mm");
+            String ticketTime = format.format(ticket.getDuration());
+
+            if (ticketTime.compareTo(time) >= 0) {
+
+                selectedTickets.add(ticket);
             }
         }
 

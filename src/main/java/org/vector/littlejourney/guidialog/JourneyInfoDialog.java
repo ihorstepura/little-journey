@@ -1,15 +1,14 @@
-package org.vector.gui;
+package org.vector.littlejourney.guidialog;
 
-import org.vector.Ticket;
-import org.vector.mock.TicketFactory;
-import org.vector.utils.DataSelector;
+import org.vector.littlejourney.Ticket;
+import org.vector.littlejourney.mock.TicketFactory;
+import org.vector.littlejourney.utils.DataSelector;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.List;
 
-public class LittleJourneyGui extends JDialog {
+public class JourneyInfoDialog extends JDialog {
 
     private JPanel contentPane;
     private JTextField arrivalStation;
@@ -17,17 +16,19 @@ public class LittleJourneyGui extends JDialog {
     private JButton buttonSearch;
     private JTextField minCost;
     private JTextField maxCost;
-    private JTextField minTime;
-    private JTextField maxTime;
     private JTextArea resultText;
     private JComboBox<String> timeList;
 
-    public LittleJourneyGui() {
+    private final List<Ticket> tickets;
+
+    public JourneyInfoDialog() {
 
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonSearch);
-        setBounds(1000, 400, 1300, 1000);
+        setBounds(800, 300, 1300, 1000);
+
+        tickets = createRandomTickets();
 
         Font bigFontTR = new Font("TimesRoman", Font.BOLD, 30);
         Font littleFontTR = new Font("TimesRoman", Font.ITALIC, 20);
@@ -36,8 +37,6 @@ public class LittleJourneyGui extends JDialog {
         departureStation.setFont(bigFontTR);
         minCost.setFont(bigFontTR);
         maxCost.setFont(bigFontTR);
-        minTime.setFont(bigFontTR);
-        maxTime.setFont(bigFontTR);
         resultText.setFont(littleFontTR);
 
         for (int i = 0; i < 10; i++) {
@@ -50,18 +49,12 @@ public class LittleJourneyGui extends JDialog {
             timeList.addItem(i + ":00");
         }
 
-        buttonSearch.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-
-                onSearch();
-            }
-        });
+        buttonSearch.addActionListener(e -> onSearch());
     }
 
     private void onSearch() {
 
-        List<Ticket> tickets = createRandomTickets();
+        resultText.setText("");
 
         String departure = departureStation.getText();
         String arrival = arrivalStation.getText();
@@ -73,31 +66,37 @@ public class LittleJourneyGui extends JDialog {
 
             if (minimalCost.equals("") || maximalCost.equals("")) {
 
-                resultText.append("Данных не обнаружено");
+                resultText.append("Данные не обнаружены");
             } else {
 
                 try {
 
                     List<Ticket> selectedByCost = DataSelector.selectByPrice(
                             tickets, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
+
                     describeList(selectedByCost);
 
-                } catch (Exception e) {
+                } catch (NumberFormatException e) {
 
-                    resultText.append("Данных не обнаружено");
+                    resultText.append("Данные не обнаружены");
                 }
             }
 
         } else {
 
-
             List<Ticket> selectedByRoute = DataSelector.selectByRoute(tickets, departure, arrival);
+
             if (!minimalCost.equals("") || !maximalCost.equals("")) {
 
-                List<Ticket> selectedByCost = DataSelector.selectByPrice(
-                        selectedByRoute, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
+                try {
+                    List<Ticket> selectedByCost = DataSelector.selectByPrice(
+                            selectedByRoute, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
 
-                describeList(selectedByCost);
+                    describeList(selectedByCost);
+                } catch (NumberFormatException e) {
+
+                    resultText.append("Данные не обнаружены");
+                }
             } else {
 
                 describeList(selectedByRoute);
@@ -107,7 +106,7 @@ public class LittleJourneyGui extends JDialog {
 
 
     public void showWindow() {
-        LittleJourneyGui dialog = new LittleJourneyGui();
+        JourneyInfoDialog dialog = new JourneyInfoDialog();
         dialog.setVisible(true);
         System.exit(0);
     }
@@ -128,7 +127,6 @@ public class LittleJourneyGui extends JDialog {
         for (Ticket ticket : tickets) {
 
             resultText.append(ticket.toString() + "\n");
-
         }
     }
 }

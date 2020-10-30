@@ -1,4 +1,4 @@
-package org.vector.mock;
+package org.vector.littlejourney.mock;
 
 import java.util.ArrayList;
 import java.util.Date;

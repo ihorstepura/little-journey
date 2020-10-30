@@ -1,7 +1,7 @@
-package org.vector.mock;
+package org.vector.littlejourney.mock;
 
-import org.vector.Route;
-import org.vector.Ticket;
+import org.vector.littlejourney.Route;
+import org.vector.littlejourney.Ticket;
 
 import java.util.*;
 

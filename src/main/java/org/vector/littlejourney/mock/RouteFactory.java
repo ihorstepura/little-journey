@@ -1,7 +1,7 @@
-package org.vector.mock;
+package org.vector.littlejourney.mock;
 
-import org.vector.Route;
-import org.vector.Station;
+import org.vector.littlejourney.Route;
+import org.vector.littlejourney.Station;
 
 import java.util.ArrayList;
 import java.util.List;

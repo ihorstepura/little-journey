@@ -1,4 +1,4 @@
-package org.vector;
+package org.vector.littlejourney;
 
 import java.util.Objects;
 

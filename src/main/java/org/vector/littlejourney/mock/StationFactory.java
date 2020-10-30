@@ -1,6 +1,6 @@
-package org.vector.mock;
+package org.vector.littlejourney.mock;
 
-import org.vector.Station;
+import org.vector.littlejourney.Station;
 
 import java.util.*;
 

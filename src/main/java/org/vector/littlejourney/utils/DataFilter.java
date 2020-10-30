@@ -1,7 +1,7 @@
-package org.vector.utils;
+package org.vector.littlejourney.utils;
 
-import org.vector.Ticket;
-import org.vector.mock.TicketFactory;
+import org.vector.littlejourney.Ticket;
+import org.vector.littlejourney.mock.TicketFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
