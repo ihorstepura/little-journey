@@ -1,10 +1,8 @@
 package org.vector.littlejourney;
 
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.gui.dialog.GuiHandler;
 import org.vector.littlejourney.mock.TripFactory;
 
-import javax.swing.*;
 import java.util.List;
 
 public class Main {
@@ -15,11 +13,7 @@ public class Main {
 
         List<Trip> trips = tripFactory.generateTickets(10_000);
 
-        GuiHandler gui = new GuiHandler(trips);
+        System.out.println(trips);
 
-        Thread thread = new Thread(gui);
-        thread.start();
-
-        SwingUtilities.invokeLater(gui);
     }
 }
