@@ -1,15 +1,13 @@
 package org.vector.littlejourney.mock;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
-public class DataRandomizer {
+public class MockCity {
 
-    public static String randomStationName() {
+    public static List<String> getData() {
 
-        List<String> names = new ArrayList<>(150);
+        List<String> names = new ArrayList<>(50);
 
         names.add("Киев");
         names.add("Харьков");
@@ -34,24 +32,6 @@ public class DataRandomizer {
         names.add("Николаев");
         names.add("Ровно");
 
-        Random random = new Random();
-
-        int index = random.nextInt(names.size());
-
-        return names.get(index);
-    }
-
-    public static double randomTicketCost() {
-
-        return 20 + (Math.random() * 1000);
-    }
-
-    public static Date randomDuration() {
-
-        Random random = new Random();
-
-        long time = System.currentTimeMillis() + random.nextInt();
-
-        return new Date(time);
+        return names;
     }
 }

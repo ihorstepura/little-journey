@@ -1,80 +1,76 @@
 package org.vector.littlejourney.utils;
 
-import org.vector.littlejourney.Ticket;
+import org.vector.littlejourney.entity.Trip;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DataSelector {
 
-    public static List<Ticket> selectByRoute(List<Ticket> tickets, String departure, String arrival) {
+    public static List<Trip> selectByRoute(List<Trip> trips, String departure, String arrival) {
 
-        List<Ticket> selectedTickets = new ArrayList<>();
+        return trips
+                .parallelStream()
+                .filter(trip -> {
+                    String depart = trip.getRoute().getDeparture().getName();
+                    String arr = trip.getRoute().getArrival().getName();
 
-        for (Ticket ticket : tickets) {
+                    return departure.equalsIgnoreCase(depart) && arrival.equalsIgnoreCase(arr);
+                })
+                .collect(Collectors.toList());
+    }
 
-            String depart = ticket.getRoute().getDeparture().getName();
-            String arr = ticket.getRoute().getArrival().getName();
+    public static List<Trip> selectByPrice(List<Trip> trips, int minPrice, int maxPrice) {
 
-            if (departure.equalsIgnoreCase(depart) && arrival.equalsIgnoreCase(arr)) {
+        List<Trip> selectedTrips = new ArrayList<>();
 
-                selectedTickets.add(ticket);
+        for (Trip trip : trips) {
+
+            if (trip.getCost() <= maxPrice && trip.getCost() >= minPrice) {
+
+                selectedTrips.add(trip);
             }
         }
 
-        return selectedTickets;
+        return selectedTrips;
     }
 
-    public static List<Ticket> selectByPrice(List<Ticket> tickets, int minPrice, int maxPrice) {
+    public static List<Trip> selectByTravelTime(List<Trip> trips, Date minTime, Date maxTime) {
 
-        List<Ticket> selectedTickets = new ArrayList<>();
+        List<Trip> selectedTrips = new ArrayList<>();
 
-        for (Ticket ticket : tickets) {
+        for (Trip trip : trips) {
 
-            if (ticket.getCost() <= maxPrice && ticket.getCost() >= minPrice) {
+            if ((trip.getDuration().compareTo(maxTime) < 0 || trip.getDuration().compareTo(maxTime) == 0) &&
+                    (trip.getDuration().compareTo(minTime) > 0 || trip.getDuration().compareTo(minTime) == 0)) {
 
-                selectedTickets.add(ticket);
-            }
-        }
-
-        return selectedTickets;
-    }
-
-    public static List<Ticket> selectByTravelTime(List<Ticket> tickets, Date minTime, Date maxTime) {
-
-        List<Ticket> selectedTickets = new ArrayList<>();
-
-        for (Ticket ticket : tickets) {
-
-            if ((ticket.getDuration().compareTo(maxTime) < 0 || ticket.getDuration().compareTo(maxTime) == 0) &&
-                    (ticket.getDuration().compareTo(minTime) > 0 || ticket.getDuration().compareTo(minTime) == 0)) {
-
-                selectedTickets.add(ticket);
+                selectedTrips.add(trip);
 
             }
         }
 
-        return selectedTickets;
+        return selectedTrips;
     }
 
-    public static List<Ticket> selectByTravelTime(List<Ticket> tickets, String time) {
+    public static List<Trip> selectByTravelTime(List<Trip> trips, String time) {
 
-        List<Ticket> selectedTickets = new ArrayList<>();
+        List<Trip> selectedTrips = new ArrayList<>();
 
-        for (Ticket ticket : tickets) {
+        for (Trip trip : trips) {
 
             DateFormat format = new SimpleDateFormat("hh:mm");
-            String ticketTime = format.format(ticket.getDuration());
+            String ticketTime = format.format(trip.getDuration());
 
             if (ticketTime.compareTo(time) >= 0) {
 
-                selectedTickets.add(ticket);
+                selectedTrips.add(trip);
             }
         }
 
-        return selectedTickets;
+        return selectedTrips;
     }
 }

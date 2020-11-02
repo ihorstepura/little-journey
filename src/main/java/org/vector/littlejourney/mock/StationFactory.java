@@ -1,6 +1,7 @@
 package org.vector.littlejourney.mock;
 
-import org.vector.littlejourney.Station;
+import org.vector.littlejourney.entity.Station;
+import org.vector.littlejourney.utils.RandomDataGenerator;
 
 import java.util.*;
 
@@ -21,6 +22,7 @@ public class StationFactory {
     }
 
     public List<Station> generateStations(int number) {
+
         return generateStation(number);
     }
 
@@ -30,18 +32,9 @@ public class StationFactory {
 
         for (int i = 0; i < number; i++) {
 
-            stations.add(new Station());
-        }
-
-        for (int i = 0; i < number; i++) {
-
-            stations.get(i).setName(randomName());
+            stations.add(new Station(RandomDataGenerator.randomElement(MockCity.getData())));
         }
 
         return stations;
-    }
-
-    private String randomName() {
-        return DataRandomizer.randomStationName();
     }
 }

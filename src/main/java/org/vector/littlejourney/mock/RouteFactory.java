@@ -1,7 +1,7 @@
 package org.vector.littlejourney.mock;
 
-import org.vector.littlejourney.Route;
-import org.vector.littlejourney.Station;
+import org.vector.littlejourney.entity.Route;
+import org.vector.littlejourney.entity.Station;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +41,7 @@ public class RouteFactory {
 
         for (int i = 0; i < number; i++) {
 
-            routes.add(new Route());
-        }
-
-        for (int i = 0; i < number; i++) {
-
-            routes.get(i).setDeparture(departments.get(i));
-            routes.get(i).setArrival(arrival.get(i));
+            routes.add(new Route(departments.get(i), arrival.get(i)));
         }
 
         return routes;
