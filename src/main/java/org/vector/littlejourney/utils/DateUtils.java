@@ -6,6 +6,8 @@ import java.util.Date;
 
 public class DateUtils extends Date {
 
+    public static final String DATE_FORMAT = "HH:mm";
+
     public static String toSimpleFormat(Date duration, String pattern) {
 
         DateFormat dateFormat = new SimpleDateFormat(pattern);
@@ -13,9 +15,12 @@ public class DateUtils extends Date {
         return dateFormat.format(duration);
     }
 
-    @Override
-    public int compareTo(Date anotherDate) {
+    public static int compare(Date time, Date anotherTime) {
 
-        return super.compareTo(anotherDate);
+        String thisTime = toSimpleFormat(time, DATE_FORMAT);
+
+        String thatTime = toSimpleFormat(anotherTime, DATE_FORMAT);
+
+        return thisTime.compareTo(thatTime);
     }
 }

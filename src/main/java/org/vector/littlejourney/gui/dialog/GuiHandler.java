@@ -6,6 +6,8 @@ import org.vector.littlejourney.utils.DataSelector;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class GuiHandler extends JDialog implements Runnable {
@@ -24,6 +26,10 @@ public class GuiHandler extends JDialog implements Runnable {
 
     private JTextArea selectedTripsOutput;
 
+    private JSpinner timeSpinner;
+
+    private JSpinner.DateEditor editor;
+
     private final List<Trip> trips;
 
     public static final int X_COORDINATE_OF_WINDOW = 800;
@@ -33,7 +39,6 @@ public class GuiHandler extends JDialog implements Runnable {
     public static final int WIDTH_OF_WINDOW = 1300;
 
     public static final int HEIGHT_OF_WINDOW = 1000;
-
 
     public static final Font TIMES_NEW_ROMAN_BOLD_30 = new Font("TimesRoman", Font.BOLD, 30);
 
@@ -66,6 +71,8 @@ public class GuiHandler extends JDialog implements Runnable {
 
         selectedTripsOutput.setText("");
 
+        //Date time = editor.getModel().getDate();
+
         String departure = departureStationInput.getText();
         String arrival = arrivalStationInput.getText();
 
@@ -94,6 +101,7 @@ public class GuiHandler extends JDialog implements Runnable {
 
             List<Trip> selectedByRoute = DataSelector.selectByRoute(trips, departure, arrival);
 
+
             if (!minimalCost.equals("") || !maximalCost.equals("")) {
                 try {
 
@@ -107,6 +115,7 @@ public class GuiHandler extends JDialog implements Runnable {
                     selectedTripsOutput.append(DATA_NOT_FOUND);
                 }
             } else {
+
                 createTripsForUser(selectedByRoute);
             }
         }
@@ -118,6 +127,18 @@ public class GuiHandler extends JDialog implements Runnable {
 
             selectedTripsOutput.append(trip.toString() + "\n");
         }
+    }
+
+    private void createUIComponents() {
+        Date date = new Date();
+
+        SpinnerDateModel model = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
+
+        timeSpinner = new JSpinner(model);
+
+        editor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
+
+        timeSpinner.setEditor(editor);
     }
 
     @Override
