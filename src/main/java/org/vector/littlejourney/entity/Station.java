@@ -1,20 +1,23 @@
 package org.vector.littlejourney.entity;
 
+import org.vector.littlejourney.exception.InvalidStationNameException;
+import org.vector.littlejourney.exception.Reason;
+
 import java.util.Objects;
 
 public class Station {
 
-    private String name;
+    private final String name;
 
     public Station(String name) {
 
-        try {
+        if (name == null) {
+
+            throw new InvalidStationNameException(Reason.NULL_REFERENCE.getReason());
+
+        } else {
 
             this.name = name;
-
-        } catch (NullPointerException e) {
-
-            e.printStackTrace();
         }
     }
 

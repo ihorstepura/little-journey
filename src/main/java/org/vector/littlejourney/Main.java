@@ -11,9 +11,10 @@ public class Main {
 
         TripFactory tripFactory = TripFactory.getInstance();
 
-        List<Trip> trips = tripFactory.generateTickets(10_000);
+        List<Trip> trips = tripFactory.generateTickets(1000);
 
-        System.out.println(trips);
-
+        for (Trip trip : trips) {
+            System.out.println(trip);
+        }
     }
 }

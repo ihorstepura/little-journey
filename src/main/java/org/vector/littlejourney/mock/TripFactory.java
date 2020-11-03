@@ -2,7 +2,7 @@ package org.vector.littlejourney.mock;
 
 import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.utils.RandomDataGenerator;
+import org.vector.littlejourney.util.RandomDataGenerator;
 
 import java.util.*;
 
@@ -25,24 +25,18 @@ public class TripFactory {
         return instance;
     }
 
-    public List<Trip> generateTickets(int number) {
+    public List<Trip> generateTickets(int count) {
 
-        return generateTicket(number);
-    }
+        List<Route> routes = routeFactory.generateRouts(count);
 
-    private List<Trip> generateTicket(int number) {
+        List<Trip> trips = new ArrayList<>(count);
 
-        List<Route> routes = routeFactory.generateRouts(number);
-
-        List<Trip> trips = new ArrayList<>(number);
-
-        for (int i = 0; i < number; i++) {
+        for (int i = 0; i < count; i++) {
 
             trips.add(new Trip(routes.get(i),
                     RandomDataGenerator.randomDouble(20, 1000),
                     RandomDataGenerator.randomDate()));
         }
-
         return trips;
     }
 }

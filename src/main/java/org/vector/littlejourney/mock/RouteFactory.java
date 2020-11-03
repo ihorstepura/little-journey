@@ -26,22 +26,18 @@ public class RouteFactory {
         return instance;
     }
 
-    public List<Route> generateRouts(int number) {
+    public List<Route> generateRouts(int count) {
 
-        return generateRout(number);
-    }
+        List<Station> departments = stationFactory.generateStations(count);
 
-    private List<Route> generateRout(int number) {
+        List<Station> arrival = stationFactory.generateStations(count);
 
-        List<Station> departments = stationFactory.generateStations(number);
+        List<Route> routes = new ArrayList<>(count);
 
-        List<Station> arrival = stationFactory.generateStations(number);
-
-        List<Route> routes = new ArrayList<>(number);
-
-        for (int i = 0; i < number; i++) {
+        for (int i = 0; i < count; i++) {
 
             routes.add(new Route(departments.get(i), arrival.get(i)));
+
         }
 
         return routes;

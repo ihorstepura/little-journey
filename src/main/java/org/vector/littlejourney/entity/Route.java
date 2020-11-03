@@ -1,5 +1,8 @@
 package org.vector.littlejourney.entity;
 
+import org.vector.littlejourney.exception.InvalidObjectBuildException;
+import org.vector.littlejourney.exception.Reason;
+
 public class Route {
 
     private Station departure;
@@ -8,15 +11,15 @@ public class Route {
 
     public Route(Station departure, Station arrival) {
 
-        try {
+        if (departure == null || arrival == null) {
+
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+
+        } else {
 
             this.departure = departure;
 
             this.arrival = arrival;
-
-        } catch(NullPointerException e) {
-
-            e.printStackTrace();
         }
     }
 
@@ -27,13 +30,16 @@ public class Route {
 
     public void setDeparture(Station departure) {
 
-        try {
+        if (departure == null) {
+
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+
+        } else {
+
             this.departure = departure;
 
-        } catch (NullPointerException e) {
-
-            e.printStackTrace();
         }
+
     }
 
     public Station getArrival() {
@@ -43,13 +49,15 @@ public class Route {
 
     public void setArrival(Station arrival) {
 
-       try {
-           this.arrival = arrival;
+        if (arrival == null) {
 
-       } catch (NullPointerException e) {
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
 
-           e.printStackTrace();
-       }
+        } else {
+
+            this.arrival = arrival;
+        }
+
     }
 
     @Override

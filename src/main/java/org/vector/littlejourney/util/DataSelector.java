@@ -1,4 +1,4 @@
-package org.vector.littlejourney.utils;
+package org.vector.littlejourney.util;
 
 import org.vector.littlejourney.entity.Trip;
 
@@ -14,6 +14,7 @@ public class DataSelector {
         return trips
                 .parallelStream()
                 .filter(trip -> {
+
                     String depart = trip.getRoute().getDeparture().getName();
                     String arr = trip.getRoute().getArrival().getName();
 
@@ -24,17 +25,11 @@ public class DataSelector {
 
     public static List<Trip> selectByPrice(List<Trip> trips, int minPrice, int maxPrice) {
 
-        List<Trip> selectedTrips = new ArrayList<>();
-
-        for (Trip trip : trips) {
-
-            if (trip.getCost() <= maxPrice && trip.getCost() >= minPrice) {
-
-                selectedTrips.add(trip);
-            }
-        }
-
-        return selectedTrips;
+        return trips
+                .parallelStream()
+                .filter(trip ->
+                        trip.getCost() <= maxPrice && trip.getCost() >= minPrice)
+                .collect(Collectors.toList());
     }
 
     public static List<Trip> selectByTravelTime(List<Trip> trips, Date time) {
@@ -48,7 +43,6 @@ public class DataSelector {
                 selectedTrips.add(trip);
             }
         }
-
         return selectedTrips;
     }
 }

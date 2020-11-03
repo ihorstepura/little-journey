@@ -3,11 +3,13 @@ package org.vector.littlejourney.mock;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MockCity {
+public class MockJourney {
 
-    public static List<String> getData() {
+    private final List<String> names;
 
-        List<String> names = new ArrayList<>(50);
+    public MockJourney() {
+
+        names = new ArrayList<>(50);
 
         names.add("Киев");
         names.add("Харьков");
@@ -31,6 +33,9 @@ public class MockCity {
         names.add("Никополь");
         names.add("Николаев");
         names.add("Ровно");
+    }
+
+    public List<String> getCity() {
 
         return names;
     }

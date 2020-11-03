@@ -1,4 +1,4 @@
-package org.vector.littlejourney.utils;
+package org.vector.littlejourney.util;
 
 import java.util.Date;
 import java.util.List;

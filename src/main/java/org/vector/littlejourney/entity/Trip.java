@@ -1,6 +1,9 @@
 package org.vector.littlejourney.entity;
 
-import org.vector.littlejourney.utils.DateUtils;
+import org.vector.littlejourney.exception.InvalidObjectBuildException;
+import org.vector.littlejourney.exception.InvalidPrimitiveValueException;
+import org.vector.littlejourney.exception.Reason;
+import org.vector.littlejourney.util.DateUtils;
 
 import java.util.Date;
 
@@ -14,17 +17,21 @@ public class Trip {
 
     public Trip(Route route, double cost, Date duration) {
 
-        try {
+        if (route == null || duration == null) {
+
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+
+        } else if (cost < 0) {
+
+            throw new InvalidPrimitiveValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT.getReason());
+
+        } else {
 
             this.route = route;
 
             this.cost = cost;
 
             this.duration = duration;
-
-        } catch (NullPointerException e) {
-
-            e.printStackTrace();
         }
     }
 
@@ -35,12 +42,13 @@ public class Trip {
 
     public void setRoute(Route route) {
 
-        try {
+        if (route == null) {
+
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+
+        } else {
+
             this.route = route;
-
-        } catch (NullPointerException e) {
-
-            e.printStackTrace();
         }
     }
 
@@ -51,15 +59,14 @@ public class Trip {
 
     public void setCost(double cost) {
 
-        if (cost <= 0) {
+        if (cost < 0) {
 
-            throw new IllegalArgumentException();
+            throw new InvalidPrimitiveValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT.getReason());
+
         } else {
 
             this.cost = cost;
         }
-
-
     }
 
     public Date getDuration() {
@@ -69,12 +76,13 @@ public class Trip {
 
     public void setDuration(Date duration) {
 
-        try {
+        if (duration == null) {
+
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+
+        } else {
+
             this.duration = duration;
-
-        } catch (NullPointerException e) {
-
-            e.printStackTrace();
         }
     }
 
