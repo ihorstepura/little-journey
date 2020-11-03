@@ -39,7 +39,6 @@ public class Route {
             this.departure = departure;
 
         }
-
     }
 
     public Station getArrival() {
@@ -57,7 +56,6 @@ public class Route {
 
             this.arrival = arrival;
         }
-
     }
 
     @Override

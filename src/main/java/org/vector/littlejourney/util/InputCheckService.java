@@ -10,9 +10,4 @@ public class InputCheckService {
         }
         return false;
     }
-
-    public static boolean checkFields(String firstField, String secondField) {
-
-        return firstField.equals("") || secondField.equals("");
-    }
 }
