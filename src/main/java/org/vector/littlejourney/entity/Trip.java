@@ -20,11 +20,11 @@ public class Trip {
 
         if (route == null || duration == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE);
 
         } else if (cost < 0) {
 
-            throw new InvalidCostValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT.getReason());
+            throw new InvalidCostValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT);
 
         } else {
 
@@ -45,7 +45,7 @@ public class Trip {
 
         if (route == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE);
 
         } else {
 
@@ -62,7 +62,7 @@ public class Trip {
 
         if (cost < 0) {
 
-            throw new InvalidCostValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT.getReason());
+            throw new InvalidCostValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT);
 
         } else {
 
@@ -79,7 +79,7 @@ public class Trip {
 
         if (duration == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE);
 
         } else {
 

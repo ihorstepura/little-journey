@@ -2,9 +2,9 @@ package org.vector.littlejourney.exception;
 
 public class InvalidStationNameException extends RuntimeException {
 
-    public InvalidStationNameException(String reason) {
+    public InvalidStationNameException(Reason reason) {
 
-        super(reason);
+        super(reason.getReason());
     }
 
 }

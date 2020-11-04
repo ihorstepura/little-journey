@@ -2,8 +2,8 @@ package org.vector.littlejourney.exception;
 
 public class InvalidObjectBuildException extends RuntimeException {
 
-    public InvalidObjectBuildException(String reason) {
+    public InvalidObjectBuildException(Reason reason) {
 
-        super(reason);
+        super(reason.getReason());
     }
 }

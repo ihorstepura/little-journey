@@ -13,7 +13,7 @@ public class Station {
 
         if (name == null) {
 
-            throw new InvalidStationNameException(Reason.NULL_REFERENCE.getReason());
+            throw new InvalidStationNameException(Reason.NULL_REFERENCE);
 
         } else {
 

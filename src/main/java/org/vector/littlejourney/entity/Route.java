@@ -13,7 +13,7 @@ public class Route {
 
         if (departure == null || arrival == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE);
 
         } else {
 
@@ -32,7 +32,7 @@ public class Route {
 
         if (departure == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE);
 
         } else {
 
@@ -50,7 +50,7 @@ public class Route {
 
         if (arrival == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE);
 
         } else {
 

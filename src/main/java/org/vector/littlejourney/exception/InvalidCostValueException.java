@@ -2,8 +2,8 @@ package org.vector.littlejourney.exception;
 
 public class InvalidCostValueException extends RuntimeException {
 
-    public InvalidCostValueException(String reason) {
+    public InvalidCostValueException(Reason reason) {
 
-        super(reason);
+        super(reason.getReason());
     }
 }
