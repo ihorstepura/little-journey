@@ -2,7 +2,6 @@ package org.vector.littlejourney.util;
 
 import org.vector.littlejourney.entity.Trip;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,21 +27,20 @@ public class DataSelector {
         return trips
                 .parallelStream()
                 .filter(trip ->
+
                         trip.getCost() <= maxPrice && trip.getCost() >= minPrice)
+
                 .collect(Collectors.toList());
     }
 
     public static List<Trip> selectByTravelTime(List<Trip> trips, Date time) {
 
-        List<Trip> selectedTrips = new ArrayList<>();
+        return trips
+                .parallelStream()
+                .filter(trip ->
 
-        for (Trip trip : trips) {
+                        DateUtils.compare(trip.getDuration(), time) >= 0
 
-            if (DateUtils.compare(trip.getDuration(), time) >= 0) {
-
-                selectedTrips.add(trip);
-            }
-        }
-        return selectedTrips;
+                ).collect(Collectors.toList());
     }
 }

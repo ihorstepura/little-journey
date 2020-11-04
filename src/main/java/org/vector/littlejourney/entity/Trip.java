@@ -1,7 +1,8 @@
 package org.vector.littlejourney.entity;
 
+import org.vector.littlejourney.constant.DateConstants;
 import org.vector.littlejourney.exception.InvalidObjectBuildException;
-import org.vector.littlejourney.exception.InvalidPrimitiveValueException;
+import org.vector.littlejourney.exception.InvalidCostValueException;
 import org.vector.littlejourney.exception.Reason;
 import org.vector.littlejourney.util.DateUtils;
 
@@ -23,7 +24,7 @@ public class Trip {
 
         } else if (cost < 0) {
 
-            throw new InvalidPrimitiveValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT.getReason());
+            throw new InvalidCostValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT.getReason());
 
         } else {
 
@@ -61,7 +62,7 @@ public class Trip {
 
         if (cost < 0) {
 
-            throw new InvalidPrimitiveValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT.getReason());
+            throw new InvalidCostValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT.getReason());
 
         } else {
 
@@ -95,6 +96,6 @@ public class Trip {
 
                 "цена: " + String.format("%.2f", cost) + "; " + "длительность маршрута: " +
 
-                DateUtils.toSimpleFormat(duration, "hh:mm");
+                DateUtils.toSimpleFormat(duration, DateConstants.DATE_FORMAT_HH_mm);
     }
 }

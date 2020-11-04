@@ -1,11 +1,13 @@
 package org.vector.littlejourney.gui.dialog;
 
+import org.vector.littlejourney.constant.DateConstants;
+import org.vector.littlejourney.constant.FontConstants;
+import org.vector.littlejourney.constant.GuiConstants;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.DataSelector;
 import org.vector.littlejourney.util.InputCheckService;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,37 +34,24 @@ public class GuiHandler extends JDialog implements Runnable {
 
     private final List<Trip> trips;
 
-    public static final int X_COORDINATE_OF_WINDOW = 800;
-
-    public static final int Y_COORDINATE_OF_WINDOW = 300;
-
-    public static final int WIDTH_OF_WINDOW = 1300;
-
-    public static final int HEIGHT_OF_WINDOW = 1000;
-
-    public static final Font TIMES_NEW_ROMAN_BOLD_30 = new Font("TimesRoman", Font.BOLD, 30);
-
-    public static final Font TIMES_NEW_ROMAN_ITALIC_20 = new Font("TimesRoman", Font.ITALIC, 20);
-
-    public static final String DATA_NOT_FOUND = "Данные не обнаружены";
-
     public GuiHandler(List<Trip> trips) {
 
         //dialog configurations
         setModal(true);
         setContentPane(contentPane);
-        setBounds(X_COORDINATE_OF_WINDOW, Y_COORDINATE_OF_WINDOW, WIDTH_OF_WINDOW, HEIGHT_OF_WINDOW);
+        setBounds(GuiConstants.X_COORDINATE_OF_WINDOW, GuiConstants.Y_COORDINATE_OF_WINDOW,
+                GuiConstants.WIDTH_OF_WINDOW, GuiConstants.HEIGHT_OF_WINDOW);
 
         //add search button to dialog to search tickets
         buttonSearch.addActionListener(e -> onSearch());
 
         getRootPane().setDefaultButton(buttonSearch);
 
-        arrivalStationInput.setFont(TIMES_NEW_ROMAN_BOLD_30);
-        departureStationInput.setFont(TIMES_NEW_ROMAN_BOLD_30);
-        minCostInput.setFont(TIMES_NEW_ROMAN_BOLD_30);
-        maxCostInput.setFont(TIMES_NEW_ROMAN_BOLD_30);
-        selectedTripsOutput.setFont(TIMES_NEW_ROMAN_ITALIC_20);
+        arrivalStationInput.setFont(FontConstants.TIMES_NEW_ROMAN_BOLD_30);
+        departureStationInput.setFont(FontConstants.TIMES_NEW_ROMAN_BOLD_30);
+        minCostInput.setFont(FontConstants.TIMES_NEW_ROMAN_BOLD_30);
+        maxCostInput.setFont(FontConstants.TIMES_NEW_ROMAN_BOLD_30);
+        selectedTripsOutput.setFont(FontConstants.TIMES_NEW_ROMAN_ITALIC_20);
 
         this.trips = trips;
     }
@@ -71,11 +60,14 @@ public class GuiHandler extends JDialog implements Runnable {
 
         selectedTripsOutput.setText("");
 
-        //Date time = editor.getModel().getDate();
+        // get time from timeSpinner
+        Date timeInput = editor.getModel().getDate();
 
+        // get departure and arrival from departure/arrival textFields
         String departure = departureStationInput.getText();
         String arrival = arrivalStationInput.getText();
 
+        // get minimal and maximal time from time textFields
         String minimalCost = minCostInput.getText();
         String maximalCost = maxCostInput.getText();
 
@@ -83,40 +75,41 @@ public class GuiHandler extends JDialog implements Runnable {
 
             if (InputCheckService.checkFields(minimalCost, maximalCost)) {
 
-                selectedTripsOutput.append(DATA_NOT_FOUND);
+                selectedTripsOutput.append(GuiConstants.DATA_NOT_FOUND);
             } else {
 
-                try {
-                    List<Trip> selectedByCost = DataSelector.selectByPrice(
-                            trips, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
-
-                    createTripsForUser(selectedByCost);
-
-                } catch (NumberFormatException e) {
-
-                    selectedTripsOutput.append(DATA_NOT_FOUND);
-                }
+                selectedTripsByTime(timeInput, minimalCost, maximalCost, trips);
             }
         } else {
 
             List<Trip> selectedByRoute = DataSelector.selectByRoute(trips, departure, arrival);
 
-            if (!minimalCost.equals("") || !maximalCost.equals("")) {
-                try {
+            if (!InputCheckService.checkFields(minimalCost, maximalCost)) {
 
-                    List<Trip> selectedByCost = DataSelector.selectByPrice(
-                            selectedByRoute, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
+                selectedTripsByTime(timeInput, minimalCost, maximalCost, selectedByRoute);
 
-                    createTripsForUser(selectedByCost);
-
-                } catch (NumberFormatException e) {
-
-                    selectedTripsOutput.append(DATA_NOT_FOUND);
-                }
             } else {
 
-                createTripsForUser(selectedByRoute);
+                List<Trip> selectedByTime = DataSelector.selectByTravelTime(selectedByRoute, timeInput);
+
+                createTripsForUser(selectedByTime);
             }
+        }
+    }
+
+    private void selectedTripsByTime(Date timeInput, String minimalCost, String maximalCost, List<Trip> selectedByRoute) {
+        try {
+
+            List<Trip> selectedByCost = DataSelector.selectByPrice(
+                    selectedByRoute, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
+
+            List<Trip> selectedByTime = DataSelector.selectByTravelTime(selectedByCost, timeInput);
+
+            createTripsForUser(selectedByTime);
+
+        } catch (NumberFormatException e) {
+
+            selectedTripsOutput.append(GuiConstants.DATA_NOT_FOUND);
         }
     }
 
@@ -135,15 +128,9 @@ public class GuiHandler extends JDialog implements Runnable {
 
         timeSpinner = new JSpinner(model);
 
-        editor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
+        editor = new JSpinner.DateEditor(timeSpinner, DateConstants.DATE_FORMAT_HH_mm);
 
         timeSpinner.setEditor(editor);
-    }
-
-    @Override
-    protected void dialogInit() {
-
-        super.dialogInit();
     }
 
     @Override
