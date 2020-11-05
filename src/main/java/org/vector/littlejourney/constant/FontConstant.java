@@ -2,9 +2,9 @@ package org.vector.littlejourney.constant;
 
 import java.awt.*;
 
-public class FontConstants {
+public class FontConstant {
 
-    private FontConstants() {
+    private FontConstant() {
     }
 
     public static final Font TIMES_NEW_ROMAN_BOLD_30 = new Font("TimesRoman", Font.BOLD, 30);

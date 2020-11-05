@@ -1,6 +1,6 @@
 package org.vector.littlejourney.util;
 
-import org.vector.littlejourney.constant.DateConstants;
+import org.vector.littlejourney.constant.DateConstant;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,9 +17,9 @@ public class DateUtils {
 
     public static int compare(Date time, Date anotherTime) {
 
-        String thisTime = toSimpleFormat(time, DateConstants.DATE_FORMAT_HH_mm);
+        String thisTime = toSimpleFormat(time, DateConstant.DATE_FORMAT_HH_mm);
 
-        String thatTime = toSimpleFormat(anotherTime, DateConstants.DATE_FORMAT_HH_mm);
+        String thatTime = toSimpleFormat(anotherTime, DateConstant.DATE_FORMAT_HH_mm);
 
         return thisTime.compareTo(thatTime);
     }

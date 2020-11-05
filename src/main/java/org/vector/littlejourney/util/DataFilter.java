@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DataSelector {
+public class DataFilter {
 
     public static List<Trip> selectByRoute(List<Trip> trips, String departure, String arrival) {
 

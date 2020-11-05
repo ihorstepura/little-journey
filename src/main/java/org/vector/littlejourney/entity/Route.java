@@ -1,7 +1,7 @@
 package org.vector.littlejourney.entity;
 
-import org.vector.littlejourney.exception.InvalidObjectBuildException;
-import org.vector.littlejourney.exception.Reason;
+import org.vector.littlejourney.constant.station.StationWarning;
+import org.vector.littlejourney.exception.station.InvalidStationException;
 
 public class Route {
 
@@ -13,14 +13,11 @@ public class Route {
 
         if (departure == null || arrival == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE);
-
-        } else {
-
-            this.departure = departure;
-
-            this.arrival = arrival;
+            throw new InvalidStationException(StationWarning.STATION_NOT_DEFINED);
         }
+
+        this.departure = departure;
+        this.arrival = arrival;
     }
 
     public Station getDeparture() {
@@ -32,13 +29,10 @@ public class Route {
 
         if (departure == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE);
-
-        } else {
-
-            this.departure = departure;
-
+            throw new InvalidStationException(StationWarning.STATION_NOT_DEFINED);
         }
+
+        this.departure = departure;
     }
 
     public Station getArrival() {
@@ -50,12 +44,10 @@ public class Route {
 
         if (arrival == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE);
-
-        } else {
-
-            this.arrival = arrival;
+            throw new InvalidStationException(StationWarning.STATION_NOT_DEFINED);
         }
+
+        this.arrival = arrival;
     }
 
     @Override

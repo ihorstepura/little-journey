@@ -1,11 +1,9 @@
 package org.vector.littlejourney.constant;
 
-public class GuiConstants {
+public class JourneyDialogConstant {
 
-    private GuiConstants() {
+    private JourneyDialogConstant() {
     }
-
-    public static final String DATA_NOT_FOUND = "Данные не обнаружены";
 
     public static final int X_COORDINATE_OF_WINDOW = 800;
 
@@ -14,4 +12,6 @@ public class GuiConstants {
     public static final int WIDTH_OF_WINDOW = 1300;
 
     public static final int HEIGHT_OF_WINDOW = 1000;
+
+    public static final String OUTPUT_EMPTY = "";
 }

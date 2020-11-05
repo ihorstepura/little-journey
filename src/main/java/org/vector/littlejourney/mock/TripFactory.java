@@ -25,7 +25,7 @@ public class TripFactory {
         return instance;
     }
 
-    public List<Trip> generateTickets(int count) {
+    public List<Trip> generateTrips(int count) {
 
         List<Route> routes = routeFactory.generateRouts(count);
 
@@ -33,8 +33,11 @@ public class TripFactory {
 
         for (int i = 0; i < count; i++) {
 
+            int priceFrom = 20;
+            int priceTo = 1000;
+
             trips.add(new Trip(routes.get(i),
-                    RandomDataGenerator.randomDouble(20, 1000),
+                    RandomDataGenerator.randomDouble(priceFrom, priceTo),
                     RandomDataGenerator.randomDate()));
         }
         return trips;

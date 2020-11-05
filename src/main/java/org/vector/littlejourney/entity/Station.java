@@ -1,7 +1,7 @@
 package org.vector.littlejourney.entity;
 
-import org.vector.littlejourney.exception.InvalidStationNameException;
-import org.vector.littlejourney.exception.Reason;
+import org.vector.littlejourney.constant.station.StationWarning;
+import org.vector.littlejourney.exception.station.InvalidStationException;
 
 import java.util.Objects;
 
@@ -13,12 +13,9 @@ public class Station {
 
         if (name == null) {
 
-            throw new InvalidStationNameException(Reason.NULL_REFERENCE);
-
-        } else {
-
-            this.name = name;
+            throw new InvalidStationException(StationWarning.STATION_NOT_DEFINED);
         }
+        this.name = name;
     }
 
     public String getName() {
