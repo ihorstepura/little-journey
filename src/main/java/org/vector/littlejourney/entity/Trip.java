@@ -1,8 +1,12 @@
 package org.vector.littlejourney.entity;
 
-import org.vector.littlejourney.exception.InvalidObjectBuildException;
-import org.vector.littlejourney.exception.InvalidPrimitiveValueException;
-import org.vector.littlejourney.exception.Reason;
+import org.vector.littlejourney.constant.CostWarning;
+import org.vector.littlejourney.constant.DateConstant;
+import org.vector.littlejourney.constant.duration.DurationWarning;
+import org.vector.littlejourney.constant.route.RouteWarning;
+import org.vector.littlejourney.exception.duration.InvalidDurationException;
+import org.vector.littlejourney.exception.route.InvalidRouteException;
+import org.vector.littlejourney.exception.InvalidCostException;
 import org.vector.littlejourney.util.DateUtils;
 
 import java.util.Date;
@@ -19,20 +23,16 @@ public class Trip {
 
         if (route == null || duration == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
+            throw new InvalidRouteException(RouteWarning.ROUTE_NOT_DEFINED);
 
         } else if (cost < 0) {
 
-            throw new InvalidPrimitiveValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT.getReason());
-
-        } else {
-
-            this.route = route;
-
-            this.cost = cost;
-
-            this.duration = duration;
+            throw new InvalidCostException(CostWarning.LESS_THAN_ZERO_COST);
         }
+
+        this.route = route;
+        this.cost = cost;
+        this.duration = duration;
     }
 
     public Route getRoute() {
@@ -44,8 +44,7 @@ public class Trip {
 
         if (route == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
-
+            throw new InvalidRouteException(RouteWarning.ROUTE_NOT_DEFINED);
         } else {
 
             this.route = route;
@@ -61,8 +60,7 @@ public class Trip {
 
         if (cost < 0) {
 
-            throw new InvalidPrimitiveValueException(Reason.LESS_THAN_ZERO_NUMBER_INPUT.getReason());
-
+            throw new InvalidCostException(CostWarning.LESS_THAN_ZERO_COST);
         } else {
 
             this.cost = cost;
@@ -78,8 +76,7 @@ public class Trip {
 
         if (duration == null) {
 
-            throw new InvalidObjectBuildException(Reason.NULL_REFERENCE.getReason());
-
+            throw new InvalidDurationException(DurationWarning.DURATION_NOT_DEFINED);
         } else {
 
             this.duration = duration;
@@ -95,6 +92,6 @@ public class Trip {
 
                 "цена: " + String.format("%.2f", cost) + "; " + "длительность маршрута: " +
 
-                DateUtils.toSimpleFormat(duration, "hh:mm");
+                DateUtils.toSimpleFormat(duration, DateConstant.DATE_FORMAT_HH_mm);
     }
 }
