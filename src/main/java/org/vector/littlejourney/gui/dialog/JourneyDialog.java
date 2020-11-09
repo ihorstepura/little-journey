@@ -11,10 +11,7 @@ import org.vector.littlejourney.util.io.DataFileReader;
 import org.vector.littlejourney.util.io.DataFileWriter;
 
 import javax.swing.*;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class JourneyDialog extends JDialog implements Runnable {
 
@@ -28,22 +25,23 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private JTextField maxCostInput;
 
-    private JButton searchButton;
-
     private JTextArea selectedTripsOutput;
 
     private JSpinner timeSpinner;
+
+    private JSpinner.DateEditor editor;
 
     private JButton saveButton;
 
     private JButton uploadButton;
 
+    private JButton searchButton;
+
+    private JButton searchFromDocButton;
+
     private JComboBox<String> saveFormatComboBox;
 
     private JComboBox<String> uploadFormatComboBox;
-
-
-    private JSpinner.DateEditor editor;
 
     private List<Trip> trips;
 
@@ -89,7 +87,6 @@ public class JourneyDialog extends JDialog implements Runnable {
 
                 trips = DataFilter.filterByPrice(trips, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
             }
-
             InputValidationService.validateAll(time);
 
             trips = DataFilter.filterByTravelTime(trips, time);
@@ -106,16 +103,29 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private void uploadTrips() {
 
-        String selectedFormat = Objects.requireNonNull(saveFormatComboBox.getSelectedItem()).toString();
+        searchFromDocButton.setEnabled(true);
 
-        if (selectedFormat.equals(".txt") || selectedFormat.equals(".docx")) {
+        List<Trip> trips = new ArrayList<>();
 
-            System.out.println(DataFileReader.read("Trips.txt", "-"));
+        String selectedFormat = Objects.requireNonNull(uploadFormatComboBox.getSelectedItem()).toString();
 
-        } else {
+        switch (selectedFormat) {
 
-            DataFileReader.read("Trips.xlsx", "\t");
+            case ".txt":
+                trips = DataFileReader.read("Trips.txt", "-");
+                System.out.println(trips);
+                break;
+
+            case ".docx":
+                trips = DataFileReader.read("Trips.docx", "-");
+                System.out.println(trips);
+                break;
+            case ".xlsx":
+                trips = DataFileReader.read("Trips.xlsx", "\t");
+                System.out.println(trips);
+                break;
         }
+        setTrips(trips);
     }
 
     private void saveTrips() {
@@ -137,6 +147,11 @@ public class JourneyDialog extends JDialog implements Runnable {
                 DataFileWriter.writeXLSX("Trips.xlsx", getTrips());
                 break;
         }
+    }
+
+    private void searchTripsFromDoc() {
+
+        searchTrips();
     }
 
     public void setTrips(List<Trip> trips) {
@@ -183,6 +198,7 @@ public class JourneyDialog extends JDialog implements Runnable {
         searchButton.addActionListener(e -> searchTrips());
         uploadButton.addActionListener(e -> uploadTrips());
         saveButton.addActionListener(e -> saveTrips());
+        searchFromDocButton.addActionListener(e -> searchTripsFromDoc());
 
         getRootPane().setDefaultButton(searchButton);
 

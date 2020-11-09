@@ -7,9 +7,9 @@ import org.vector.littlejourney.entity.Trip;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputTripsParser {
+public class InputTripsConverter {
 
-    public static void parse(List<String> trips, String regex) {
+    public static List<Trip> convert(List<String> trips, String regex) {
 
         List<Trip> resultTrips = new ArrayList<>();
 
@@ -25,7 +25,6 @@ public class InputTripsParser {
             resultTrips.add(new Trip(new Route(new Station(departure), new Station(arrival)),
                     Double.parseDouble(cost), DateUtils.toDateFormat(duration)));
         }
-
-        System.out.println(resultTrips);
+        return resultTrips;
     }
 }
