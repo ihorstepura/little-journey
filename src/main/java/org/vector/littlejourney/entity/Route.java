@@ -53,6 +53,6 @@ public class Route {
     @Override
     public String toString() {
 
-        return departure.toString().toUpperCase() + "-" + arrival.toString().toUpperCase();
+        return departure.toString() + "-" + arrival.toString();
     }
 }

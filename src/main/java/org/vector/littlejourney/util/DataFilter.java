@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class DataFilter {
 
-    public static List<Trip> selectByRoute(List<Trip> trips, String departure, String arrival) {
+    public static List<Trip> filterByRoute(List<Trip> trips, String departure, String arrival) {
 
         return trips
                 .parallelStream()
@@ -22,7 +22,7 @@ public class DataFilter {
                 .collect(Collectors.toList());
     }
 
-    public static List<Trip> selectByPrice(List<Trip> trips, int minPrice, int maxPrice) {
+    public static List<Trip> filterByPrice(List<Trip> trips, int minPrice, int maxPrice) {
 
         return trips
                 .parallelStream()
@@ -33,7 +33,7 @@ public class DataFilter {
                 .collect(Collectors.toList());
     }
 
-    public static List<Trip> selectByTravelTime(List<Trip> trips, Date time) {
+    public static List<Trip> filterByTravelTime(List<Trip> trips, Date time) {
 
         return trips
                 .parallelStream()
