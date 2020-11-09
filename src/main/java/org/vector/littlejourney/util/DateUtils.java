@@ -23,4 +23,17 @@ public class DateUtils {
 
         return thisTime.compareTo(thatTime);
     }
+
+    public static Date toDateFormat(String time) {
+
+        String[] result = time.split(":");
+
+        Date date = new Date();
+
+        //using deprecated methods of Date class is needed because of using Date class in custom DateUtils
+        date.setHours(Integer.parseInt(result[0]));
+        date.setMinutes(Integer.parseInt(result[1]));
+
+        return date;
+    }
 }
