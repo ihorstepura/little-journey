@@ -7,6 +7,7 @@ import org.vector.littlejourney.constant.WarningConstant;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.DataFilter;
 import org.vector.littlejourney.util.InputValidationService;
+import org.vector.littlejourney.util.io.DataFileReader;
 
 import javax.swing.*;
 import java.util.Calendar;
@@ -67,7 +68,7 @@ public class JourneyDialog extends JDialog implements Runnable {
                 String departure = departureInput.getText();
                 String arrival = arrivalInput.getText();
 
-                trips = DataFilter.selectByRoute(trips, departure, arrival);
+                trips = DataFilter.filterByRoute(trips, departure, arrival);
             }
 
             if (InputValidationService.validateAll(minCostInput, maxCostInput)) {
@@ -75,12 +76,12 @@ public class JourneyDialog extends JDialog implements Runnable {
                 String minimalCost = minCostInput.getText();
                 String maximalCost = maxCostInput.getText();
 
-                trips = DataFilter.selectByPrice(trips, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
+                trips = DataFilter.filterByPrice(trips, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
             }
 
             InputValidationService.validateAll(time);
 
-            trips = DataFilter.selectByTravelTime(trips, time);
+            trips = DataFilter.filterByTravelTime(trips, time);
 
             if (trips.isEmpty()) selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
 
@@ -91,6 +92,11 @@ public class JourneyDialog extends JDialog implements Runnable {
     public void setTrips(List<Trip> trips) {
 
         this.trips = trips;
+    }
+
+    public List<Trip> getTrips() {
+
+        return trips;
     }
 
     private void createTripsForUser(List<Trip> trips) {
