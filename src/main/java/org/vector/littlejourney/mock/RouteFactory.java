@@ -37,7 +37,6 @@ public class RouteFactory {
         for (int i = 0; i < count; i++) {
 
             routes.add(new Route(departments.get(i), arrival.get(i)));
-
         }
 
         return routes;

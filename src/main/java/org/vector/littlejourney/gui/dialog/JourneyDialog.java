@@ -8,11 +8,13 @@ import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.DataFilter;
 import org.vector.littlejourney.util.InputValidationService;
 import org.vector.littlejourney.util.io.DataFileReader;
+import org.vector.littlejourney.util.io.DataFileWriter;
 
 import javax.swing.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class JourneyDialog extends JDialog implements Runnable {
 
@@ -31,6 +33,15 @@ public class JourneyDialog extends JDialog implements Runnable {
     private JTextArea selectedTripsOutput;
 
     private JSpinner timeSpinner;
+
+    private JButton saveButton;
+
+    private JButton uploadButton;
+
+    private JComboBox<String> saveFormatComboBox;
+
+    private JComboBox<String> uploadFormatComboBox;
+
 
     private JSpinner.DateEditor editor;
 
@@ -86,6 +97,45 @@ public class JourneyDialog extends JDialog implements Runnable {
             if (trips.isEmpty()) selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
 
             createTripsForUser(trips);
+
+            setTrips(trips);
+
+            saveButton.setEnabled(true);
+        }
+    }
+
+    private void uploadTrips() {
+
+        String selectedFormat = Objects.requireNonNull(saveFormatComboBox.getSelectedItem()).toString();
+
+        if (selectedFormat.equals(".txt") || selectedFormat.equals(".docx")) {
+
+            System.out.println(DataFileReader.read("Trips.txt", "-"));
+
+        } else {
+
+            DataFileReader.read("Trips.xlsx", "\t");
+        }
+    }
+
+    private void saveTrips() {
+
+        String selectedFormat = Objects.requireNonNull(saveFormatComboBox.getSelectedItem()).toString();
+
+        switch (selectedFormat) {
+
+            case ".txt":
+
+                DataFileWriter.writeTXT_DOCX("Trips.txt", getTrips());
+                break;
+            case ".docx":
+
+                DataFileWriter.writeTXT_DOCX("Trips.docx", getTrips());
+                break;
+            case ".xlsx":
+
+                DataFileWriter.writeXLSX("Trips.xlsx", getTrips());
+                break;
         }
     }
 
@@ -131,8 +181,16 @@ public class JourneyDialog extends JDialog implements Runnable {
         selectedTripsOutput.setFont(FontConstant.TIMES_NEW_ROMAN_ITALIC_20);
 
         searchButton.addActionListener(e -> searchTrips());
+        uploadButton.addActionListener(e -> uploadTrips());
+        saveButton.addActionListener(e -> saveTrips());
 
         getRootPane().setDefaultButton(searchButton);
+
+        for (String item : JourneyDialogConstant.FORMATS) {
+
+            saveFormatComboBox.addItem(item);
+            uploadFormatComboBox.addItem(item);
+        }
     }
 
     @Override
