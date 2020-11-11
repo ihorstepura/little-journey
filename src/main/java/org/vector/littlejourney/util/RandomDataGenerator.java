@@ -8,7 +8,7 @@ public class RandomDataGenerator {
 
     private static final Random random = new Random();
 
-    public static  <E> E randomElement(List<E> elements) {
+    public static <E> E randomElement(List<E> elements) {
 
         int index = random.nextInt(elements.size());
 

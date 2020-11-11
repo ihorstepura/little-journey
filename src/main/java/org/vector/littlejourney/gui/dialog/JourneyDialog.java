@@ -7,8 +7,6 @@ import org.vector.littlejourney.constant.WarningConstant;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.DataFilter;
 import org.vector.littlejourney.util.InputValidationService;
-import org.vector.littlejourney.util.io.DataFileReader;
-import org.vector.littlejourney.util.io.DataFileWriter;
 
 import javax.swing.*;
 import java.util.*;
@@ -37,13 +35,9 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private JButton searchButton;
 
-    private JButton searchFromDocButton;
+    private JButton searchInFileButton;
 
-    private JComboBox<String> saveFormatComboBox;
-
-    private JComboBox<String> uploadFormatComboBox;
-
-    private List<Trip> trips;
+    private static List<Trip> trips;
 
     public JourneyDialog() {
 
@@ -70,7 +64,7 @@ public class JourneyDialog extends JDialog implements Runnable {
 
             selectedTripsOutput.setText(JourneyDialogConstant.OUTPUT_EMPTY);
 
-            List<Trip> trips = this.trips;
+            List<Trip> trips = JourneyDialog.trips;
 
             if (InputValidationService.validateAll(departureInput, arrivalInput)) {
 
@@ -103,50 +97,19 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private void uploadTrips() {
 
-        searchFromDocButton.setEnabled(true);
+        GuiHandler.generateFileChooser();
+
+        searchInFileButton.setEnabled(true);
 
         List<Trip> trips = new ArrayList<>();
 
-        String selectedFormat = Objects.requireNonNull(uploadFormatComboBox.getSelectedItem()).toString();
 
-        switch (selectedFormat) {
-
-            case ".txt":
-                trips = DataFileReader.read("Trips.txt", "-");
-                System.out.println(trips);
-                break;
-
-            case ".docx":
-                trips = DataFileReader.read("Trips.docx", "-");
-                System.out.println(trips);
-                break;
-            case ".xlsx":
-                trips = DataFileReader.read("Trips.xlsx", "\t");
-                System.out.println(trips);
-                break;
-        }
         setTrips(trips);
     }
 
     private void saveTrips() {
 
-        String selectedFormat = Objects.requireNonNull(saveFormatComboBox.getSelectedItem()).toString();
-
-        switch (selectedFormat) {
-
-            case ".txt":
-
-                DataFileWriter.writeTXT_DOCX("Trips.txt", getTrips());
-                break;
-            case ".docx":
-
-                DataFileWriter.writeTXT_DOCX("Trips.docx", getTrips());
-                break;
-            case ".xlsx":
-
-                DataFileWriter.writeXLSX("Trips.xlsx", getTrips());
-                break;
-        }
+        GuiHandler.generateFileSaver();
     }
 
     private void searchTripsFromDoc() {
@@ -156,10 +119,10 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     public void setTrips(List<Trip> trips) {
 
-        this.trips = trips;
+        JourneyDialog.trips = trips;
     }
 
-    public List<Trip> getTrips() {
+    public static List<Trip> getTrips() {
 
         return trips;
     }
@@ -198,15 +161,9 @@ public class JourneyDialog extends JDialog implements Runnable {
         searchButton.addActionListener(e -> searchTrips());
         uploadButton.addActionListener(e -> uploadTrips());
         saveButton.addActionListener(e -> saveTrips());
-        searchFromDocButton.addActionListener(e -> searchTripsFromDoc());
+        searchInFileButton.addActionListener(e -> searchTripsFromDoc());
 
         getRootPane().setDefaultButton(searchButton);
-
-        for (String item : JourneyDialogConstant.FORMATS) {
-
-            saveFormatComboBox.addItem(item);
-            uploadFormatComboBox.addItem(item);
-        }
     }
 
     @Override

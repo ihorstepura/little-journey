@@ -1,14 +1,15 @@
-package org.vector.littlejourney.util.io;
+package org.vector.littlejourney.io;
 
 import org.vector.littlejourney.constant.DateConstant;
 import org.vector.littlejourney.constant.FormatConstant;
+import org.vector.littlejourney.constant.TripConstant;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.DateUtils;
 
 import java.io.*;
 import java.util.List;
 
-public class DataFileWriter {
+public class TripFileWriter {
 
     private static String departure;
     private static String arrival;
@@ -19,6 +20,18 @@ public class DataFileWriter {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, false))) {
 
+            writer.write(TripConstant.DEPARTURE);
+            writer.write(FormatConstant.TAB_SYMBOL);
+
+            writer.write(TripConstant.ARRIVAL);
+            writer.write(FormatConstant.TAB_SYMBOL);
+
+            writer.write(TripConstant.COST);
+            writer.write(FormatConstant.TAB_SYMBOL);
+
+            writer.write(TripConstant.DURATION);
+            writer.newLine();
+
             for (Trip value : trips) {
 
                 departure = value.getRoute().getDeparture().toString();
@@ -27,17 +40,16 @@ public class DataFileWriter {
                 duration = DateUtils.toSimpleFormat(value.getDuration(), DateConstant.DATE_FORMAT_HH_mm);
 
                 writer.write(departure);
-                writer.write("\t");
+                writer.write(FormatConstant.TAB_SYMBOL);
 
                 writer.write(arrival);
-                writer.write("\t");
-
+                writer.write(FormatConstant.TAB_SYMBOL);
 
                 writer.write(cost);
-                writer.write("\t");
+                writer.write(FormatConstant.TAB_SYMBOL);
 
                 writer.write(duration);
-                writer.write("\t");
+                writer.write(FormatConstant.TAB_SYMBOL);
 
                 writer.newLine();
             }
@@ -55,13 +67,25 @@ public class DataFileWriter {
 
             for (Trip value : trips) {
 
-                departure = value.getRoute().getDeparture().toString();
-                arrival = value.getRoute().getArrival().toString();
-                cost = String.valueOf(String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, value.getCost()));
-                duration = DateUtils.toSimpleFormat(value.getDuration(), DateConstant.DATE_FORMAT_HH_mm);
+                departure = TripConstant.DEPARTURE + ":" + value.getRoute().getDeparture().toString();
+                arrival = TripConstant.ARRIVAL + ":" + value.getRoute().getArrival().toString();
+                cost = TripConstant.COST + ":" + String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, value.getCost());
+                duration = TripConstant.DURATION + ":" + DateUtils.toSimpleFormat(value.getDuration(), DateConstant.DATE_FORMAT_HH_mm);
 
-                writer.write(departure + "-" + arrival + "-" + cost + "-" + duration);
+                writer.write(departure);
                 writer.newLine();
+
+                writer.write(arrival);
+                writer.newLine();
+
+                writer.write(cost);
+                writer.newLine();
+
+                writer.write(duration);
+
+                writer.newLine();
+                writer.newLine();
+
             }
         } catch (IOException e) {
 

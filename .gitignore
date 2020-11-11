@@ -1,8 +1,10 @@
 # IntellijIdea files
 *.iml
 .idea
-*.txt
-*.docx
-*.xlsx
 out
 target
+Trips.txt
+Trips.docx
+Trips.xlsx
+Test.java
+# should not be used syntax like "*.txt" because in project may be another files with this format

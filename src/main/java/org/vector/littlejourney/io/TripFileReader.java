@@ -1,4 +1,4 @@
-package org.vector.littlejourney.util.io;
+package org.vector.littlejourney.io;
 
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.InputTripsConverter;
@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataFileReader {
+public class TripFileReader {
 
     public static List<Trip> read(String fileName, String regex) {
 
