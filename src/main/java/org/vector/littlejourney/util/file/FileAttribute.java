@@ -1,4 +1,4 @@
-package org.vector.littlejourney.util;
+package org.vector.littlejourney.util.file;
 
 public class FileAttribute {
 

@@ -1,6 +1,7 @@
-package org.vector.littlejourney.util;
+package org.vector.littlejourney.service;
 
 import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.util.DateUtils;
 
 import java.util.Date;
 import java.util.List;

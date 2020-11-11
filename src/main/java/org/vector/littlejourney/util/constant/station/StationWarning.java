@@ -1,4 +1,4 @@
-package org.vector.littlejourney.constant.station;
+package org.vector.littlejourney.util.constant.station;
 
 public class StationWarning {
 

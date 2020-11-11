@@ -1,6 +1,6 @@
 package org.vector.littlejourney;
 
-import org.vector.littlejourney.gui.dialog.GuiHandler;
+import org.vector.littlejourney.gui.GuiHandler;
 
 public class Main {
 

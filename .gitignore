@@ -6,8 +6,8 @@
 *.xlsx
 out
 target
-Trips.txt
-Trips.docx
-Trips.xlsx
+src/main/resources/Trips.txt
+src/main/resources/Trips.docx
+src/main/resources/Trips.xlsx
 Test.java
 # should not be used syntax like "*.txt" because in project may be another files with this format

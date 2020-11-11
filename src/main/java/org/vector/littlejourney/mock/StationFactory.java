@@ -1,7 +1,7 @@
 package org.vector.littlejourney.mock;
 
 import org.vector.littlejourney.entity.Station;
-import org.vector.littlejourney.util.RandomDataGenerator;
+import org.vector.littlejourney.util.RandomDataGenerationUtils;
 
 import java.util.*;
 
@@ -29,7 +29,7 @@ public class StationFactory {
 
         for (int i = 0; i < count; i++) {
 
-            stations.add(new Station(RandomDataGenerator.randomElement(cities)));
+            stations.add(new Station(RandomDataGenerationUtils.getRandomElement(cities)));
         }
 
         return stations;

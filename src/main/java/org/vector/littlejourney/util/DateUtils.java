@@ -1,6 +1,6 @@
 package org.vector.littlejourney.util;
 
-import org.vector.littlejourney.constant.DateConstant;
+import org.vector.littlejourney.util.constant.DateConstant;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

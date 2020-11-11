@@ -1,15 +1,15 @@
-package org.vector.littlejourney.gui.dialog;
+package org.vector.littlejourney.gui.component.dialog;
 
-import org.vector.littlejourney.constant.DateConstant;
-import org.vector.littlejourney.constant.FontConstant;
-import org.vector.littlejourney.constant.JourneyDialogConstant;
-import org.vector.littlejourney.constant.WarningConstant;
+import org.vector.littlejourney.util.constant.*;
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.io.TripFileReader;
-import org.vector.littlejourney.util.DataFilter;
-import org.vector.littlejourney.util.InputValidationService;
+import org.vector.littlejourney.gui.GuiHandler;
+import org.vector.littlejourney.service.DataFilter;
+import org.vector.littlejourney.gui.util.InputValidationUtils;
+import org.vector.littlejourney.util.file.XlsxFileHandler;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class JourneyDialog extends JDialog implements Runnable {
@@ -55,7 +55,8 @@ public class JourneyDialog extends JDialog implements Runnable {
 
         Date time = editor.getModel().getDate();
 
-        if (InputValidationService.validateAll(time, departureInput, arrivalInput, minCostInput, maxCostInput)) {
+        if (InputValidationUtils.validateAll(departureInput, arrivalInput)
+                || InputValidationUtils.validateAll(minCostInput, maxCostInput)) {
 
             selectedTripsOutput.setText(JourneyDialogConstant.OUTPUT_EMPTY);
 
@@ -67,7 +68,7 @@ public class JourneyDialog extends JDialog implements Runnable {
 
             List<Trip> trips = JourneyDialog.trips;
 
-            if (InputValidationService.validateAll(departureInput, arrivalInput)) {
+            if (!InputValidationUtils.validateAll(departureInput) || !InputValidationUtils.validateAll(arrivalInput)) {
 
                 String departure = departureInput.getText();
                 String arrival = arrivalInput.getText();
@@ -75,34 +76,42 @@ public class JourneyDialog extends JDialog implements Runnable {
                 trips = DataFilter.filterByRoute(trips, departure, arrival);
             }
 
-            if (InputValidationService.validateAll(minCostInput, maxCostInput)) {
+            if (!InputValidationUtils.validateAll(minCostInput) || !InputValidationUtils.validateAll(maxCostInput)) {
 
                 String minimalCost = minCostInput.getText();
                 String maximalCost = maxCostInput.getText();
 
                 trips = DataFilter.filterByPrice(trips, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
             }
-            InputValidationService.validateAll(time);
+            if (InputValidationUtils.validateAny(time)) {
 
-            trips = DataFilter.filterByTravelTime(trips, time);
+                trips = DataFilter.filterByTravelTime(trips, time);
 
-            if (trips.isEmpty()) selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
+                if (trips.isEmpty()) {
 
-            createTripsForUser(trips);
+                    selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
+                } else
 
-            setTrips(trips);
+                    createTripsForUser(trips);
 
-            saveButton.setEnabled(true);
+                setTrips(trips);
+
+                saveButton.setEnabled(true);
+            }
         }
     }
 
     private void uploadTrips() {
 
-//        GuiHandler.generateFileChooser();
-//
-//        searchInFileButton.setEnabled(true);
+        GuiHandler.generateFileChooser();
 
-        TripFileReader.read("/home/ihor/Desktop/Trips.xlsx");
+        searchInFileButton.setEnabled(true);
+
+        try {
+            new XlsxFileHandler().process(new File("/home/ihor/Desktop/Trips.xlsx"));
+        } catch (IOException e) {
+
+        }
 
         List<Trip> trips = new ArrayList<>();
 
@@ -134,7 +143,7 @@ public class JourneyDialog extends JDialog implements Runnable {
 
         for (Trip trip : trips) {
 
-            selectedTripsOutput.append(trip.toString() + "\n");
+            selectedTripsOutput.append(trip.toString() + FormatConstant.NEW_LINE_SYMBOL);
         }
     }
 

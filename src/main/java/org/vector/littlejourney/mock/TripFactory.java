@@ -2,7 +2,7 @@ package org.vector.littlejourney.mock;
 
 import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.util.RandomDataGenerator;
+import org.vector.littlejourney.util.RandomDataGenerationUtils;
 
 import java.util.*;
 
@@ -37,8 +37,8 @@ public class TripFactory {
             int priceTo = 1000;
 
             trips.add(new Trip(routes.get(i),
-                    RandomDataGenerator.randomDouble(priceFrom, priceTo),
-                    RandomDataGenerator.randomDate()));
+                    RandomDataGenerationUtils.getRandomDouble(priceFrom, priceTo),
+                    RandomDataGenerationUtils.getRandomDate()));
         }
         return trips;
     }

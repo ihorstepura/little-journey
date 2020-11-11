@@ -1,6 +1,6 @@
 package org.vector.littlejourney.entity;
 
-import org.vector.littlejourney.constant.station.StationWarning;
+import org.vector.littlejourney.util.constant.station.StationWarning;
 import org.vector.littlejourney.exception.station.InvalidStationException;
 
 import java.util.Objects;

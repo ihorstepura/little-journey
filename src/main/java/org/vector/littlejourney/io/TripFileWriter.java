@@ -1,8 +1,8 @@
 package org.vector.littlejourney.io;
 
-import org.vector.littlejourney.constant.DateConstant;
-import org.vector.littlejourney.constant.FormatConstant;
-import org.vector.littlejourney.constant.TripConstant;
+import org.vector.littlejourney.util.constant.DateConstant;
+import org.vector.littlejourney.util.constant.FormatConstant;
+import org.vector.littlejourney.util.constant.TripConstant;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.DateUtils;
 

@@ -1,4 +1,4 @@
-package org.vector.littlejourney.constant;
+package org.vector.littlejourney.util.constant;
 
 import java.awt.*;
 

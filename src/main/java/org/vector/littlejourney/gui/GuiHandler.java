@@ -1,12 +1,12 @@
-package org.vector.littlejourney.gui.dialog;
+package org.vector.littlejourney.gui;
 
 import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.gui.component.dialog.JourneyDialog;
 import org.vector.littlejourney.io.TripFileWriter;
 import org.vector.littlejourney.mock.TripFactory;
-import org.vector.littlejourney.util.Extension;
-import org.vector.littlejourney.util.FileAttribute;
-import org.vector.littlejourney.util.FileHandler;
-import org.vector.littlejourney.util.TripHelper;
+import org.vector.littlejourney.util.constant.Extension;
+import org.vector.littlejourney.util.file.FileAttribute;
+import org.vector.littlejourney.util.file.FileUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -50,14 +50,14 @@ public class GuiHandler {
 
             file = fileChooser.getSelectedFile();
 
-            Extension extension = FileHandler.resolveExtension(file);
+            Extension extension = FileUtils.resolveExtension(file);
 
             List<FileAttribute> attributes = new ArrayList<>();
 
             List<List<String>> rows;
             List<Trip> trips;
 
-            switch (extension) {
+            /*switch (extension) {
 
                 case DOCX:
 
@@ -77,7 +77,7 @@ public class GuiHandler {
                     rows = FileHandler.processXLSX(file);
                     trips = TripHelper.process(rows, attributes);
                     break;
-            }
+            }*/
         }
     }
 
@@ -118,3 +118,4 @@ public class GuiHandler {
         }
     }
 }
+

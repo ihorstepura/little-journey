@@ -1,12 +1,12 @@
-package org.vector.littlejourney.util;
+package org.vector.littlejourney.util.file;
 
-import org.vector.littlejourney.constant.WarningConstant;
 import org.vector.littlejourney.exception.UnsupportedFileExtensionException;
+import org.vector.littlejourney.util.constant.Extension;
+import org.vector.littlejourney.util.constant.WarningConstant;
 
 import java.io.File;
-import java.util.List;
 
-public class FileHandler {
+public class FileUtils {
 
     public static Extension resolveExtension(File file) {
 
@@ -39,22 +39,5 @@ public class FileHandler {
 
             throw new UnsupportedFileExtensionException(WarningConstant.FILE_NOT_SUPPORTED);
         }
-    }
-
-    public static List<List<String>> processDOCX(File file) {
-
-        return null;
-    }
-
-
-    public static List<List<String>> processTXT(File file) {
-
-        return null;
-    }
-
-
-    public static List<List<String>> processXLSX(File file) {
-
-        return null;
     }
 }

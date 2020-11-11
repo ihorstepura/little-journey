@@ -1,4 +1,4 @@
-package org.vector.littlejourney.constant.duration;
+package org.vector.littlejourney.util.constant.duration;
 
 public class DurationWarning {
 
