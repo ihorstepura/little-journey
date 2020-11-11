@@ -1,6 +1,9 @@
 # IntellijIdea files
 *.iml
 .idea
+*.txt
+*.docx
+*.xlsx
 out
 target
 Trips.txt
