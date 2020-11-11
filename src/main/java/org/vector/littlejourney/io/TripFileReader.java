@@ -1,7 +1,6 @@
 package org.vector.littlejourney.io;
 
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.util.InputTripsConverter;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class TripFileReader {
 
-    public static List<Trip> read(String fileName, String regex) {
+    public static List<Trip> read(String fileName) {
 
         List<String> trips = new ArrayList<>();
 
@@ -20,11 +19,14 @@ public class TripFileReader {
                 String trip = reader.readLine();
 
                 trips.add(trip);
+
             }
         } catch (IOException e) {
 
             e.printStackTrace();
         }
-        return InputTripsConverter.convert(trips, regex);
+
+        System.out.println(trips);
+        return null;
     }
 }

@@ -63,6 +63,7 @@ public class GuiHandler {
 
                     rows = FileHandler.processDOCX(file);
                     trips = TripHelper.process(rows, attributes);
+
                     break;
 
                 case TXT:

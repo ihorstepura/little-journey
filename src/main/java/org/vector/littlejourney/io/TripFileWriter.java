@@ -49,7 +49,6 @@ public class TripFileWriter {
                 writer.write(FormatConstant.TAB_SYMBOL);
 
                 writer.write(duration);
-                writer.write(FormatConstant.TAB_SYMBOL);
 
                 writer.newLine();
             }
@@ -72,16 +71,7 @@ public class TripFileWriter {
                 cost = TripConstant.COST + ":" + String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, value.getCost());
                 duration = TripConstant.DURATION + ":" + DateUtils.toSimpleFormat(value.getDuration(), DateConstant.DATE_FORMAT_HH_mm);
 
-                writer.write(departure);
-                writer.newLine();
-
-                writer.write(arrival);
-                writer.newLine();
-
-                writer.write(cost);
-                writer.newLine();
-
-                writer.write(duration);
+                writer.write(departure + "," + arrival + "," + cost + "," + duration);
 
                 writer.newLine();
                 writer.newLine();

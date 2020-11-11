@@ -5,6 +5,7 @@ import org.vector.littlejourney.constant.FontConstant;
 import org.vector.littlejourney.constant.JourneyDialogConstant;
 import org.vector.littlejourney.constant.WarningConstant;
 import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.io.TripFileReader;
 import org.vector.littlejourney.util.DataFilter;
 import org.vector.littlejourney.util.InputValidationService;
 
@@ -97,9 +98,11 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private void uploadTrips() {
 
-        GuiHandler.generateFileChooser();
+//        GuiHandler.generateFileChooser();
+//
+//        searchInFileButton.setEnabled(true);
 
-        searchInFileButton.setEnabled(true);
+        TripFileReader.read("/home/ihor/Desktop/Trips.xlsx");
 
         List<Trip> trips = new ArrayList<>();
 
