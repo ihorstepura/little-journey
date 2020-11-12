@@ -5,11 +5,8 @@ import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.gui.GuiHandler;
 import org.vector.littlejourney.service.DataFilter;
 import org.vector.littlejourney.gui.util.InputValidationUtils;
-import org.vector.littlejourney.util.file.XlsxFileHandler;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 public class JourneyDialog extends JDialog implements Runnable {
@@ -63,7 +60,6 @@ public class JourneyDialog extends JDialog implements Runnable {
             selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
 
         } else {
-
             selectedTripsOutput.setText(JourneyDialogConstant.OUTPUT_EMPTY);
 
             List<Trip> trips = JourneyDialog.trips;
@@ -75,7 +71,6 @@ public class JourneyDialog extends JDialog implements Runnable {
 
                 trips = DataFilter.filterByRoute(trips, departure, arrival);
             }
-
             if (!InputValidationUtils.validateAll(minCostInput) || !InputValidationUtils.validateAll(maxCostInput)) {
 
                 String minimalCost = minCostInput.getText();
@@ -90,10 +85,10 @@ public class JourneyDialog extends JDialog implements Runnable {
                 if (trips.isEmpty()) {
 
                     selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
-                } else
+                } else {
 
                     createTripsForUser(trips);
-
+                }
                 setTrips(trips);
 
                 saveButton.setEnabled(true);
@@ -103,20 +98,13 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private void uploadTrips() {
 
-        GuiHandler.generateFileChooser();
+        List<Trip> trips = GuiHandler.generateFileChooser();
 
         searchInFileButton.setEnabled(true);
 
-        try {
-            new XlsxFileHandler().process(new File("/home/ihor/Desktop/Trips.xlsx"));
-        } catch (IOException e) {
-
-        }
-
-        List<Trip> trips = new ArrayList<>();
-
-
         setTrips(trips);
+
+        createTripsForUser(trips);
     }
 
     private void saveTrips() {
@@ -140,6 +128,8 @@ public class JourneyDialog extends JDialog implements Runnable {
     }
 
     private void createTripsForUser(List<Trip> trips) {
+
+        selectedTripsOutput.setText(JourneyDialogConstant.OUTPUT_EMPTY);
 
         for (Trip trip : trips) {
 

@@ -14,6 +14,4 @@ public class JourneyDialogConstant {
     public static final int HEIGHT_OF_WINDOW = 1000;
 
     public static final String OUTPUT_EMPTY = "";
-
-    public static final String[] FORMATS = {".txt", ".docx", ".xlsx"};
 }

@@ -4,13 +4,15 @@ import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.gui.component.dialog.JourneyDialog;
 import org.vector.littlejourney.io.TripFileWriter;
 import org.vector.littlejourney.mock.TripFactory;
+import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.Extension;
-import org.vector.littlejourney.util.file.FileAttribute;
-import org.vector.littlejourney.util.file.FileUtils;
+import org.vector.littlejourney.util.constant.TripConstant;
+import org.vector.littlejourney.util.file.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +30,9 @@ public class GuiHandler {
         SwingUtilities.invokeLater(gui);
     }
 
-    public static void generateFileChooser() {
+    public static List<Trip> generateFileChooser() {
 
-        File file;
-
-        int response;
+        List<Trip> trips = new ArrayList<>();
 
         JFileChooser fileChooser = new JFileChooser(".");
 
@@ -40,44 +40,77 @@ public class GuiHandler {
 
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "DOCX, TXT & XLSX Documents", "docx", "txt", "xlsx");
-
         fileChooser.setFileFilter(filter);
 
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        response = fileChooser.showOpenDialog(null);
+
+        int response = fileChooser.showOpenDialog(null);
 
         if (response == JFileChooser.APPROVE_OPTION) {
 
-            file = fileChooser.getSelectedFile();
+            File file = fileChooser.getSelectedFile();
 
             Extension extension = FileUtils.resolveExtension(file);
 
-            List<FileAttribute> attributes = new ArrayList<>();
+            List<Attribute> attributes = new ArrayList<>();
 
-            List<List<String>> rows;
-            List<Trip> trips;
+            Attribute attributeDep = new Attribute();
 
-            /*switch (extension) {
+            attributeDep.setName(TripConstant.DEPARTURE.trim());
+            attributeDep.setAllowedEmpty(false);
+            attributeDep.setNecessarily(true);
 
-                case DOCX:
+            Attribute attributeArr = new Attribute();
 
-                    rows = FileHandler.processDOCX(file);
+            attributeArr.setName(TripConstant.ARRIVAL.trim());
+            attributeArr.setAllowedEmpty(false);
+            attributeArr.setNecessarily(true);
+
+            Attribute attributeCost = new Attribute();
+
+            attributeCost.setName(TripConstant.COST.trim());
+            attributeCost.setAllowedEmpty(false);
+            attributeCost.setNecessarily(true);
+
+            Attribute attributeDur = new Attribute();
+
+            attributeDur.setName(TripConstant.DURATION.trim());
+            attributeDur.setAllowedEmpty(false);
+            attributeDur.setNecessarily(true);
+
+            attributes.add(attributeDep);
+            attributes.add(attributeArr);
+            attributes.add(attributeCost);
+            attributes.add(attributeDur);
+
+            FileHandler fileHandler = resolveFileHandler(extension);
+
+            try {
+                if (fileHandler != null) {
+
+                    List<List<String>> rows = fileHandler.process(file);
+
                     trips = TripHelper.process(rows, attributes);
+                }
+            } catch (IOException e) {
 
-                    break;
+                e.printStackTrace();
+            }
+        }
+        return trips;
+    }
 
-                case TXT:
+    private static FileHandler resolveFileHandler(Extension extension) {
 
-                    rows = FileHandler.processTXT(file);
-                    trips = TripHelper.process(rows, attributes);
-                    break;
-
-                case XLSX:
-
-                    rows = FileHandler.processXLSX(file);
-                    trips = TripHelper.process(rows, attributes);
-                    break;
-            }*/
+        switch (extension) {
+            case DOCX:
+                return new DocxFileHandler();
+            case TXT:
+                return new TxtFileHandler();
+            case XLSX:
+                return new XlsxFileHandler();
+            default:
+                return null;
         }
     }
 
@@ -110,12 +143,12 @@ public class GuiHandler {
                 case "txt":
                     TripFileWriter.writeTXT_DOCX(path + "." + extension, JourneyDialog.getTrips());
                     break;
-
                 case "xlsx":
                     TripFileWriter.writeXLSX(path + "." + extension, JourneyDialog.getTrips());
+                    break;
+                default:
                     break;
             }
         }
     }
 }
-

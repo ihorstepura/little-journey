@@ -10,23 +10,26 @@ import java.util.List;
 public class XlsxFileHandler extends FileHandler {
 
     @Override
-    public List<List<String>> process(File file) throws IOException {
-
-        BufferedReader reader = new BufferedReader(new FileReader(file));
+    public List<List<String>> process(File file) {
 
         List<List<String>> rows = new ArrayList<>();
 
-        while (reader.ready()) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 
-            String trip = reader.readLine();
+            while (reader.ready()) {
 
-            List<String> row = new ArrayList<>();
+                String trip = reader.readLine();
 
-            Collections.addAll(row, trip.split(FormatConstant.TAB_SYMBOL));
+                List<String> row = new ArrayList<>();
 
-            rows.add(row);
+                Collections.addAll(row, trip.split(FormatConstant.TAB_SYMBOL));
+
+                rows.add(row);
+            }
+        } catch (IOException e) {
+
+            e.printStackTrace();
         }
-
         return rows;
     }
 }
