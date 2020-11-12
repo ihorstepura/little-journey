@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TxtFileHandler extends FileHandler {
+public class DocumentHandler extends FileHandler {
 
     @Override
     public List<List<String>> process(File file) {

@@ -16,7 +16,7 @@ public class TripFileWriter {
     private static String cost;
     private static String duration;
 
-    public static void writeXLSX(String fileName, List<Trip> trips) {
+    public static void writeSpreadsheet(String fileName, List<Trip> trips) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, false))) {
 
@@ -60,7 +60,7 @@ public class TripFileWriter {
         }
     }
 
-    public static void writeTXT_DOCX(String fileName, List<Trip> trips) {
+    public static void writeDocument(String fileName, List<Trip> trips) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
 

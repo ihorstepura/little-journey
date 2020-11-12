@@ -55,25 +55,21 @@ public class GuiHandler {
             List<Attribute> attributes = new ArrayList<>();
 
             Attribute attributeDep = new Attribute();
-
             attributeDep.setName(TripConstant.DEPARTURE.trim());
             attributeDep.setAllowedEmpty(false);
             attributeDep.setNecessarily(true);
 
             Attribute attributeArr = new Attribute();
-
             attributeArr.setName(TripConstant.ARRIVAL.trim());
             attributeArr.setAllowedEmpty(false);
             attributeArr.setNecessarily(true);
 
             Attribute attributeCost = new Attribute();
-
             attributeCost.setName(TripConstant.COST.trim());
             attributeCost.setAllowedEmpty(false);
             attributeCost.setNecessarily(true);
 
             Attribute attributeDur = new Attribute();
-
             attributeDur.setName(TripConstant.DURATION.trim());
             attributeDur.setAllowedEmpty(false);
             attributeDur.setNecessarily(true);
@@ -104,11 +100,10 @@ public class GuiHandler {
 
         switch (extension) {
             case DOCX:
-                return new DocxFileHandler();
             case TXT:
-                return new TxtFileHandler();
+                return new DocumentHandler();
             case XLSX:
-                return new XlsxFileHandler();
+                return new SpreadsheetHandler();
             default:
                 return null;
         }
@@ -141,10 +136,10 @@ public class GuiHandler {
             switch (extension) {
                 case "docx":
                 case "txt":
-                    TripFileWriter.writeTXT_DOCX(path + "." + extension, JourneyDialog.getTrips());
+                    TripFileWriter.writeDocument(path + "." + extension, JourneyDialog.getTrips());
                     break;
                 case "xlsx":
-                    TripFileWriter.writeXLSX(path + "." + extension, JourneyDialog.getTrips());
+                    TripFileWriter.writeSpreadsheet(path + "." + extension, JourneyDialog.getTrips());
                     break;
                 default:
                     break;

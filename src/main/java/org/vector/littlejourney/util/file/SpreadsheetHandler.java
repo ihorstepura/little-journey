@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class XlsxFileHandler extends FileHandler {
+public class SpreadsheetHandler extends FileHandler {
 
     @Override
     public List<List<String>> process(File file) {
