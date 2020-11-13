@@ -1,4 +1,4 @@
-package org.vector.littlejourney.exception;
+package org.vector.littlejourney.exception.file;
 
 public class UnsupportedFileExtensionException extends RuntimeException {
 

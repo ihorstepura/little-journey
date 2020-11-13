@@ -6,6 +6,7 @@ public class InvalidStationException extends RuntimeException {
 
     public InvalidStationException(String message) {
 
+        //TODO:: see InvalidDurationException.class constructor
         super(StationWarning.INVALID_STATION + message);
     }
 }

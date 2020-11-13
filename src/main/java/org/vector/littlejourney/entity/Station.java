@@ -13,8 +13,10 @@ public class Station {
 
         if (name == null) {
 
+            //TODO:: change warning message and add check for empty name
             throw new InvalidStationException(StationWarning.STATION_NOT_DEFINED);
         }
+
         this.name = name;
     }
 
@@ -41,6 +43,7 @@ public class Station {
         return Objects.hash(name);
     }
 
+    //TODO:: remove
     @Override
     public String toString() {
 

@@ -7,6 +7,8 @@ import org.vector.littlejourney.service.DataFilter;
 import org.vector.littlejourney.gui.util.InputValidationUtils;
 
 import javax.swing.*;
+import javax.swing.JSpinner.*;
+
 import java.util.*;
 
 public class JourneyDialog extends JDialog implements Runnable {
@@ -25,7 +27,7 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private JSpinner timeSpinner;
 
-    private JSpinner.DateEditor editor;
+    private DateEditor editor;
 
     private JButton saveButton;
 
@@ -96,6 +98,7 @@ public class JourneyDialog extends JDialog implements Runnable {
         }
     }
 
+    //TODO:: delegate trips file parsing process to GUIHandler
     private void uploadTrips() {
 
         List<Trip> trips = GuiHandler.generateFileChooser();

@@ -6,6 +6,7 @@ public class InvalidRouteException extends RuntimeException {
 
     public InvalidRouteException(String message) {
 
+        //TODO:: see InvalidDurationException.class constructor
         super(RouteWarning.INVALID_ROUTE + message);
     }
 }

@@ -21,6 +21,18 @@ public class Trip {
 
     public Trip(Route route, double cost, Date duration) {
 
+        //TODO:: think about it
+        /**
+         * if (route == null || duration == null) {
+         *
+         *      throw new InvalidRouteException(RouteWarning.ROUTE_NOT_DEFINED);
+         *
+         * } else if (cost < 0) {
+         *
+         *      throw new InvalidCostException(CostWarning.LESS_THAN_ZERO_COST);
+         * }
+         */
+
         if (route == null || duration == null) {
 
             throw new InvalidRouteException(RouteWarning.ROUTE_NOT_DEFINED);
@@ -42,6 +54,16 @@ public class Trip {
 
     public void setRoute(Route route) {
 
+        //TODO:: think about it
+        /*
+            if (route == null) {
+
+                throw new InvalidRouteException(RouteWarning.ROUTE_NOT_DEFINED);
+            }
+
+            this.route = route;
+        */
+
         if (route == null) {
 
             throw new InvalidRouteException(RouteWarning.ROUTE_NOT_DEFINED);
@@ -58,6 +80,7 @@ public class Trip {
 
     public void setCost(double cost) {
 
+        //TODO:: think about it
         if (cost < 0) {
 
             throw new InvalidCostException(CostWarning.LESS_THAN_ZERO_COST);
@@ -74,6 +97,7 @@ public class Trip {
 
     public void setDuration(Date duration) {
 
+        //TODO:: think about it
         if (duration == null) {
 
             throw new InvalidDurationException(DurationWarning.DURATION_NOT_DEFINED);
@@ -83,6 +107,7 @@ public class Trip {
         }
     }
 
+    //TODO:: create Trip helper and move this logic to getTripInformation() method
     @Override
     public String toString() {
 

@@ -6,6 +6,9 @@ public class InvalidDurationException extends RuntimeException {
 
     public InvalidDurationException(String message) {
 
-        super(DurationWarning.INVALID_DURATION + message);
+        //TODO:: modify message
+
+        // super(DurationWarning.INVALID_DURATION + " : " + message);
+        super(DurationWarning.INVALID_DURATION + " : " + message);
     }
 }

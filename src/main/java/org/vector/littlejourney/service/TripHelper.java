@@ -3,7 +3,7 @@ package org.vector.littlejourney.service;
 import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.exception.InvalidFileFormatException;
+import org.vector.littlejourney.exception.file.InvalidFileFormatException;
 import org.vector.littlejourney.gui.component.dialog.ExceptionDialog;
 import org.vector.littlejourney.util.DateUtils;
 import org.vector.littlejourney.util.constant.WarningConstant;

@@ -13,5 +13,6 @@ public class ExceptionDialogConstant {
 
     public static final int HEIGHT_OF_WINDOW = 300;
 
+    //TODO:: move to ButtonConstants
     public static final String CLOSE = "Close";
 }

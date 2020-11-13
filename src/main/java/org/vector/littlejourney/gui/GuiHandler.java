@@ -1,22 +1,25 @@
 package org.vector.littlejourney.gui;
 
 import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.gui.component.dialog.ExceptionDialog;
 import org.vector.littlejourney.gui.component.dialog.JourneyDialog;
 import org.vector.littlejourney.io.TripFileWriter;
 import org.vector.littlejourney.mock.TripFactory;
 import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.Extension;
 import org.vector.littlejourney.util.constant.TripConstant;
+import org.vector.littlejourney.util.constant.WarningConstant;
 import org.vector.littlejourney.util.file.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GuiHandler {
+
+    private static JourneyDialog mainWindow;
 
     public void generateGui() {
 
@@ -24,10 +27,11 @@ public class GuiHandler {
 
         List<Trip> trips = tripFactory.generateTrips(10_000);
 
-        JourneyDialog gui = new JourneyDialog();
-        gui.setTrips(trips);
+        mainWindow = new JourneyDialog();
 
-        SwingUtilities.invokeLater(gui);
+        mainWindow.setTrips(trips);
+
+        SwingUtilities.invokeLater(mainWindow);
     }
 
     public static List<Trip> generateFileChooser() {
@@ -50,47 +54,47 @@ public class GuiHandler {
 
             File file = fileChooser.getSelectedFile();
 
-            Extension extension = FileUtils.resolveExtension(file);
-
-            List<Attribute> attributes = new ArrayList<>();
-
-            Attribute attributeDep = new Attribute();
-            attributeDep.setName(TripConstant.DEPARTURE.trim());
-            attributeDep.setAllowedEmpty(false);
-            attributeDep.setNecessarily(true);
-
-            Attribute attributeArr = new Attribute();
-            attributeArr.setName(TripConstant.ARRIVAL.trim());
-            attributeArr.setAllowedEmpty(false);
-            attributeArr.setNecessarily(true);
-
-            Attribute attributeCost = new Attribute();
-            attributeCost.setName(TripConstant.COST.trim());
-            attributeCost.setAllowedEmpty(false);
-            attributeCost.setNecessarily(true);
-
-            Attribute attributeDur = new Attribute();
-            attributeDur.setName(TripConstant.DURATION.trim());
-            attributeDur.setAllowedEmpty(false);
-            attributeDur.setNecessarily(true);
-
-            attributes.add(attributeDep);
-            attributes.add(attributeArr);
-            attributes.add(attributeCost);
-            attributes.add(attributeDur);
-
-            FileHandler fileHandler = resolveFileHandler(extension);
-
             try {
+                Extension extension = FileUtils.resolveExtension(file);
+
+                List<Attribute> attributes = new ArrayList<>();
+
+                Attribute attributeDep = new Attribute();
+                attributeDep.setName(TripConstant.DEPARTURE.trim());
+                attributeDep.setAllowedEmpty(false);
+                attributeDep.setNecessarily(true);
+
+                Attribute attributeArr = new Attribute();
+                attributeArr.setName(TripConstant.ARRIVAL.trim());
+                attributeArr.setAllowedEmpty(false);
+                attributeArr.setNecessarily(true);
+
+                Attribute attributeCost = new Attribute();
+                attributeCost.setName(TripConstant.COST.trim());
+                attributeCost.setAllowedEmpty(false);
+                attributeCost.setNecessarily(true);
+
+                Attribute attributeDur = new Attribute();
+                attributeDur.setName(TripConstant.DURATION.trim());
+                attributeDur.setAllowedEmpty(false);
+                attributeDur.setNecessarily(true);
+
+                attributes.add(attributeDep);
+                attributes.add(attributeArr);
+                attributes.add(attributeCost);
+                attributes.add(attributeDur);
+
+                FileHandler fileHandler = resolveFileHandler(extension);
+
                 if (fileHandler != null) {
 
                     List<List<String>> rows = fileHandler.process(file);
 
                     trips = TripHelper.process(rows, attributes);
                 }
-            } catch (IOException e) {
+            } catch (Exception exception) {
 
-                e.printStackTrace();
+                SwingUtilities.invokeLater(new ExceptionDialog(mainWindow, WarningConstant.FILE_NOT_SUPPORTED));
             }
         }
         return trips;
@@ -115,6 +119,7 @@ public class GuiHandler {
 
         fileSaver.setDialogTitle("Specify a file to save");
 
+        //TODO:: think about it
         FileNameExtensionFilter docx = new FileNameExtensionFilter("docx", "docx");
         FileNameExtensionFilter txt = new FileNameExtensionFilter("txt", "txt");
         FileNameExtensionFilter xlsx = new FileNameExtensionFilter("xlsx", "xlsx");
@@ -130,9 +135,15 @@ public class GuiHandler {
 
             File fileToSave = fileSaver.getSelectedFile();
 
+            //TODO:: why is this String?
             String extension = fileSaver.getFileFilter().getDescription();
+
+            //TODO:: think about it
+//            Extension extension = Extension.getExtension(fileSaver.getFileFilter().getDescription());
+
             String path = fileToSave.getAbsolutePath();
 
+            //TODO:: chto eto takoye?
             switch (extension) {
                 case "docx":
                 case "txt":
