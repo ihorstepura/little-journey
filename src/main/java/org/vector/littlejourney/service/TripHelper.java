@@ -4,10 +4,12 @@ import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.exception.InvalidFileFormatException;
+import org.vector.littlejourney.gui.component.dialog.ExceptionDialog;
 import org.vector.littlejourney.util.DateUtils;
 import org.vector.littlejourney.util.constant.WarningConstant;
 import org.vector.littlejourney.util.file.Attribute;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,8 @@ public class TripHelper {
             return trips;
 
         } else {
+            SwingUtilities.invokeLater(new ExceptionDialog(WarningConstant.INVALID_DATA_FORMAT));
+
             throw new InvalidFileFormatException(WarningConstant.INVALID_DATA_FORMAT);
         }
     }
