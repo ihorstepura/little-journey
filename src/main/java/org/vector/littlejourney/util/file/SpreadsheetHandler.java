@@ -35,20 +35,18 @@ public class SpreadsheetHandler extends FileHandler {
         return rows;
     }
 
-    public static <E> void writeSpreadsheet(String fileName, List<E> elements) {
+    public static <E> void write(String fileName, List<E> elements) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, false))) {
 
             //header writing
             writer.write(TripHelper.prepareSpreadSheetHeader());
-
             writer.newLine();
 
             //body writing
             for (E element : elements) {
 
                 writer.write(TripHelper.prepareSpreadSheet((Trip) element));
-
                 writer.newLine();
             }
             writer.flush();

@@ -69,7 +69,13 @@ public class Trip {
 
         if (duration == null) {
 
-            throw new InvalidDurationException(DurationWarning.DURATION_NOT_DEFINED);
+            try {
+                throw new InvalidDurationException(DurationWarning.DURATION_NOT_DEFINED);
+
+            } catch (InvalidDurationException e) {
+
+                e.printStackTrace();
+            }
         }
         this.duration = duration;
     }

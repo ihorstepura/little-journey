@@ -1,19 +1,24 @@
 package org.vector.littlejourney.gui;
 
 import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.entity.exception.InvalidDurationException;
+import org.vector.littlejourney.gui.component.dialog.ExceptionDialog;
 import org.vector.littlejourney.gui.component.dialog.JourneyDialog;
 import org.vector.littlejourney.util.constant.FileConstant;
 import org.vector.littlejourney.mock.TripFactory;
 import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.Extension;
 import org.vector.littlejourney.util.constant.TripConstant;
+import org.vector.littlejourney.util.constant.duration.DurationWarning;
 import org.vector.littlejourney.util.file.*;
 import org.vector.littlejourney.util.file.exception.FileException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GuiHandler {
@@ -89,8 +94,8 @@ public class GuiHandler {
             if (fileHandler != null) {
 
                 List<List<String>> rows;
-                    rows = fileHandler.process(file);
-                    trips = TripHelper.process(rows, attributes);
+                rows = fileHandler.process(file);
+                trips = TripHelper.process(rows, attributes);
             }
         }
         return trips;
@@ -134,12 +139,28 @@ public class GuiHandler {
             switch (extension) {
                 case TXT:
                 case DOCX:
-                    DocumentHandler.writeDocument(fileName, JourneyDialog.getTrips());
+                    DocumentHandler.write(fileName, JourneyDialog.getTrips());
                     break;
                 case XLSX:
-                    SpreadsheetHandler.writeSpreadsheet(fileName, JourneyDialog.getTrips());
+                    SpreadsheetHandler.write(fileName, JourneyDialog.getTrips());
                     break;
             }
         }
+    }
+
+    public static void generateExceptionDialog(Dialog parent, String message) {
+
+        ExceptionDialog exceptionDialog = new ExceptionDialog(parent, message);
+
+        SwingUtilities.invokeLater(exceptionDialog);
+    }
+
+    public static boolean validateDuration(Date duration) throws InvalidDurationException {
+
+        if (duration == null) {
+
+            throw new InvalidDurationException(DurationWarning.DURATION_NOT_DEFINED);
+        }
+        return true;
     }
 }

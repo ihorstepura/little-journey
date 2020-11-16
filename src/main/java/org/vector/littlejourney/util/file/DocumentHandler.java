@@ -19,28 +19,32 @@ public class DocumentHandler extends FileHandler {
 
             List<String> header = new ArrayList<>();
 
-            List<String> otherRows = new ArrayList<>();
-
             while (reader.ready()) {
 
-                String trip = reader.readLine();
+                String row = reader.readLine();
 
-                String[] points = trip.split(",");
+                String[] parts = row.split(",");
 
                 if (header.isEmpty()) {
 
-                    for (String point : points) {
+                    for (String point : parts) {
+
                         String head = point.substring(0, point.indexOf(":"));
+
                         header.add(head);
                     }
-                    Collections.addAll(rows, header);
+                    rows.add(header);
                 }
+                List<String> otherRows = new ArrayList<>();
 
-                for (String point : points) {
-                    String row = point.substring(point.indexOf(":") + 1);
+                for (String point : parts) {
+
+                    String body = point.substring(point.indexOf(":") + 1);
+
+                    Collections.addAll(otherRows, body);
                 }
+                rows.add(otherRows);
             }
-
         } catch (IOException e) {
 
             e.printStackTrace();
@@ -48,7 +52,7 @@ public class DocumentHandler extends FileHandler {
         return rows;
     }
 
-    public static <E> void writeDocument(String fileName, List<E> elements) {
+    public static <E> void write(String fileName, List<E> elements) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
 
@@ -63,6 +67,4 @@ public class DocumentHandler extends FileHandler {
             e.printStackTrace();
         }
     }
-
-
 }

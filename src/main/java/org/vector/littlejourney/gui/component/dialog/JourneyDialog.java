@@ -81,25 +81,29 @@ public class JourneyDialog extends JDialog implements Runnable {
 
                 trips = DataFilter.filterByPrice(trips, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
             }
-            if (InputValidationUtils.validateAny(time)) {
+            try {
+                if (GuiHandler.validateDuration(time)) {
 
-                trips = DataFilter.filterByTravelTime(trips, time);
+                    trips = DataFilter.filterByTravelTime(trips, time);
 
-                if (trips.isEmpty()) {
+                    if (trips.isEmpty()) {
 
-                    selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
-                } else {
+                        selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
+                    } else {
 
-                    createTripsForUser(trips);
+                        createTripsForUser(trips);
+                    }
+                    setTrips(trips);
+
+                    saveButton.setEnabled(true);
                 }
-                setTrips(trips);
+            } catch (Exception exception) {
 
-                saveButton.setEnabled(true);
+                GuiHandler.generateExceptionDialog(this, exception.getMessage());
             }
         }
     }
 
-    //TODO:: delegate trips file parsing process to GUIHandler
     private void uploadTrips() {
 
         List<Trip> trips;
@@ -109,13 +113,10 @@ public class JourneyDialog extends JDialog implements Runnable {
             setTrips(trips);
             createTripsForUser(trips);
 
-        } catch (FileException e) {
+        } catch (FileException exception) {
 
-            ExceptionDialog dialog = new ExceptionDialog(this, e.getMessage());
-            SwingUtilities.invokeLater(dialog);
+            GuiHandler.generateExceptionDialog(this, exception.getMessage());
         }
-
-
     }
 
     private void saveTrips() {
@@ -123,10 +124,9 @@ public class JourneyDialog extends JDialog implements Runnable {
         try {
             GuiHandler.generateFileSaver();
 
-        } catch (FileException e) {
+        } catch (FileException exception) {
 
-            ExceptionDialog dialog = new ExceptionDialog(this, e.getMessage());
-            SwingUtilities.invokeLater(dialog);
+            GuiHandler.generateExceptionDialog(this, exception.getMessage());
         }
     }
 

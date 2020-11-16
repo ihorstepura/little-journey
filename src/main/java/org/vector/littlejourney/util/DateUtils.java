@@ -30,9 +30,10 @@ public class DateUtils {
 
         Date date = new Date();
 
-        //using deprecated methods of Date class is needed because of using Date class in custom DateUtils
-        date.setHours(Integer.parseInt(result[0]));
-        date.setMinutes(Integer.parseInt(result[1]));
+            //using deprecated methods of Date class is needed because of using Date class in custom DateUtils
+            date.setDate(Integer.parseInt(result[0]));
+            date.setHours(Integer.parseInt(result[1]));
+            date.setMinutes(Integer.parseInt(result[2]));
 
         return date;
     }
