@@ -3,19 +3,18 @@ package org.vector.littlejourney.service;
 import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.exception.file.InvalidFileFormatException;
-import org.vector.littlejourney.gui.component.dialog.ExceptionDialog;
+import org.vector.littlejourney.util.file.exception.FileException;
 import org.vector.littlejourney.util.DateUtils;
+import org.vector.littlejourney.util.constant.DateConstant;
 import org.vector.littlejourney.util.constant.WarningConstant;
 import org.vector.littlejourney.util.file.Attribute;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TripHelper {
 
-    public static List<Trip> process(List<List<String>> rows, List<Attribute> attributes) {
+    public static List<Trip> process(List<List<String>> rows, List<Attribute> attributes) throws FileException {
 
         if (validate(rows.remove(0), attributes)) {
 
@@ -32,12 +31,8 @@ public class TripHelper {
                         Double.parseDouble(cost), DateUtils.toDateFormat(duration)));
             }
             return trips;
-
-        } else {
-            SwingUtilities.invokeLater(new ExceptionDialog(WarningConstant.INVALID_DATA_FORMAT));
-
-            throw new InvalidFileFormatException(WarningConstant.INVALID_DATA_FORMAT);
         }
+        throw new FileException(WarningConstant.INVALID_DATA_FORMAT);
     }
 
     private static boolean validate(List<String> header, List<Attribute> attributes) {
@@ -46,12 +41,20 @@ public class TripHelper {
 
             if (attribute.isNecessarily()) {
 
-                if (!header.contains(attribute.getName())) {
-
-                    return false;
-                }
+                if (!header.contains(attribute.getName())) return false;
             }
         }
         return true;
+    }
+
+    public static String getTripInformation(Trip trip) {
+
+        return "Станция отправления - " + trip.getRoute().getDeparture().getName().toUpperCase() + "; " +
+
+                "станция прибытия - " + trip.getRoute().getArrival().getName().toUpperCase() + "; " +
+
+                "цена: " + String.format("%.2f", trip.getCost()) + "; " + "длительность маршрута: " +
+
+                DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_HH_mm);
     }
 }

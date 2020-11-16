@@ -1,15 +1,15 @@
 package org.vector.littlejourney.gui;
 
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.gui.component.dialog.ExceptionDialog;
 import org.vector.littlejourney.gui.component.dialog.JourneyDialog;
-import org.vector.littlejourney.io.TripFileWriter;
+import org.vector.littlejourney.util.constant.FileConstant;
+import org.vector.littlejourney.util.file.TripFileWriter;
 import org.vector.littlejourney.mock.TripFactory;
 import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.Extension;
 import org.vector.littlejourney.util.constant.TripConstant;
-import org.vector.littlejourney.util.constant.WarningConstant;
 import org.vector.littlejourney.util.file.*;
+import org.vector.littlejourney.util.file.exception.FileException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -19,31 +19,33 @@ import java.util.List;
 
 public class GuiHandler {
 
-    private static JourneyDialog mainWindow;
-
     public void generateGui() {
 
         TripFactory tripFactory = TripFactory.getInstance();
 
         List<Trip> trips = tripFactory.generateTrips(10_000);
 
-        mainWindow = new JourneyDialog();
+        JourneyDialog mainWindow = new JourneyDialog();
 
         mainWindow.setTrips(trips);
 
         SwingUtilities.invokeLater(mainWindow);
     }
 
-    public static List<Trip> generateFileChooser() {
+    public static List<Trip> generateFileLoader() throws FileException {
 
         List<Trip> trips = new ArrayList<>();
 
-        JFileChooser fileChooser = new JFileChooser(".");
+        JFileChooser fileChooser = new JFileChooser(FileConstant.CURRENT_DIRECTORY);
 
-        fileChooser.setDialogTitle("Choose file for loading");
+        fileChooser.setDialogTitle(FileConstant.FILE_FOR_LOAD);
 
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "DOCX, TXT & XLSX Documents", "docx", "txt", "xlsx");
+                FileConstant.TXT_DOCX_XLSX_FILES,
+                Extension.TXT.getValue(),
+                Extension.DOCX.getValue(),
+                Extension.XLSX.getValue());
+
         fileChooser.setFileFilter(filter);
 
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -54,47 +56,42 @@ public class GuiHandler {
 
             File file = fileChooser.getSelectedFile();
 
-            try {
-                Extension extension = FileUtils.resolveExtension(file);
+            Extension extension = FileUtils.resolveExtension(file.getName());
 
-                List<Attribute> attributes = new ArrayList<>();
+            List<Attribute> attributes = new ArrayList<>();
 
-                Attribute attributeDep = new Attribute();
-                attributeDep.setName(TripConstant.DEPARTURE.trim());
-                attributeDep.setAllowedEmpty(false);
-                attributeDep.setNecessarily(true);
+            Attribute attributeDep = new Attribute();
+            attributeDep.setName(TripConstant.DEPARTURE.trim());
+            attributeDep.setAllowedEmpty(false);
+            attributeDep.setNecessarily(true);
 
-                Attribute attributeArr = new Attribute();
-                attributeArr.setName(TripConstant.ARRIVAL.trim());
-                attributeArr.setAllowedEmpty(false);
-                attributeArr.setNecessarily(true);
+            Attribute attributeArr = new Attribute();
+            attributeArr.setName(TripConstant.ARRIVAL.trim());
+            attributeArr.setAllowedEmpty(false);
+            attributeArr.setNecessarily(true);
 
-                Attribute attributeCost = new Attribute();
-                attributeCost.setName(TripConstant.COST.trim());
-                attributeCost.setAllowedEmpty(false);
-                attributeCost.setNecessarily(true);
+            Attribute attributeCost = new Attribute();
+            attributeCost.setName(TripConstant.COST.trim());
+            attributeCost.setAllowedEmpty(false);
+            attributeCost.setNecessarily(true);
 
-                Attribute attributeDur = new Attribute();
-                attributeDur.setName(TripConstant.DURATION.trim());
-                attributeDur.setAllowedEmpty(false);
-                attributeDur.setNecessarily(true);
+            Attribute attributeDur = new Attribute();
+            attributeDur.setName(TripConstant.DURATION.trim());
+            attributeDur.setAllowedEmpty(false);
+            attributeDur.setNecessarily(true);
 
-                attributes.add(attributeDep);
-                attributes.add(attributeArr);
-                attributes.add(attributeCost);
-                attributes.add(attributeDur);
+            attributes.add(attributeDep);
+            attributes.add(attributeArr);
+            attributes.add(attributeCost);
+            attributes.add(attributeDur);
 
-                FileHandler fileHandler = resolveFileHandler(extension);
+            FileHandler fileHandler = resolveFileHandler(extension);
 
-                if (fileHandler != null) {
+            if (fileHandler != null) {
 
-                    List<List<String>> rows = fileHandler.process(file);
-
+                List<List<String>> rows;
+                    rows = fileHandler.process(file);
                     trips = TripHelper.process(rows, attributes);
-                }
-            } catch (Exception exception) {
-
-                SwingUtilities.invokeLater(new ExceptionDialog(mainWindow, WarningConstant.FILE_NOT_SUPPORTED));
             }
         }
         return trips;
@@ -113,46 +110,35 @@ public class GuiHandler {
         }
     }
 
-    public static void generateFileSaver() {
+    public static void generateFileSaver() throws FileException {
 
-        JFileChooser fileSaver = new JFileChooser(".");
+        JFileChooser fileSaver = new JFileChooser(FileConstant.CURRENT_DIRECTORY);
 
-        fileSaver.setDialogTitle("Specify a file to save");
+        fileSaver.setDialogTitle(FileConstant.FILE_TO_SAVE);
 
-        //TODO:: think about it
-        FileNameExtensionFilter docx = new FileNameExtensionFilter("docx", "docx");
-        FileNameExtensionFilter txt = new FileNameExtensionFilter("txt", "txt");
-        FileNameExtensionFilter xlsx = new FileNameExtensionFilter("xlsx", "xlsx");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(FileConstant.TXT_DOCX_XLSX_FILES,
+                Extension.TXT.getValue(),
+                Extension.DOCX.getValue(),
+                Extension.XLSX.getValue());
 
-        fileSaver.setFileFilter(docx);
-        fileSaver.setFileFilter(txt);
-        fileSaver.setFileFilter(xlsx);
-
+        fileSaver.setFileFilter(filter);
 
         int userSelection = fileSaver.showSaveDialog(null);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
 
             File fileToSave = fileSaver.getSelectedFile();
+            String fileName = fileToSave.getAbsolutePath();
 
-            //TODO:: why is this String?
-            String extension = fileSaver.getFileFilter().getDescription();
+            Extension extension = FileUtils.resolveExtension(fileName);
 
-            //TODO:: think about it
-//            Extension extension = Extension.getExtension(fileSaver.getFileFilter().getDescription());
-
-            String path = fileToSave.getAbsolutePath();
-
-            //TODO:: chto eto takoye?
             switch (extension) {
-                case "docx":
-                case "txt":
-                    TripFileWriter.writeDocument(path + "." + extension, JourneyDialog.getTrips());
+                case TXT:
+                case DOCX:
+                    TripFileWriter.writeDocument(fileName, JourneyDialog.getTrips());
                     break;
-                case "xlsx":
-                    TripFileWriter.writeSpreadsheet(path + "." + extension, JourneyDialog.getTrips());
-                    break;
-                default:
+                case XLSX:
+                    TripFileWriter.writeSpreadsheet(fileName, JourneyDialog.getTrips());
                     break;
             }
         }

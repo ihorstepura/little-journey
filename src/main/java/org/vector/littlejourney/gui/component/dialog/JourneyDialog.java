@@ -1,10 +1,12 @@
 package org.vector.littlejourney.gui.component.dialog;
 
+import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.*;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.gui.GuiHandler;
 import org.vector.littlejourney.service.DataFilter;
 import org.vector.littlejourney.gui.util.InputValidationUtils;
+import org.vector.littlejourney.util.file.exception.FileException;
 
 import javax.swing.*;
 import javax.swing.JSpinner.*;
@@ -35,8 +37,6 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private JButton searchButton;
 
-    private JButton searchInFileButton;
-
     private static List<Trip> trips;
 
     public JourneyDialog() {
@@ -44,8 +44,9 @@ public class JourneyDialog extends JDialog implements Runnable {
         //dialog configurations
         setModal(true);
         setContentPane(contentPane);
-        setBounds(JourneyDialogConstant.X_COORDINATE_OF_WINDOW, JourneyDialogConstant.Y_COORDINATE_OF_WINDOW,
-                JourneyDialogConstant.WIDTH_OF_WINDOW, JourneyDialogConstant.HEIGHT_OF_WINDOW);
+
+        setSize(JourneyDialogConstant.WIDTH_OF_WINDOW, JourneyDialogConstant.HEIGHT_OF_WINDOW);
+        setLocationRelativeTo(null);
 
         configureGuiElements();
     }
@@ -57,12 +58,12 @@ public class JourneyDialog extends JDialog implements Runnable {
         if (InputValidationUtils.validateAll(departureInput, arrivalInput)
                 || InputValidationUtils.validateAll(minCostInput, maxCostInput)) {
 
-            selectedTripsOutput.setText(JourneyDialogConstant.OUTPUT_EMPTY);
+            selectedTripsOutput.setText(StringConstant.EMPTY);
 
             selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
 
         } else {
-            selectedTripsOutput.setText(JourneyDialogConstant.OUTPUT_EMPTY);
+            selectedTripsOutput.setText(StringConstant.EMPTY);
 
             List<Trip> trips = JourneyDialog.trips;
 
@@ -101,23 +102,32 @@ public class JourneyDialog extends JDialog implements Runnable {
     //TODO:: delegate trips file parsing process to GUIHandler
     private void uploadTrips() {
 
-        List<Trip> trips = GuiHandler.generateFileChooser();
+        List<Trip> trips;
 
-        searchInFileButton.setEnabled(true);
+        try {
+            trips = GuiHandler.generateFileLoader();
+            setTrips(trips);
+            createTripsForUser(trips);
 
-        setTrips(trips);
+        } catch (FileException e) {
 
-        createTripsForUser(trips);
+            ExceptionDialog dialog = new ExceptionDialog(this, e.getMessage());
+            SwingUtilities.invokeLater(dialog);
+        }
+
+
     }
 
     private void saveTrips() {
 
-        GuiHandler.generateFileSaver();
-    }
+        try {
+            GuiHandler.generateFileSaver();
 
-    private void searchTripsFromDoc() {
+        } catch (FileException e) {
 
-        searchTrips();
+            ExceptionDialog dialog = new ExceptionDialog(this, e.getMessage());
+            SwingUtilities.invokeLater(dialog);
+        }
     }
 
     public void setTrips(List<Trip> trips) {
@@ -132,11 +142,11 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private void createTripsForUser(List<Trip> trips) {
 
-        selectedTripsOutput.setText(JourneyDialogConstant.OUTPUT_EMPTY);
+        selectedTripsOutput.setText(StringConstant.EMPTY);
 
         for (Trip trip : trips) {
 
-            selectedTripsOutput.append(trip.toString() + FormatConstant.NEW_LINE_SYMBOL);
+            selectedTripsOutput.append(TripHelper.getTripInformation(trip) + FormatConstant.NEW_LINE_SYMBOL);
         }
     }
 
@@ -154,11 +164,9 @@ public class JourneyDialog extends JDialog implements Runnable {
     private void configureGuiElements() {
 
         arrivalInput.setFont(FontConstant.TIMES_NEW_ROMAN_BOLD_30);
-
         departureInput.setFont(FontConstant.TIMES_NEW_ROMAN_BOLD_30);
 
         minCostInput.setFont(FontConstant.TIMES_NEW_ROMAN_BOLD_30);
-
         maxCostInput.setFont(FontConstant.TIMES_NEW_ROMAN_BOLD_30);
 
         selectedTripsOutput.setFont(FontConstant.TIMES_NEW_ROMAN_ITALIC_20);
@@ -166,7 +174,6 @@ public class JourneyDialog extends JDialog implements Runnable {
         searchButton.addActionListener(e -> searchTrips());
         uploadButton.addActionListener(e -> uploadTrips());
         saveButton.addActionListener(e -> saveTrips());
-        searchInFileButton.addActionListener(e -> searchTripsFromDoc());
 
         getRootPane().setDefaultButton(searchButton);
     }

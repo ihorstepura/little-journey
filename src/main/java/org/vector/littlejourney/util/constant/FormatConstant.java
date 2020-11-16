@@ -3,7 +3,6 @@ package org.vector.littlejourney.util.constant;
 public class FormatConstant {
 
     private FormatConstant() {
-
     }
 
     public static final String TWO_SYMBOLS_AFTER_POINT = "%.2f";

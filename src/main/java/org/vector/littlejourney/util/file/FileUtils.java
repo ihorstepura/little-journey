@@ -1,47 +1,32 @@
 package org.vector.littlejourney.util.file;
 
-import org.vector.littlejourney.exception.file.UnsupportedFileExtensionException;
-import org.vector.littlejourney.gui.component.dialog.ExceptionDialog;
+import org.vector.littlejourney.util.constant.StringConstant;
+import org.vector.littlejourney.util.file.exception.FileException;
 import org.vector.littlejourney.util.constant.Extension;
 import org.vector.littlejourney.util.constant.WarningConstant;
 
-import javax.swing.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-
 public class FileUtils {
 
-    public static Extension resolveExtension(File file) throws UnsupportedFileExtensionException {
-
-        String fileName = file.getName();
+    public static Extension resolveExtension(String fileName) throws FileException {
 
         String result;
 
-        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+        if (fileName.lastIndexOf(StringConstant.DOT) != -1 && fileName.lastIndexOf(StringConstant.DOT) != 0) {
 
-            result = fileName.substring(fileName.lastIndexOf(".") + 1);
-
+            result = fileName.substring(fileName.lastIndexOf(StringConstant.DOT) + 1);
         } else {
-
-            result = "";
+            result = StringConstant.EMPTY;
         }
 
-        //TODO :: simplify to switch
-        if (result.equalsIgnoreCase(Extension.DOCX.toString())) {
-
-            return Extension.DOCX;
-
-        } else if (result.equalsIgnoreCase(Extension.TXT.toString())) {
-
-            return Extension.TXT;
-
-        } else if (result.equalsIgnoreCase(Extension.XLSX.toString())) {
-
-            return Extension.XLSX;
-
-        } else {
-
-            throw new UnsupportedFileExtensionException(WarningConstant.FILE_NOT_SUPPORTED);
+        switch (result) {
+            case "txt":
+                return Extension.TXT;
+            case "docx":
+                return Extension.DOCX;
+            case "xlsx":
+                return Extension.XLSX;
+            default:
+                throw new FileException(WarningConstant.FILE_NOT_SUPPORTED);
         }
     }
 }

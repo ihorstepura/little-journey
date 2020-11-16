@@ -169,22 +169,12 @@
         <children>
           <component id="38dcf" class="javax.swing.JButton" binding="uploadButton" default-binding="true">
             <constraints>
-              <grid row="0" column="0" row-span="2" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="4" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <enabled value="true"/>
               <font name="JetBrains Mono" size="28" style="1"/>
               <text value="Upload file"/>
-            </properties>
-          </component>
-          <component id="fa145" class="javax.swing.JButton" binding="searchInFileButton">
-            <constraints>
-              <grid row="2" column="0" row-span="2" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <enabled value="false"/>
-              <font name="JetBrains Mono" size="28" style="1"/>
-              <text value="Search in file"/>
             </properties>
           </component>
           <component id="9f57b" class="javax.swing.JButton" binding="searchButton">
@@ -205,7 +195,7 @@
             <properties>
               <enabled value="false"/>
               <font name="JetBrains Mono" size="28" style="1"/>
-              <text value="Save in file"/>
+              <text value="Save"/>
             </properties>
           </component>
         </children>

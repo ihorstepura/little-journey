@@ -1,4 +1,4 @@
-package org.vector.littlejourney.exception.duration;
+package org.vector.littlejourney.entity.exception;
 
 import org.vector.littlejourney.util.constant.duration.DurationWarning;
 
@@ -6,9 +6,6 @@ public class InvalidDurationException extends RuntimeException {
 
     public InvalidDurationException(String message) {
 
-        //TODO:: modify message
-
-        // super(DurationWarning.INVALID_DURATION + " : " + message);
         super(DurationWarning.INVALID_DURATION + " : " + message);
     }
 }

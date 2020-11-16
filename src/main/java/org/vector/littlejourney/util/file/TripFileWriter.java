@@ -1,4 +1,4 @@
-package org.vector.littlejourney.io;
+package org.vector.littlejourney.util.file;
 
 import org.vector.littlejourney.util.constant.DateConstant;
 import org.vector.littlejourney.util.constant.FormatConstant;
@@ -34,8 +34,8 @@ public class TripFileWriter {
 
             for (Trip value : trips) {
 
-                departure = value.getRoute().getDeparture().toString();
-                arrival = value.getRoute().getArrival().toString();
+                departure = value.getRoute().getDeparture().getName();
+                arrival = value.getRoute().getArrival().getName();
                 cost = String.valueOf(String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, value.getCost()));
                 duration = DateUtils.toSimpleFormat(value.getDuration(), DateConstant.DATE_FORMAT_HH_mm);
 
@@ -49,7 +49,6 @@ public class TripFileWriter {
                 writer.write(FormatConstant.TAB_SYMBOL);
 
                 writer.write(duration);
-
                 writer.newLine();
             }
             writer.flush();
@@ -66,16 +65,14 @@ public class TripFileWriter {
 
             for (Trip value : trips) {
 
-                departure = TripConstant.DEPARTURE + ":" + value.getRoute().getDeparture().toString();
-                arrival = TripConstant.ARRIVAL + ":" + value.getRoute().getArrival().toString();
+                departure = TripConstant.DEPARTURE + ":" + value.getRoute().getDeparture().getName();
+                arrival = TripConstant.ARRIVAL + ":" + value.getRoute().getArrival().getName();
                 cost = TripConstant.COST + ":" + String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, value.getCost());
                 duration = TripConstant.DURATION + ":" + DateUtils.toSimpleFormat(value.getDuration(), DateConstant.DATE_FORMAT_HH_mm);
 
                 writer.write(departure + "," + arrival + "," + cost + "," + duration);
 
                 writer.newLine();
-                writer.newLine();
-
             }
         } catch (IOException e) {
 

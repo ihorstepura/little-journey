@@ -1,7 +1,7 @@
 package org.vector.littlejourney.entity;
 
-import org.vector.littlejourney.util.constant.station.StationWarning;
-import org.vector.littlejourney.exception.station.InvalidStationException;
+import org.vector.littlejourney.util.constant.WarningConstant;
+import org.vector.littlejourney.entity.exception.InvalidStationException;
 
 public class Route {
 
@@ -13,9 +13,8 @@ public class Route {
 
         if (departure == null || arrival == null) {
 
-            throw new InvalidStationException(StationWarning.STATION_NOT_DEFINED);
+            throw new InvalidStationException(WarningConstant.NULL_REFERENCE);
         }
-
         this.departure = departure;
         this.arrival = arrival;
     }
@@ -29,9 +28,8 @@ public class Route {
 
         if (departure == null) {
 
-            throw new InvalidStationException(StationWarning.STATION_NOT_DEFINED);
+            throw new InvalidStationException(WarningConstant.NULL_REFERENCE);
         }
-
         this.departure = departure;
     }
 
@@ -44,16 +42,8 @@ public class Route {
 
         if (arrival == null) {
 
-            throw new InvalidStationException(StationWarning.STATION_NOT_DEFINED);
+            throw new InvalidStationException(WarningConstant.NULL_REFERENCE);
         }
-
         this.arrival = arrival;
-    }
-
-    //TODO:: remove
-    @Override
-    public String toString() {
-
-        return departure.toString() + "-" + arrival.toString();
     }
 }
