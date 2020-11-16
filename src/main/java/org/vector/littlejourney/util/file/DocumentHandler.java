@@ -1,5 +1,8 @@
 package org.vector.littlejourney.util.file;
 
+import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.service.TripHelper;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,4 +47,22 @@ public class DocumentHandler extends FileHandler {
         }
         return rows;
     }
+
+    public static <E> void writeDocument(String fileName, List<E> elements) {
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+
+            for (E element : elements) {
+
+                writer.write(TripHelper.prepareDocument((Trip) element));
+
+                writer.newLine();
+            }
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+
 }

@@ -3,6 +3,8 @@ package org.vector.littlejourney.service;
 import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.util.constant.FormatConstant;
+import org.vector.littlejourney.util.constant.TripConstant;
 import org.vector.littlejourney.util.file.exception.FileException;
 import org.vector.littlejourney.util.DateUtils;
 import org.vector.littlejourney.util.constant.DateConstant;
@@ -53,8 +55,39 @@ public class TripHelper {
 
                 "станция прибытия - " + trip.getRoute().getArrival().getName().toUpperCase() + "; " +
 
-                "цена: " + String.format("%.2f", trip.getCost()) + "; " + "длительность маршрута: " +
+                "цена: " + String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, trip.getCost()) + "; " +
 
-                DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_HH_mm);
+                "длительность маршрута: " + DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm);
+    }
+
+    public static String prepareDocument(Trip trip) {
+
+        String departure = TripConstant.DEPARTURE + ":" + trip.getRoute().getDeparture().getName();
+        String arrival = TripConstant.ARRIVAL + ":" + trip.getRoute().getArrival().getName();
+        String cost = TripConstant.COST + ":" + String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, trip.getCost());
+        String duration = TripConstant.DURATION + ":" + DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm);
+
+        return departure + "," + arrival + "," + cost + "," + duration;
+    }
+
+    public static String prepareSpreadSheet(Trip trip) {
+
+        String departure = trip.getRoute().getDeparture().getName();
+        String arrival = trip.getRoute().getArrival().getName();
+        String cost = String.valueOf(String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, trip.getCost()));
+        String duration = DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm);
+
+        return departure + FormatConstant.TAB_SYMBOL
+                + arrival + FormatConstant.TAB_SYMBOL
+                + cost + FormatConstant.TAB_SYMBOL
+                + duration;
+    }
+
+    public static String prepareSpreadSheetHeader() {
+
+        return TripConstant.DEPARTURE + FormatConstant.TAB_SYMBOL
+                + TripConstant.ARRIVAL + FormatConstant.TAB_SYMBOL
+                + TripConstant.COST + FormatConstant.TAB_SYMBOL
+                + TripConstant.DURATION;
     }
 }

@@ -156,7 +156,7 @@ public class JourneyDialog extends JDialog implements Runnable {
 
         timeSpinner = new JSpinner(model);
 
-        editor = new JSpinner.DateEditor(timeSpinner, DateConstant.DATE_FORMAT_HH_mm);
+        editor = new JSpinner.DateEditor(timeSpinner, DateConstant.DATE_FORMAT_dd_HH_mm);
 
         timeSpinner.setEditor(editor);
     }

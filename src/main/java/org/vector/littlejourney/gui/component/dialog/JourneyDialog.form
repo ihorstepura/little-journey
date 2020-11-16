@@ -123,7 +123,7 @@
               <font name="JetBrains Mono" size="28" style="1"/>
               <horizontalAlignment value="10"/>
               <horizontalTextPosition value="2"/>
-              <text value="Trip time from"/>
+              <text value="Max duration"/>
             </properties>
           </component>
           <component id="10d3b" class="javax.swing.JSpinner" binding="timeSpinner" custom-create="true">

@@ -17,9 +17,9 @@ public class DateUtils {
 
     public static int compare(Date time, Date anotherTime) {
 
-        String thisTime = toSimpleFormat(time, DateConstant.DATE_FORMAT_HH_mm);
+        String thisTime = toSimpleFormat(time, DateConstant.DATE_FORMAT_dd_HH_mm);
 
-        String thatTime = toSimpleFormat(anotherTime, DateConstant.DATE_FORMAT_HH_mm);
+        String thatTime = toSimpleFormat(anotherTime, DateConstant.DATE_FORMAT_dd_HH_mm);
 
         return thisTime.compareTo(thatTime);
     }

@@ -3,7 +3,6 @@ package org.vector.littlejourney.gui;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.gui.component.dialog.JourneyDialog;
 import org.vector.littlejourney.util.constant.FileConstant;
-import org.vector.littlejourney.util.file.TripFileWriter;
 import org.vector.littlejourney.mock.TripFactory;
 import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.Extension;
@@ -135,10 +134,10 @@ public class GuiHandler {
             switch (extension) {
                 case TXT:
                 case DOCX:
-                    TripFileWriter.writeDocument(fileName, JourneyDialog.getTrips());
+                    DocumentHandler.writeDocument(fileName, JourneyDialog.getTrips());
                     break;
                 case XLSX:
-                    TripFileWriter.writeSpreadsheet(fileName, JourneyDialog.getTrips());
+                    SpreadsheetHandler.writeSpreadsheet(fileName, JourneyDialog.getTrips());
                     break;
             }
         }

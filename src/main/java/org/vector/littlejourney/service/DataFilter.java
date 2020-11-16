@@ -40,7 +40,7 @@ public class DataFilter {
                 .parallelStream()
                 .filter(trip ->
 
-                        DateUtils.compare(trip.getDuration(), time) >= 0
+                        DateUtils.compare(trip.getDuration(), time) <= 0
 
                 ).collect(Collectors.toList());
     }

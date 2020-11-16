@@ -5,5 +5,5 @@ public class DateConstant {
     private DateConstant() {
     }
 
-    public static final String DATE_FORMAT_HH_mm = "HH:mm";
+    public static final String DATE_FORMAT_dd_HH_mm = "dd:HH:mm";
 }

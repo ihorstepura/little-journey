@@ -1,5 +1,7 @@
 package org.vector.littlejourney.util.file;
 
+import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.FormatConstant;
 
 import java.io.*;
@@ -18,11 +20,11 @@ public class SpreadsheetHandler extends FileHandler {
 
             while (reader.ready()) {
 
-                String trip = reader.readLine();
+                String line = reader.readLine();
 
                 List<String> row = new ArrayList<>();
 
-                Collections.addAll(row, trip.split(FormatConstant.TAB_SYMBOL));
+                Collections.addAll(row, line.split(FormatConstant.TAB_SYMBOL));
 
                 rows.add(row);
             }
@@ -31,5 +33,29 @@ public class SpreadsheetHandler extends FileHandler {
             e.printStackTrace();
         }
         return rows;
+    }
+
+    public static <E> void writeSpreadsheet(String fileName, List<E> elements) {
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, false))) {
+
+            //header writing
+            writer.write(TripHelper.prepareSpreadSheetHeader());
+
+            writer.newLine();
+
+            //body writing
+            for (E element : elements) {
+
+                writer.write(TripHelper.prepareSpreadSheet((Trip) element));
+
+                writer.newLine();
+            }
+            writer.flush();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
     }
 }
