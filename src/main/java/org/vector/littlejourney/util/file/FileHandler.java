@@ -5,7 +5,7 @@ import org.vector.littlejourney.util.file.exception.FileException;
 import java.io.File;
 import java.util.List;
 
-public abstract class FileHandler {
+public interface FileHandler {
 
-    public abstract List<List<String>> process(File file) throws FileException;
+    List<List<String>> process(File file) throws FileException;
 }

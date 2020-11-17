@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DocumentHandler extends FileHandler {
+public class DocumentHandler implements FileHandler {
 
     @Override
     public List<List<String>> process(File file) {

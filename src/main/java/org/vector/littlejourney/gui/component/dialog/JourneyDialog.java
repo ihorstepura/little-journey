@@ -27,8 +27,6 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private JTextArea selectedTripsOutput;
 
-    private JSpinner timeSpinner;
-
     private DateEditor editor;
 
     private JButton saveButton;
@@ -36,6 +34,8 @@ public class JourneyDialog extends JDialog implements Runnable {
     private JButton uploadButton;
 
     private JButton searchButton;
+
+    private JSpinner timeSpinner;
 
     private static List<Trip> trips;
 
@@ -65,35 +65,35 @@ public class JourneyDialog extends JDialog implements Runnable {
         } else {
             selectedTripsOutput.setText(StringConstant.EMPTY);
 
-            List<Trip> trips = JourneyDialog.trips;
+            List<Trip> mockTrips = JourneyDialog.trips;
 
             if (!InputValidationUtils.validateAll(departureInput) || !InputValidationUtils.validateAll(arrivalInput)) {
 
                 String departure = departureInput.getText();
                 String arrival = arrivalInput.getText();
 
-                trips = DataFilter.filterByRoute(trips, departure, arrival);
+                mockTrips = DataFilter.filterByRoute(mockTrips, departure, arrival);
             }
             if (!InputValidationUtils.validateAll(minCostInput) || !InputValidationUtils.validateAll(maxCostInput)) {
 
                 String minimalCost = minCostInput.getText();
                 String maximalCost = maxCostInput.getText();
 
-                trips = DataFilter.filterByPrice(trips, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
+                mockTrips = DataFilter.filterByPrice(mockTrips, Integer.parseInt(minimalCost), Integer.parseInt(maximalCost));
             }
             try {
                 if (GuiHandler.validateDuration(time)) {
 
-                    trips = DataFilter.filterByTravelTime(trips, time);
+                    mockTrips = DataFilter.filterByTravelTime(mockTrips, time);
 
-                    if (trips.isEmpty()) {
+                    if (mockTrips.isEmpty()) {
 
                         selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
                     } else {
 
-                        createTripsForUser(trips);
+                        createTripsForUser(mockTrips);
                     }
-                    setTrips(trips);
+                    setTrips(mockTrips);
 
                     saveButton.setEnabled(true);
                 }
@@ -106,12 +106,12 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private void uploadTrips() {
 
-        List<Trip> trips;
+        List<Trip> loadedTrips;
 
         try {
-            trips = GuiHandler.generateFileLoader();
-            setTrips(trips);
-            createTripsForUser(trips);
+            loadedTrips = GuiHandler.generateFileLoader();
+            setTrips(loadedTrips);
+            createTripsForUser(loadedTrips);
 
         } catch (FileException exception) {
 
@@ -150,7 +150,7 @@ public class JourneyDialog extends JDialog implements Runnable {
         }
     }
 
-    private void createUIComponents() {
+    public void createUIComponents() {
 
         SpinnerDateModel model = new SpinnerDateModel(new Date(), null, null, Calendar.HOUR_OF_DAY);
 

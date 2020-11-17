@@ -2,18 +2,18 @@ package org.vector.littlejourney.util.file;
 
 public class Attribute {
 
-    private String attribute;
+    private String name;
 
     private boolean necessarily;
 
     private boolean allowedEmpty;
 
     public String getName() {
-        return attribute;
+        return name;
     }
 
     public void setName(String attribute) {
-        this.attribute = attribute;
+        this.name = attribute;
     }
 
     public boolean isNecessarily() {

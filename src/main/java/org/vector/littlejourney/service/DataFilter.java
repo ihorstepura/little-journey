@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 
 public class DataFilter {
 
+    private DataFilter() {
+    }
+
     public static List<Trip> filterByRoute(List<Trip> trips, String departure, String arrival) {
 
         return trips

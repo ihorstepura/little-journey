@@ -6,6 +6,9 @@ import java.util.Random;
 
 public class RandomDataGenerationUtils {
 
+    private RandomDataGenerationUtils() {
+    }
+
     private static final Random random = new Random();
 
     public static <E> E getRandomElement(List<E> elements) {

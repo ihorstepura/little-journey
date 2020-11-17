@@ -4,6 +4,9 @@ import javax.swing.*;
 
 public class InputValidationUtils {
 
+    private InputValidationUtils() {
+    }
+
     public static boolean validateAll(JTextField... fields) {
 
         for (JTextField field : fields) {

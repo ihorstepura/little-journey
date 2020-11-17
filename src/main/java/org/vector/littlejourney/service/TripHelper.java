@@ -16,6 +16,9 @@ import java.util.List;
 
 public class TripHelper {
 
+    private TripHelper() {
+    }
+
     public static List<Trip> process(List<List<String>> rows, List<Attribute> attributes) throws FileException {
 
         if (validate(rows.remove(0), attributes)) {

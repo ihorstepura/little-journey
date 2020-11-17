@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SpreadsheetHandler extends FileHandler {
+public class SpreadsheetHandler implements FileHandler {
 
     @Override
     public List<List<String>> process(File file) {
