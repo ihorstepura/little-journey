@@ -23,7 +23,10 @@ import java.util.List;
 
 public class GuiHandler {
 
-    public void generateGui() {
+    private GuiHandler() {
+    }
+
+    public static void generateGui() {
 
         TripFactory tripFactory = TripFactory.getInstance();
 
