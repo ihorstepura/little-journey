@@ -1,7 +1,8 @@
 package org.vector.littlejourney.entity;
 
-import org.vector.littlejourney.constant.station.StationWarning;
-import org.vector.littlejourney.exception.station.InvalidStationException;
+import org.vector.littlejourney.util.constant.WarningConstant;
+import org.vector.littlejourney.util.constant.station.StationWarning;
+import org.vector.littlejourney.exception.entity.InvalidStationException;
 
 import java.util.Objects;
 
@@ -13,7 +14,11 @@ public class Station {
 
         if (name == null) {
 
-            throw new InvalidStationException(StationWarning.STATION_NOT_DEFINED);
+            throw new InvalidStationException(WarningConstant.NULL_REFERENCE);
+        }
+        if (name.isEmpty()) {
+
+            throw new InvalidStationException(StationWarning.STATION_EMPTY_NAME);
         }
         this.name = name;
     }
@@ -39,11 +44,5 @@ public class Station {
     public int hashCode() {
 
         return Objects.hash(name);
-    }
-
-    @Override
-    public String toString() {
-
-        return name;
     }
 }

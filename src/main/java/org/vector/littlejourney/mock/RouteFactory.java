@@ -8,22 +8,22 @@ import java.util.List;
 
 public class RouteFactory {
 
-    private static RouteFactory instance;
+    private static RouteFactory route;
 
-    private final StationFactory stationFactory = StationFactory.getInstance();
+    private final StationFactory stationFactory = StationFactory.getStation();
 
     private RouteFactory() {
 
     }
 
-    public static RouteFactory getInstance() {
+    public static RouteFactory getRoute() {
 
-        if (instance == null) {
+        if (route == null) {
 
-            instance = new RouteFactory();
+            route = new RouteFactory();
         }
 
-        return instance;
+        return route;
     }
 
     public List<Route> generateRouts(int count) {
@@ -37,7 +37,6 @@ public class RouteFactory {
         for (int i = 0; i < count; i++) {
 
             routes.add(new Route(departments.get(i), arrival.get(i)));
-
         }
 
         return routes;

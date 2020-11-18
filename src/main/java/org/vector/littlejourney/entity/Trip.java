@@ -1,13 +1,11 @@
 package org.vector.littlejourney.entity;
 
-import org.vector.littlejourney.constant.CostWarning;
-import org.vector.littlejourney.constant.DateConstant;
-import org.vector.littlejourney.constant.duration.DurationWarning;
-import org.vector.littlejourney.constant.route.RouteWarning;
-import org.vector.littlejourney.exception.duration.InvalidDurationException;
-import org.vector.littlejourney.exception.route.InvalidRouteException;
-import org.vector.littlejourney.exception.InvalidCostException;
-import org.vector.littlejourney.util.DateUtils;
+import org.vector.littlejourney.util.constant.CostWarning;
+import org.vector.littlejourney.util.constant.duration.DurationWarning;
+import org.vector.littlejourney.util.constant.route.RouteWarning;
+import org.vector.littlejourney.exception.entity.InvalidDurationException;
+import org.vector.littlejourney.exception.entity.InvalidRouteException;
+import org.vector.littlejourney.exception.entity.InvalidCostException;
 
 import java.util.Date;
 
@@ -24,12 +22,11 @@ public class Trip {
         if (route == null || duration == null) {
 
             throw new InvalidRouteException(RouteWarning.ROUTE_NOT_DEFINED);
-
-        } else if (cost < 0) {
+        }
+        if (cost < 0) {
 
             throw new InvalidCostException(CostWarning.LESS_THAN_ZERO_COST);
         }
-
         this.route = route;
         this.cost = cost;
         this.duration = duration;
@@ -45,10 +42,8 @@ public class Trip {
         if (route == null) {
 
             throw new InvalidRouteException(RouteWarning.ROUTE_NOT_DEFINED);
-        } else {
-
-            this.route = route;
         }
+        this.route = route;
     }
 
     public double getCost() {
@@ -61,10 +56,8 @@ public class Trip {
         if (cost < 0) {
 
             throw new InvalidCostException(CostWarning.LESS_THAN_ZERO_COST);
-        } else {
-
-            this.cost = cost;
         }
+        this.cost = cost;
     }
 
     public Date getDuration() {
@@ -76,22 +69,14 @@ public class Trip {
 
         if (duration == null) {
 
-            throw new InvalidDurationException(DurationWarning.DURATION_NOT_DEFINED);
-        } else {
+            try {
+                throw new InvalidDurationException(DurationWarning.DURATION_NOT_DEFINED);
 
-            this.duration = duration;
+            } catch (InvalidDurationException e) {
+
+                e.printStackTrace();
+            }
         }
-    }
-
-    @Override
-    public String toString() {
-
-        return "Станция отправления - " + route.getDeparture().toString().toUpperCase() + "; " +
-
-                "станция прибытия - " + route.getArrival().toString().toUpperCase() + "; " +
-
-                "цена: " + String.format("%.2f", cost) + "; " + "длительность маршрута: " +
-
-                DateUtils.toSimpleFormat(duration, DateConstant.DATE_FORMAT_HH_mm);
+        this.duration = duration;
     }
 }

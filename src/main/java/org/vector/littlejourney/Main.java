@@ -1,11 +1,11 @@
 package org.vector.littlejourney;
 
-import org.vector.littlejourney.gui.dialog.GuiHandler;
+import org.vector.littlejourney.util.gui.GuiHandler;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        new GuiHandler().generateGui();
+        GuiHandler.initializeJourneyDialog();
     }
 }

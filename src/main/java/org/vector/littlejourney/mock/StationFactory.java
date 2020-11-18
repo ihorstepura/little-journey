@@ -1,24 +1,24 @@
 package org.vector.littlejourney.mock;
 
 import org.vector.littlejourney.entity.Station;
-import org.vector.littlejourney.util.RandomDataGenerator;
+import org.vector.littlejourney.util.RandomDataGenerationUtils;
 
 import java.util.*;
 
 public class StationFactory {
 
-    private static StationFactory instance;
+    private static StationFactory station;
 
     private StationFactory() {
     }
 
-    public static StationFactory getInstance() {
+    public static StationFactory getStation() {
 
-        if (instance == null) {
+        if (station == null) {
 
-            instance = new StationFactory();
+            station = new StationFactory();
         }
-        return instance;
+        return station;
     }
 
     public List<Station> generateStations(int count) {
@@ -29,7 +29,7 @@ public class StationFactory {
 
         for (int i = 0; i < count; i++) {
 
-            stations.add(new Station(RandomDataGenerator.randomElement(cities)));
+            stations.add(new Station(RandomDataGenerationUtils.getRandomElement(cities)));
         }
 
         return stations;
