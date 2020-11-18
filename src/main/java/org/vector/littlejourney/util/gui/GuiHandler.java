@@ -1,7 +1,7 @@
-package org.vector.littlejourney.gui;
+package org.vector.littlejourney.util.gui;
 
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.entity.exception.InvalidDurationException;
+import org.vector.littlejourney.exception.entity.InvalidDurationException;
 import org.vector.littlejourney.gui.component.dialog.ExceptionDialog;
 import org.vector.littlejourney.gui.component.dialog.JourneyDialog;
 import org.vector.littlejourney.util.constant.FileConstant;
@@ -11,7 +11,7 @@ import org.vector.littlejourney.util.constant.Extension;
 import org.vector.littlejourney.util.constant.TripConstant;
 import org.vector.littlejourney.util.constant.duration.DurationWarning;
 import org.vector.littlejourney.util.file.*;
-import org.vector.littlejourney.util.file.exception.FileException;
+import org.vector.littlejourney.exception.file.FileException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -26,9 +26,9 @@ public class GuiHandler {
     private GuiHandler() {
     }
 
-    public static void generateGui() {
+    public static void initializeJourneyDialog() {
 
-        TripFactory tripFactory = TripFactory.getInstance();
+        TripFactory tripFactory = TripFactory.getTrip();
 
         List<Trip> trips = tripFactory.generateTrips(10_000);
 
@@ -65,32 +65,32 @@ public class GuiHandler {
 
             Extension extension = FileUtils.resolveExtension(file.getName());
 
-            List<Attribute> attributes = new ArrayList<>();
+            List<Property> properties = new ArrayList<>();
 
-            Attribute attributeDep = new Attribute();
-            attributeDep.setName(TripConstant.DEPARTURE.trim());
-            attributeDep.setAllowedEmpty(false);
-            attributeDep.setNecessarily(true);
+            Property propertyDep = new Property();
+            propertyDep.setName(TripConstant.DEPARTURE.trim());
+            propertyDep.setAllowedEmpty(false);
+            propertyDep.setNecessarily(true);
 
-            Attribute attributeArr = new Attribute();
-            attributeArr.setName(TripConstant.ARRIVAL.trim());
-            attributeArr.setAllowedEmpty(false);
-            attributeArr.setNecessarily(true);
+            Property propertyArr = new Property();
+            propertyArr.setName(TripConstant.ARRIVAL.trim());
+            propertyArr.setAllowedEmpty(false);
+            propertyArr.setNecessarily(true);
 
-            Attribute attributeCost = new Attribute();
-            attributeCost.setName(TripConstant.COST.trim());
-            attributeCost.setAllowedEmpty(false);
-            attributeCost.setNecessarily(true);
+            Property propertyCost = new Property();
+            propertyCost.setName(TripConstant.COST.trim());
+            propertyCost.setAllowedEmpty(false);
+            propertyCost.setNecessarily(true);
 
-            Attribute attributeDur = new Attribute();
-            attributeDur.setName(TripConstant.DURATION.trim());
-            attributeDur.setAllowedEmpty(false);
-            attributeDur.setNecessarily(true);
+            Property propertyDur = new Property();
+            propertyDur.setName(TripConstant.DURATION.trim());
+            propertyDur.setAllowedEmpty(false);
+            propertyDur.setNecessarily(true);
 
-            attributes.add(attributeDep);
-            attributes.add(attributeArr);
-            attributes.add(attributeCost);
-            attributes.add(attributeDur);
+            properties.add(propertyDep);
+            properties.add(propertyArr);
+            properties.add(propertyCost);
+            properties.add(propertyDur);
 
             FileHandler fileHandler = resolveFileHandler(extension);
 
@@ -98,7 +98,7 @@ public class GuiHandler {
 
                 List<List<String>> rows;
                 rows = fileHandler.process(file);
-                trips = TripHelper.process(rows, attributes);
+                trips = TripHelper.process(rows, properties);
             }
         }
         return trips;

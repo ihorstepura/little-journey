@@ -3,10 +3,10 @@ package org.vector.littlejourney.gui.component.dialog;
 import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.*;
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.gui.GuiHandler;
+import org.vector.littlejourney.util.gui.GuiHandler;
 import org.vector.littlejourney.service.DataFilter;
-import org.vector.littlejourney.gui.util.InputValidationUtils;
-import org.vector.littlejourney.util.file.exception.FileException;
+import org.vector.littlejourney.util.gui.InputValidationUtils;
+import org.vector.littlejourney.exception.file.FileException;
 
 import javax.swing.*;
 import javax.swing.JSpinner.*;

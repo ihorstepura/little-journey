@@ -3,9 +3,9 @@ package org.vector.littlejourney.entity;
 import org.vector.littlejourney.util.constant.CostWarning;
 import org.vector.littlejourney.util.constant.duration.DurationWarning;
 import org.vector.littlejourney.util.constant.route.RouteWarning;
-import org.vector.littlejourney.entity.exception.InvalidDurationException;
-import org.vector.littlejourney.entity.exception.InvalidRouteException;
-import org.vector.littlejourney.entity.exception.InvalidCostException;
+import org.vector.littlejourney.exception.entity.InvalidDurationException;
+import org.vector.littlejourney.exception.entity.InvalidRouteException;
+import org.vector.littlejourney.exception.entity.InvalidCostException;
 
 import java.util.Date;
 

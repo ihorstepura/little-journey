@@ -2,6 +2,7 @@ package org.vector.littlejourney.util.file;
 
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.service.TripHelper;
+import org.vector.littlejourney.util.constant.StringConstant;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -23,13 +24,13 @@ public class DocumentHandler implements FileHandler {
 
                 String row = reader.readLine();
 
-                String[] parts = row.split(",");
+                String[] parts = row.split(StringConstant.COMMA);
 
                 if (header.isEmpty()) {
 
                     for (String point : parts) {
 
-                        String head = point.substring(0, point.indexOf(":"));
+                        String head = point.substring(0, point.indexOf(StringConstant.COLON));
 
                         header.add(head);
                     }
@@ -39,7 +40,7 @@ public class DocumentHandler implements FileHandler {
 
                 for (String point : parts) {
 
-                    String body = point.substring(point.indexOf(":") + 1);
+                    String body = point.substring(point.indexOf(StringConstant.COLON) + 1);
 
                     Collections.addAll(otherRows, body);
                 }

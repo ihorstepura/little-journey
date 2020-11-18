@@ -3,13 +3,10 @@ package org.vector.littlejourney.service;
 import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.util.constant.FormatConstant;
-import org.vector.littlejourney.util.constant.TripConstant;
-import org.vector.littlejourney.util.file.exception.FileException;
+import org.vector.littlejourney.util.constant.*;
+import org.vector.littlejourney.exception.file.FileException;
 import org.vector.littlejourney.util.DateUtils;
-import org.vector.littlejourney.util.constant.DateConstant;
-import org.vector.littlejourney.util.constant.WarningConstant;
-import org.vector.littlejourney.util.file.Attribute;
+import org.vector.littlejourney.util.file.Property;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +16,9 @@ public class TripHelper {
     private TripHelper() {
     }
 
-    public static List<Trip> process(List<List<String>> rows, List<Attribute> attributes) throws FileException {
+    public static List<Trip> process(List<List<String>> rows, List<Property> properties) throws FileException {
 
-        if (validate(rows.remove(0), attributes)) {
+        if (validate(rows.remove(0), properties)) {
 
             List<Trip> trips = new ArrayList<>();
 
@@ -40,13 +37,13 @@ public class TripHelper {
         throw new FileException(WarningConstant.INVALID_DATA_FORMAT);
     }
 
-    private static boolean validate(List<String> header, List<Attribute> attributes) {
+    private static boolean validate(List<String> header, List<Property> properties) {
 
-        for (Attribute attribute : attributes) {
+        for (Property property : properties) {
 
-            if (attribute.isNecessarily()) {
+            if (property.isNecessarily() && !header.contains(property.getName())) {
 
-                if (!header.contains(attribute.getName())) return false;
+                    return false;
             }
         }
         return true;
@@ -65,12 +62,15 @@ public class TripHelper {
 
     public static String prepareDocument(Trip trip) {
 
-        String departure = TripConstant.DEPARTURE + ":" + trip.getRoute().getDeparture().getName();
-        String arrival = TripConstant.ARRIVAL + ":" + trip.getRoute().getArrival().getName();
-        String cost = TripConstant.COST + ":" + String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, trip.getCost());
-        String duration = TripConstant.DURATION + ":" + DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm);
+        String departure = TripConstant.DEPARTURE + StringConstant.COLON + trip.getRoute().getDeparture().getName();
+        String arrival = TripConstant.ARRIVAL + StringConstant.COLON + trip.getRoute().getArrival().getName();
+        String cost = TripConstant.COST + StringConstant.COLON + String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, trip.getCost());
+        String duration = TripConstant.DURATION + StringConstant.COLON + DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm);
 
-        return departure + "," + arrival + "," + cost + "," + duration;
+        return departure + StringConstant.COMMA
+                + arrival + StringConstant.COMMA
+                + cost + StringConstant.COMMA
+                + duration;
     }
 
     public static String prepareSpreadSheet(Trip trip) {

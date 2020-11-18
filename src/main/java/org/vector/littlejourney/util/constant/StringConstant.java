@@ -8,4 +8,8 @@ public class StringConstant {
     public static final String EMPTY = "";
 
     public static final String DOT = ".";
+
+    public static final String COLON = ":";
+
+    public static final String COMMA = ",";
 }

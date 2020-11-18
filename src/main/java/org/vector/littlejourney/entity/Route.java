@@ -1,7 +1,7 @@
 package org.vector.littlejourney.entity;
 
 import org.vector.littlejourney.util.constant.WarningConstant;
-import org.vector.littlejourney.entity.exception.InvalidStationException;
+import org.vector.littlejourney.exception.entity.InvalidStationException;
 
 public class Route {
 

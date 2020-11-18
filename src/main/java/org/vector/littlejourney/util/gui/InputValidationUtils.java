@@ -1,4 +1,6 @@
-package org.vector.littlejourney.gui.util;
+package org.vector.littlejourney.util.gui;
+
+import org.vector.littlejourney.util.constant.StringConstant;
 
 import javax.swing.*;
 
@@ -11,7 +13,10 @@ public class InputValidationUtils {
 
         for (JTextField field : fields) {
 
-            if (field.getText().equals("")) return true;
+            if (field.getText().equals(StringConstant.EMPTY)) {
+
+                return true;
+            }
         }
         return false;
     }

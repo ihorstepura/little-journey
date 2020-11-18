@@ -8,21 +8,21 @@ import java.util.*;
 
 public class TripFactory {
 
-    private static TripFactory instance;
+    private static TripFactory trip;
 
-    private final RouteFactory routeFactory = RouteFactory.getInstance();
+    private final RouteFactory routeFactory = RouteFactory.getRoute();
 
     private TripFactory() {
 
     }
 
-    public static TripFactory getInstance() {
+    public static TripFactory getTrip() {
 
-        if (instance == null) {
+        if (trip == null) {
 
-            instance = new TripFactory();
+            trip = new TripFactory();
         }
-        return instance;
+        return trip;
     }
 
     public List<Trip> generateTrips(int count) {

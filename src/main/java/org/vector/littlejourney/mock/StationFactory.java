@@ -7,18 +7,18 @@ import java.util.*;
 
 public class StationFactory {
 
-    private static StationFactory instance;
+    private static StationFactory station;
 
     private StationFactory() {
     }
 
-    public static StationFactory getInstance() {
+    public static StationFactory getStation() {
 
-        if (instance == null) {
+        if (station == null) {
 
-            instance = new StationFactory();
+            station = new StationFactory();
         }
-        return instance;
+        return station;
     }
 
     public List<Station> generateStations(int count) {

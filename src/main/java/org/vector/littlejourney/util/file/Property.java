@@ -1,6 +1,6 @@
 package org.vector.littlejourney.util.file;
 
-public class Attribute {
+public class Property {
 
     private String name;
 

@@ -17,7 +17,7 @@ public class ExceptionDialog extends JDialog implements Runnable {
 
         dialog.setSize(ExceptionDialogConstant.WIDTH_OF_WINDOW, ExceptionDialogConstant.HEIGHT_OF_WINDOW);
         dialog.setLocationRelativeTo(null);
-        dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        dialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
         configureGuiElements(message);
     }

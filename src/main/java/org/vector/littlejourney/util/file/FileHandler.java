@@ -1,6 +1,6 @@
 package org.vector.littlejourney.util.file;
 
-import org.vector.littlejourney.util.file.exception.FileException;
+import org.vector.littlejourney.exception.file.FileException;
 
 import java.io.File;
 import java.util.List;
