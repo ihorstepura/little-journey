@@ -35,7 +35,8 @@ public class SpreadsheetHandler implements FileHandler {
         return rows;
     }
 
-    public static <E> void write(String fileName, List<E> elements) {
+    @Override
+    public <E> void write(String fileName, List<E> elements) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, false))) {
 

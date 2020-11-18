@@ -8,4 +8,6 @@ import java.util.List;
 public interface FileHandler {
 
     List<List<String>> process(File file) throws FileException;
+
+    <E> void write(String fileName, List<E> elements);
 }

@@ -136,14 +136,11 @@ public class GuiHandler {
 
             Extension extension = FileUtils.resolveExtension(fileName);
 
-            switch (extension) {
-                case TXT:
-                case DOCX:
-                    DocumentHandler.write(fileName, JourneyDialog.getTrips());
-                    break;
-                case XLSX:
-                    SpreadsheetHandler.write(fileName, JourneyDialog.getTrips());
-                    break;
+            FileHandler fileHandler = resolveFileHandler(extension);
+
+            if (fileHandler != null) {
+
+                fileHandler.write(fileName, JourneyDialog.getTrips());
             }
         }
     }
