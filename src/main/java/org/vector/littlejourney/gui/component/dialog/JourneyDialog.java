@@ -6,7 +6,7 @@ import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.gui.GuiHandler;
 import org.vector.littlejourney.service.DataFilter;
 import org.vector.littlejourney.util.gui.InputValidationUtils;
-import org.vector.littlejourney.exception.file.FileException;
+import org.vector.littlejourney.util.exception.file.FileException;
 
 import javax.swing.*;
 import javax.swing.JSpinner.*;

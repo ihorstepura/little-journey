@@ -4,7 +4,7 @@ import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.constant.*;
-import org.vector.littlejourney.exception.file.FileException;
+import org.vector.littlejourney.util.exception.file.FileException;
 import org.vector.littlejourney.util.DateUtils;
 import org.vector.littlejourney.util.file.Property;
 

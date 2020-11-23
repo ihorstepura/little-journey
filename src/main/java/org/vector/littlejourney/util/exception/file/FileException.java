@@ -1,4 +1,4 @@
-package org.vector.littlejourney.exception.file;
+package org.vector.littlejourney.util.exception.file;
 
 import java.io.IOException;
 

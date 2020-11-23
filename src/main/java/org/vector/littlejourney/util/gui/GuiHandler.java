@@ -1,7 +1,7 @@
 package org.vector.littlejourney.util.gui;
 
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.exception.entity.InvalidDurationException;
+import org.vector.littlejourney.util.exception.entity.InvalidDurationException;
 import org.vector.littlejourney.gui.component.dialog.ExceptionDialog;
 import org.vector.littlejourney.gui.component.dialog.JourneyDialog;
 import org.vector.littlejourney.util.constant.FileConstant;
@@ -11,7 +11,7 @@ import org.vector.littlejourney.util.constant.Extension;
 import org.vector.littlejourney.util.constant.TripConstant;
 import org.vector.littlejourney.util.constant.duration.DurationWarning;
 import org.vector.littlejourney.util.file.*;
-import org.vector.littlejourney.exception.file.FileException;
+import org.vector.littlejourney.util.exception.file.FileException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
