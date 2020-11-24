@@ -23,10 +23,10 @@ INSERT INTO route (departure_station_id, arrival_station_id)
 VALUES (5, 2);
 
 INSERT INTO trip (route_id, cost, duration)
-VALUES (1, 250, '01:23:00');
+VALUES (1, 250, '01:02:00');
 INSERT INTO trip (route_id, cost, duration)
-VALUES (2, 320, '02:23:05');
+VALUES (2, 320, '02:23:00');
 INSERT INTO trip (route_id, cost, duration)
-VALUES (3, 250, '05:23:02');
+VALUES (3, 111.12, '05:23:00');
 INSERT INTO trip (route_id, cost, duration)
-VALUES (4, 320, '02:13:02');
+VALUES (4, 232.25, '02:13:00');

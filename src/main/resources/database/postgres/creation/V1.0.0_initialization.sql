@@ -23,6 +23,5 @@ CREATE TABLE IF NOT EXISTS trip
     duration INTERVAL      NOT NULL,
     route_id INTEGER       NOT NULL,
     CONSTRAINT positive_cost CHECK (cost >= 0),
-    CONSTRAINT route_id_unique UNIQUE (route_id),
     FOREIGN KEY (route_id) REFERENCES route (id) ON DELETE CASCADE ON UPDATE CASCADE
 );

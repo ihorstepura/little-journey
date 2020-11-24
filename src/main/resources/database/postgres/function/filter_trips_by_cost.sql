@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION filter_by_cost(minCost numeric, maxCost numeric) RETURNS SETOF trip
+CREATE OR REPLACE FUNCTION filter_by_cost(minCost double precision, maxCost double precision) RETURNS SETOF trip
     LANGUAGE SQL
 AS
 $$

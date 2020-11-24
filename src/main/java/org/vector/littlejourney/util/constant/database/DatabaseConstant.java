@@ -16,4 +16,6 @@ public class DatabaseConstant {
     public static final String DRIVER_NOT_FOUND = "Driver is not found";
 
     public static final String DATABASE_CONNECTION_FAILED = "Failed to make connection to database";
+
+    public static final String DATABASE_NAME = "trip_db";
 }
