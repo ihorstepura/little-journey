@@ -1,9 +1,9 @@
-CREATE OR REPLACE PROCEDURE add_trip(this_route_id integer, this_cost double precision, this_duration interval)
+CREATE OR REPLACE PROCEDURE add_trip(this_cost double precision, this_duration interval, this_route_id integer)
     LANGUAGE SQL
 AS
 $$
 INSERT INTO trip (cost, duration, route_id)
-VALUES (this_route_id, this_cost, this_duration);
+VALUES (this_cost, this_duration, this_route_id);
 $$;
 
 CREATE OR REPLACE PROCEDURE add_trip(this_cost double precision,
