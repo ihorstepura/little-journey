@@ -46,4 +46,12 @@ public class Route {
         }
         this.arrival = arrival;
     }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "departure=" + departure +
+                ", arrival=" + arrival +
+                '}';
+    }
 }

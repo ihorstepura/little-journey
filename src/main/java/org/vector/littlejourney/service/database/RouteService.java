@@ -16,12 +16,12 @@ public class RouteService implements DatabaseService<Route> {
     @Override
     public Route add(Route route) {
 
-        try {
-            String SQL = "CALL add_route(?, ?)";
+        String SQL = "CALL add_route(?, ?)";
 
-            CallableStatement statement = connection.prepareCall(SQL);
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
 
             statement.setString(1, route.getDeparture().getName());
+
             statement.setString(2, route.getArrival().getName());
 
             statement.execute();
@@ -41,5 +41,19 @@ public class RouteService implements DatabaseService<Route> {
     @Override
     public void delete(Route route) {
 
+        String SQL = "CALL delete_route(?, ?)";
+
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
+
+            statement.setString(1, route.getDeparture().getName());
+
+            statement.setString(2, route.getArrival().getName());
+
+            statement.execute();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
     }
 }

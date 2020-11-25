@@ -15,15 +15,12 @@ public class TripService implements DatabaseService<Trip> {
 
     @Override
     public Trip add(Trip trip) {
-        try {
-            String SQL = "CALL add_trip(?, ?, ?, ?)";
 
-            CallableStatement statement = connection.prepareCall(SQL);
+        String SQL = "CALL add_trip(?, ?, ?, ?)";
 
-            statement.setDouble(1, trip.getCost());
-            statement.setString(2, DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm));
-            statement.setString(3, trip.getRoute().getDeparture().getName());
-            statement.setString(4, trip.getRoute().getArrival().getName());
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
+
+            setProcedureParameters(trip, statement);
 
             statement.execute();
 
@@ -42,5 +39,29 @@ public class TripService implements DatabaseService<Trip> {
     @Override
     public void delete(Trip trip) {
 
+        String SQL = "CALL delete_trip(?, ?, ?, ?)";
+
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
+
+            setProcedureParameters(trip, statement);
+
+            statement.execute();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    private void setProcedureParameters(Trip trip, CallableStatement statement) throws SQLException {
+
+        statement.setDouble(1, trip.getCost());
+
+        statement.setString(2, DateUtils.toSimpleFormat(trip.getDuration(),
+                DateConstant.DATE_FORMAT_dd_HH_mm));
+
+        statement.setString(3, trip.getRoute().getDeparture().getName());
+
+        statement.setString(4, trip.getRoute().getArrival().getName());
     }
 }

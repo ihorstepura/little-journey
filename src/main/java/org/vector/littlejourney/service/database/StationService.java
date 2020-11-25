@@ -16,10 +16,9 @@ public class StationService implements DatabaseService<Station> {
     @Override
     public Station add(Station station) {
 
-        try {
-            String SQL = "CALL add_station(?)";
+        String SQL = "CALL add_station(?)";
 
-            CallableStatement statement = connection.prepareCall(SQL);
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
 
             statement.setString(1, station.getName());
 
@@ -40,5 +39,17 @@ public class StationService implements DatabaseService<Station> {
     @Override
     public void delete(Station station) {
 
+        String SQL = "CALL delete_station(?)";
+
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
+
+            statement.setString(1, station.getName());
+
+            statement.execute();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
     }
 }

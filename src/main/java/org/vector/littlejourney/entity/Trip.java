@@ -79,4 +79,13 @@ public class Trip {
         }
         this.duration = duration;
     }
+
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "route=" + route +
+                ", cost=" + cost +
+                ", duration=" + duration +
+                '}';
+    }
 }
