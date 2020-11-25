@@ -1,17 +1,21 @@
-package org.vector.littlejourney.service.database;
+package org.vector.littlejourney.database.service;
 
+import org.vector.littlejourney.database.DatabaseConnector;
 import org.vector.littlejourney.entity.Route;
-import org.vector.littlejourney.util.constant.database.DatabaseConstant;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class RouteService implements DatabaseService<Route> {
+public class RouteService implements CrudRepository<Route> {
 
-    private final DatabaseConnector connector = DatabaseConnector.getConnection();
+    private final Connection connection = DatabaseConnector.getConnection();
 
-    private final Connection connection = connector.connect(DatabaseConstant.DATABASE_NAME);
+    @Override
+    public Route get(int id) {
+
+        return null;
+    }
 
     @Override
     public Route add(Route route) {
@@ -34,8 +38,9 @@ public class RouteService implements DatabaseService<Route> {
     }
 
     @Override
-    public void update(Route route) {
+    public Route update(Route route) {
 
+        return null;
     }
 
     @Override

@@ -29,7 +29,9 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private DateEditor editor;
 
-    private JButton saveButton;
+    private JButton saveToFileButton;
+
+    private JButton saveToDatabaseButton;
 
     private JButton uploadButton;
 
@@ -95,7 +97,7 @@ public class JourneyDialog extends JDialog implements Runnable {
                     }
                     setTrips(mockTrips);
 
-                    saveButton.setEnabled(true);
+                    saveToFileButton.setEnabled(true);
                 }
             } catch (Exception exception) {
 
@@ -128,6 +130,9 @@ public class JourneyDialog extends JDialog implements Runnable {
 
             GuiHandler.generateExceptionDialog(this, exception.getMessage());
         }
+    }
+
+    private void saveTripsToDatabase() {
     }
 
     public void setTrips(List<Trip> trips) {
@@ -173,7 +178,8 @@ public class JourneyDialog extends JDialog implements Runnable {
 
         searchButton.addActionListener(e -> searchTrips());
         uploadButton.addActionListener(e -> uploadTrips());
-        saveButton.addActionListener(e -> saveTrips());
+        saveToFileButton.addActionListener(e -> saveTrips());
+        saveToDatabaseButton.addActionListener(e -> saveTripsToDatabase());
 
         getRootPane().setDefaultButton(searchButton);
     }

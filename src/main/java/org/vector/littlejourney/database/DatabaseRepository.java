@@ -1,9 +1,8 @@
-package org.vector.littlejourney.service.database;
+package org.vector.littlejourney.database;
 
 import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.util.DateUtils;
 import org.vector.littlejourney.util.constant.DateConstant;
-import org.vector.littlejourney.util.constant.database.DatabaseConstant;
 
 import java.sql.*;
 
@@ -11,9 +10,7 @@ public class DatabaseRepository {
 
     private static DatabaseRepository instance;
 
-    private final DatabaseConnector connector = DatabaseConnector.getConnection();
-
-    private final Connection connection = connector.connect(DatabaseConstant.DATABASE_NAME);
+    private final Connection connection = DatabaseConnector.getConnection();
 
     private DatabaseRepository() {
     }

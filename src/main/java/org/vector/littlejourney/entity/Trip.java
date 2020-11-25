@@ -11,11 +11,16 @@ import java.util.Date;
 
 public class Trip {
 
+    private int id;
+
     private Route route;
 
     private double cost;
 
     private Date duration;
+
+    public Trip() {
+    }
 
     public Trip(Route route, double cost, Date duration) {
 
@@ -82,6 +87,7 @@ public class Trip {
 
     @Override
     public String toString() {
+
         return "Trip{" +
                 "route=" + route +
                 ", cost=" + cost +

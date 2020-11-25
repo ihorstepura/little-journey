@@ -5,9 +5,14 @@ import org.vector.littlejourney.util.exception.entity.InvalidStationException;
 
 public class Route {
 
+    private int id;
+
     private Station departure;
 
     private Station arrival;
+
+    public Route() {
+    }
 
     public Route(Station departure, Station arrival) {
 
@@ -49,6 +54,7 @@ public class Route {
 
     @Override
     public String toString() {
+
         return "Route{" +
                 "departure=" + departure +
                 ", arrival=" + arrival +

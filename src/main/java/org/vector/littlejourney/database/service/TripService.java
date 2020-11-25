@@ -1,17 +1,21 @@
-package org.vector.littlejourney.service.database;
+package org.vector.littlejourney.database.service;
 
+import org.vector.littlejourney.database.DatabaseConnector;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.DateUtils;
 import org.vector.littlejourney.util.constant.DateConstant;
-import org.vector.littlejourney.util.constant.database.DatabaseConstant;
 
 import java.sql.*;
 
-public class TripService implements DatabaseService<Trip> {
+public class TripService implements CrudRepository<Trip> {
 
-    private final DatabaseConnector connector = DatabaseConnector.getConnection();
+    private final Connection connection = DatabaseConnector.getConnection();
 
-    private final Connection connection = connector.connect(DatabaseConstant.DATABASE_NAME);
+    @Override
+    public Trip get(int id) {
+
+        return null;
+    }
 
     @Override
     public Trip add(Trip trip) {
@@ -32,8 +36,8 @@ public class TripService implements DatabaseService<Trip> {
     }
 
     @Override
-    public void update(Trip trip) {
-
+    public Trip update(Trip trip) {
+        return null;
     }
 
     @Override

@@ -8,7 +8,12 @@ import java.util.Objects;
 
 public class Station {
 
-    private final String name;
+    private int id;
+
+    private String name;
+
+    public Station() {
+    }
 
     public Station(String name) {
 
@@ -48,6 +53,7 @@ public class Station {
 
     @Override
     public String toString() {
+
         return "Station{" +
                 "name='" + name + '\'' +
                 '}';
