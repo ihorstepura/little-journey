@@ -1,64 +1,26 @@
 package org.vector.littlejourney.database.service;
 
-import org.vector.littlejourney.database.DatabaseConnector;
+import org.vector.littlejourney.database.repository.StationRepository;
 import org.vector.littlejourney.entity.Route;
+import org.vector.littlejourney.entity.Station;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
+public class RouteService {
 
-public class RouteService implements CrudRepository<Route> {
+    private static final StationRepository stationRepository = new StationRepository();
 
-    private final Connection connection = DatabaseConnector.getConnection();
+    public Route generateRoute(Route route) {
 
-    @Override
-    public Route get(int id) {
+        int routeId = route.getId();
 
-        return null;
-    }
+        int departureStationId = stationRepository.getDepartureStationId(routeId);
+        int arrivalStationId = stationRepository.getArrivalStationId(routeId);
 
-    @Override
-    public Route add(Route route) {
+        Station departure = new Station(departureStationId);
+        Station arrival = new Station(arrivalStationId);
 
-        String SQL = "CALL add_route(?, ?)";
+        route.setDeparture(StationService.generateStation(departure));
+        route.setArrival(StationService.generateStation(arrival));
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
-
-            statement.setString(1, route.getDeparture().getName());
-
-            statement.setString(2, route.getArrival().getName());
-
-            statement.execute();
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
         return route;
-    }
-
-    @Override
-    public Route update(Route route) {
-
-        return null;
-    }
-
-    @Override
-    public void delete(Route route) {
-
-        String SQL = "CALL delete_route(?, ?)";
-
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
-
-            statement.setString(1, route.getDeparture().getName());
-
-            statement.setString(2, route.getArrival().getName());
-
-            statement.execute();
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
     }
 }

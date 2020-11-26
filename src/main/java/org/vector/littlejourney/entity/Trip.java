@@ -19,7 +19,9 @@ public class Trip {
 
     private Date duration;
 
-    public Trip() {
+    public Trip(int id) {
+
+        this.id = id;
     }
 
     public Trip(Route route, double cost, Date duration) {
@@ -97,9 +99,9 @@ public class Trip {
 
     @Override
     public String toString() {
-
         return "Trip{" +
-                "route=" + route +
+                "id=" + id +
+                ", route=" + route +
                 ", cost=" + cost +
                 ", duration=" + duration +
                 '}';

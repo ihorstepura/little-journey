@@ -1,71 +1,30 @@
 package org.vector.littlejourney.database.service;
 
-import org.vector.littlejourney.database.DatabaseConnector;
+import org.vector.littlejourney.database.repository.RouteRepository;
+import org.vector.littlejourney.database.repository.TripRepository;
+import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Trip;
-import org.vector.littlejourney.util.DateUtils;
-import org.vector.littlejourney.util.constant.DateConstant;
 
-import java.sql.*;
+public class TripService {
 
-public class TripService implements CrudRepository<Trip> {
+    private static final RouteService routeService = new RouteService();
 
-    private final Connection connection = DatabaseConnector.getConnection();
+    private static final RouteRepository routeRepository = new RouteRepository();
 
-    @Override
-    public Trip get(int id) {
+    private static final TripRepository tripRepository = new TripRepository();
 
-        return null;
-    }
+    public static Trip generateTrip(Trip trip) {
 
-    @Override
-    public Trip add(Trip trip) {
+        int tripId = trip.getId();
 
-        String SQL = "CALL add_trip(?, ?, ?, ?)";
+        int routeId = routeRepository.getRouteId(tripId);
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        Route route = new Route(routeId);
 
-            setProcedureParameters(trip, statement);
+        tripRepository.getTripById(trip);
 
-            statement.execute();
+        trip.setRoute(routeService.generateRoute(route));
 
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
         return trip;
-    }
-
-    @Override
-    public Trip update(Trip trip) {
-        return null;
-    }
-
-    @Override
-    public void delete(Trip trip) {
-
-        String SQL = "CALL delete_trip(?, ?, ?, ?)";
-
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
-
-            setProcedureParameters(trip, statement);
-
-            statement.execute();
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-    }
-
-    private void setProcedureParameters(Trip trip, CallableStatement statement) throws SQLException {
-
-        statement.setDouble(1, trip.getCost());
-
-        statement.setString(2, DateUtils.toSimpleFormat(trip.getDuration(),
-                DateConstant.DATE_FORMAT_dd_HH_mm));
-
-        statement.setString(3, trip.getRoute().getDeparture().getName());
-
-        statement.setString(4, trip.getRoute().getArrival().getName());
     }
 }

@@ -1,4 +1,4 @@
-package org.vector.littlejourney.database.service;
+package org.vector.littlejourney.database.repository;
 
 public interface CrudRepository<E> {
 

@@ -11,7 +11,9 @@ public class Route {
 
     private Station arrival;
 
-    public Route() {
+    public Route(int id) {
+
+        this.id = id;
     }
 
     public Route(Station departure, Station arrival) {
@@ -64,9 +66,9 @@ public class Route {
 
     @Override
     public String toString() {
-
         return "Route{" +
-                "departure=" + departure +
+                "id=" + id +
+                ", departure=" + departure +
                 ", arrival=" + arrival +
                 '}';
     }
