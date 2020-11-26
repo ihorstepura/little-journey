@@ -24,6 +24,16 @@ public class Route {
         this.arrival = arrival;
     }
 
+    public int getId() {
+
+        return id;
+    }
+
+    public void setId(int id) {
+
+        this.id = id;
+    }
+
     public Station getDeparture() {
 
         return departure;

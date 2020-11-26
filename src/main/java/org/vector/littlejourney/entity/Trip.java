@@ -37,6 +37,16 @@ public class Trip {
         this.duration = duration;
     }
 
+    public int getId() {
+
+        return id;
+    }
+
+    public void setId(int id) {
+
+        this.id = id;
+    }
+
     public Route getRoute() {
 
         return route;
