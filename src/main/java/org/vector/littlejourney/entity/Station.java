@@ -12,9 +12,6 @@ public class Station {
 
     private String name;
 
-    public Station() {
-    }
-
     public Station(int id) {
 
         this.id = id;
