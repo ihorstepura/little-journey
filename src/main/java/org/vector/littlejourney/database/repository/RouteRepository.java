@@ -10,9 +10,33 @@ public class RouteRepository implements CrudRepository<Route> {
     private final Connection connection = DatabaseConnector.getConnection();
 
     @Override
-    public Route get(int id) {
+    public Route get(Route route) {
 
-        return null;
+        String SQL = "SELECT * FROM get_route_by_stations_name(?, ?)";
+
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
+
+            statement.setString(1, route.getDeparture().getName());
+
+            statement.setString(2, route.getArrival().getName());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                route.setId(resultSet.getInt(1));
+
+                route.setDeparture(DatabaseRepository.getStationById(resultSet.getInt(2)));
+
+                route.setArrival(DatabaseRepository.getStationById(resultSet.getInt(3)));
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return route;
     }
 
     @Override
@@ -22,15 +46,13 @@ public class RouteRepository implements CrudRepository<Route> {
 
         try (CallableStatement statement = connection.prepareCall(SQL)) {
 
-            connection.setAutoCommit(false);
-
             statement.setString(1, route.getDeparture().getName());
 
             statement.setString(2, route.getArrival().getName());
 
             statement.execute();
 
-            connection.commit();
+            route = get(route);
 
         } catch (SQLException e) {
 

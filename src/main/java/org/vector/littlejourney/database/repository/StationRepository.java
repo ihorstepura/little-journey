@@ -5,6 +5,7 @@ import org.vector.littlejourney.entity.Station;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StationRepository implements CrudRepository<Station> {
@@ -12,9 +13,29 @@ public class StationRepository implements CrudRepository<Station> {
     private final Connection connection = DatabaseConnector.getConnection();
 
     @Override
-    public Station get(int id) {
+    public Station get(Station station) {
 
-        return null;
+        String SQL = "SELECT * FROM get_station_by_name(?)";
+
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
+
+            statement.setString(1, station.getName());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                station.setId(resultSet.getInt(1));
+
+                station.setName(resultSet.getString(2));
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return station;
     }
 
     @Override
@@ -24,13 +45,11 @@ public class StationRepository implements CrudRepository<Station> {
 
         try (CallableStatement statement = connection.prepareCall(SQL)) {
 
-            connection.setAutoCommit(false);
-
             statement.setString(1, station.getName());
 
             statement.execute();
 
-            connection.commit();
+            station = get(station);
 
         } catch (SQLException e) {
 

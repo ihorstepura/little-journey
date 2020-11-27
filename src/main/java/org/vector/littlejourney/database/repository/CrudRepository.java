@@ -2,7 +2,7 @@ package org.vector.littlejourney.database.repository;
 
 public interface CrudRepository<E> {
 
-    E get(int id);
+    E get(E entity);
 
     E add(E entity);
 
