@@ -6,6 +6,9 @@ import java.sql.SQLException;
 
 public class EntityHelper {
 
+    private EntityHelper() {
+    }
+
     public static int getEntityId(CallableStatement statement, int id) throws SQLException {
 
         statement.setInt(1, id);

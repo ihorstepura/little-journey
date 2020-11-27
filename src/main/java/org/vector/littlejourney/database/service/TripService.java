@@ -6,7 +6,8 @@ import org.vector.littlejourney.entity.Trip;
 
 public class TripService {
 
-    private static final RouteService routeService = new RouteService();
+    private TripService() {
+    }
 
     public static Trip generateTrip(Trip trip) {
 
@@ -18,7 +19,7 @@ public class TripService {
 
         trip = DatabaseRepository.getTripById(tripId);
 
-        trip.setRoute(routeService.generateRoute(route));
+        trip.setRoute(RouteService.generateRoute(route));
 
         return trip;
     }

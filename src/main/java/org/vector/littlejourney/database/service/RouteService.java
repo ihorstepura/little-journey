@@ -6,7 +6,10 @@ import org.vector.littlejourney.entity.Station;
 
 public class RouteService {
 
-    public Route generateRoute(Route route) {
+    private RouteService() {
+    }
+
+    public static Route generateRoute(Route route) {
 
         int routeId = route.getId();
 

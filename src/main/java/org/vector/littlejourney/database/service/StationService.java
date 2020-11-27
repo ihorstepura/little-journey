@@ -5,6 +5,9 @@ import org.vector.littlejourney.entity.Station;
 
 public class StationService {
 
+    private StationService() {
+    }
+
     public static Station generateStation(Station station) {
 
         return DatabaseRepository.getStationById(station.getId());
