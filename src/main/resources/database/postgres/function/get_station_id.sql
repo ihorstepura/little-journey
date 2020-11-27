@@ -1,9 +1,9 @@
-CREATE OR REPLACE FUNCTION get_station_id(departure_station varchar)
+CREATE OR REPLACE FUNCTION get_station_id(station_name varchar)
     RETURNS int
     LANGUAGE SQL
 AS
 $$
 SELECT id
 FROM station
-WHERE name = departure_station;
+WHERE name = station_name;
 $$;
