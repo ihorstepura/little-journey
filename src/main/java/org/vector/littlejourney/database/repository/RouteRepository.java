@@ -1,7 +1,6 @@
 package org.vector.littlejourney.database.repository;
 
 import org.vector.littlejourney.database.DatabaseConnector;
-import org.vector.littlejourney.database.service.EntityHelper;
 import org.vector.littlejourney.entity.Route;
 
 import java.sql.*;
@@ -63,20 +62,5 @@ public class RouteRepository implements CrudRepository<Route> {
 
             e.printStackTrace();
         }
-    }
-
-    public int getRouteId(int id) {
-
-        String SQL = "SELECT * FROM get_route_id(?)";
-
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
-
-            EntityHelper.getEntityId(statement, id);
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-        return id;
     }
 }

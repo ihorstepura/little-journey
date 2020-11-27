@@ -12,6 +12,9 @@ public class Station {
 
     private String name;
 
+    public Station() {
+    }
+
     public Station(int id) {
 
         this.id = id;
@@ -70,6 +73,7 @@ public class Station {
 
     @Override
     public String toString() {
+
         return "Station{" +
                 "id=" + id +
                 ", name='" + name + '\'' +

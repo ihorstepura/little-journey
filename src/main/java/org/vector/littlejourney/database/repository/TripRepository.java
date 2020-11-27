@@ -57,29 +57,4 @@ public class TripRepository implements CrudRepository<Trip> {
 
         statement.setString(4, trip.getRoute().getArrival().getName());
     }
-
-    public Trip getTripById(Trip trip) {
-
-        String SQL = "SELECT * FROM get_trip_by_id(?)";
-
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
-
-            statement.setInt(1, trip.getId());
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                trip.setCost(resultSet.getDouble(1));
-
-                trip.setDuration(DateUtils.toDateFormat(resultSet.getString(2)));
-            }
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-
-        return trip;
-    }
 }
