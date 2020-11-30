@@ -2,7 +2,6 @@ package org.vector.littlejourney.database;
 
 import org.vector.littlejourney.util.constant.database.DatabaseConstant;
 import org.vector.littlejourney.util.exception.database.DatabaseConnectionException;
-import org.vector.littlejourney.util.exception.database.DriverNotFoundException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,14 +24,6 @@ public class DatabaseConnector {
     }
 
     private Connection connect() {
-
-        try {
-            Class.forName(DatabaseConstant.JDBC_DRIVER);
-
-        } catch (ClassNotFoundException e) {
-
-            throw new DriverNotFoundException(DatabaseConstant.JDBC_DRIVER);
-        }
 
         Connection connection;
 

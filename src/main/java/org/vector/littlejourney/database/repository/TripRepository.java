@@ -9,7 +9,7 @@ import java.sql.*;
 
 public class TripRepository implements CrudRepository<Trip> {
 
-    private final Connection connection = DatabaseConnector.getConnection();
+    private static final Connection connection = DatabaseConnector.getConnection();
 
     @Override
     public Trip get(Trip trip) {
@@ -20,9 +20,10 @@ public class TripRepository implements CrudRepository<Trip> {
 
             statement.setDouble(1, trip.getCost());
 
-            statement.setString(2, DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm));
+            statement.setString(2, DateUtils.toSimpleFormat(trip.getDuration(),
+                    DateConstant.DATE_FORMAT_dd_HH_mm));
 
-            statement.setInt(3, DatabaseRepository.getRouteId(trip.getRoute().getDeparture(),
+            statement.setInt(3, RouteRepository.getRouteIdByStations(trip.getRoute().getDeparture(),
                     trip.getRoute().getArrival()));
 
             ResultSet resultSet = statement.executeQuery();
@@ -35,14 +36,12 @@ public class TripRepository implements CrudRepository<Trip> {
 
                 trip.setDuration(DateUtils.toDateFormat(resultSet.getString(3)));
 
-                trip.setRoute(DatabaseRepository.getRouteById(resultSet.getInt(4)));
+                trip.setRoute(RouteRepository.getRouteByTripId(resultSet.getInt(4)));
             }
-
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
-
         return trip;
     }
 
@@ -67,7 +66,6 @@ public class TripRepository implements CrudRepository<Trip> {
 
             e.printStackTrace();
         }
-
         return trip;
     }
 
@@ -104,5 +102,30 @@ public class TripRepository implements CrudRepository<Trip> {
         statement.setString(3, trip.getRoute().getDeparture().getName());
 
         statement.setString(4, trip.getRoute().getArrival().getName());
+    }
+
+    public static Trip getTripById(int id) {
+
+        Trip trip = new Trip(id);
+
+        String SQL = "SELECT * FROM get_trip_by_id(?)";
+
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
+
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                trip.setCost(resultSet.getDouble(1));
+
+                trip.setDuration(DateUtils.toDateFormat(resultSet.getString(2)));
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return trip;
     }
 }

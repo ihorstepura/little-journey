@@ -7,8 +7,6 @@ public class DatabaseConstant {
 
     public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/trip_db";
 
-    public static final String JDBC_DRIVER = "org.postgresql.Driver";
-
     public static final String USER = "ihorstepura";
 
     public static final String PASSWORD = "root";

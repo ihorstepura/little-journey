@@ -31,8 +31,6 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private JButton saveToFileButton;
 
-    private JButton saveToDatabaseButton;
-
     private JButton uploadButton;
 
     private JButton searchButton;
@@ -132,9 +130,6 @@ public class JourneyDialog extends JDialog implements Runnable {
         }
     }
 
-    private void saveTripsToDatabase() {
-    }
-
     public void setTrips(List<Trip> trips) {
 
         JourneyDialog.trips = trips;
@@ -179,7 +174,6 @@ public class JourneyDialog extends JDialog implements Runnable {
         searchButton.addActionListener(e -> searchTrips());
         uploadButton.addActionListener(e -> uploadTrips());
         saveToFileButton.addActionListener(e -> saveTrips());
-        saveToDatabaseButton.addActionListener(e -> saveTripsToDatabase());
 
         getRootPane().setDefaultButton(searchButton);
     }

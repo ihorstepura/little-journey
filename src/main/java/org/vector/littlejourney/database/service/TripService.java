@@ -1,6 +1,7 @@
 package org.vector.littlejourney.database.service;
 
-import org.vector.littlejourney.database.repository.DatabaseRepository;
+import org.vector.littlejourney.database.repository.RouteRepository;
+import org.vector.littlejourney.database.repository.TripRepository;
 import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Trip;
 
@@ -13,11 +14,11 @@ public class TripService {
 
         int tripId = trip.getId();
 
-        int routeId = DatabaseRepository.getRouteId(tripId);
+        int routeId = RouteRepository.getRouteIdByTripId(tripId);
 
         Route route = new Route(routeId);
 
-        trip = DatabaseRepository.getTripById(tripId);
+        trip = TripRepository.getTripById(tripId);
 
         trip.setRoute(RouteService.generateRoute(route));
 

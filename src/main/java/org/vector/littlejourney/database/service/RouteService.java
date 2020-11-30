@@ -1,6 +1,6 @@
 package org.vector.littlejourney.database.service;
 
-import org.vector.littlejourney.database.repository.DatabaseRepository;
+import org.vector.littlejourney.database.repository.StationRepository;
 import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Station;
 
@@ -13,8 +13,8 @@ public class RouteService {
 
         int routeId = route.getId();
 
-        int departureStationId = DatabaseRepository.getDepartureStationId(routeId);
-        int arrivalStationId = DatabaseRepository.getArrivalStationId(routeId);
+        int departureStationId = StationRepository.getDepartureStationIdByRouteId(routeId);
+        int arrivalStationId = StationRepository.getArrivalStationIdByRouteId(routeId);
 
         Station departure = new Station(departureStationId);
         Station arrival = new Station(arrivalStationId);

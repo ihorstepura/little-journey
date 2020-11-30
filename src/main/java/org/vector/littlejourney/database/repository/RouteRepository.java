@@ -1,13 +1,15 @@
 package org.vector.littlejourney.database.repository;
 
 import org.vector.littlejourney.database.DatabaseConnector;
+import org.vector.littlejourney.database.service.EntityHelper;
 import org.vector.littlejourney.entity.Route;
+import org.vector.littlejourney.entity.Station;
 
 import java.sql.*;
 
 public class RouteRepository implements CrudRepository<Route> {
 
-    private final Connection connection = DatabaseConnector.getConnection();
+    private static final Connection connection = DatabaseConnector.getConnection();
 
     @Override
     public Route get(Route route) {
@@ -26,16 +28,14 @@ public class RouteRepository implements CrudRepository<Route> {
 
                 route.setId(resultSet.getInt(1));
 
-                route.setDeparture(DatabaseRepository.getStationById(resultSet.getInt(2)));
+                route.setDeparture(StationRepository.getStationByRouteId(resultSet.getInt(2)));
 
-                route.setArrival(DatabaseRepository.getStationById(resultSet.getInt(3)));
+                route.setArrival(StationRepository.getStationByRouteId(resultSet.getInt(3)));
             }
-
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
-
         return route;
     }
 
@@ -84,5 +84,72 @@ public class RouteRepository implements CrudRepository<Route> {
 
             e.printStackTrace();
         }
+    }
+
+    public static int getRouteIdByTripId(int id) {
+
+        String SQL = "SELECT * FROM get_route_id(?)";
+
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
+
+            id = EntityHelper.getEntityId(statement, id);
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public static int getRouteIdByStations(Station departure, Station arrival) {
+
+        int routeId = 0;
+
+        String SQL = "SELECT * FROM get_route_id(?, ?)";
+
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
+
+            statement.setString(1, departure.getName());
+
+            statement.setString(2, arrival.getName());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                routeId = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return routeId;
+    }
+
+    public static Route getRouteByTripId(int id) {
+
+        Route route = new Route(id);
+
+        String SQL = "SELECT * FROM get_route_by_id(?)";
+
+        try (CallableStatement statement = connection.prepareCall(SQL)) {
+
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                route.setId(resultSet.getInt(1));
+
+                route.setDeparture(StationRepository.getStationByRouteId(resultSet.getInt(2)));
+
+                route.setArrival(StationRepository.getStationByRouteId(resultSet.getInt(3)));
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return route;
     }
 }
