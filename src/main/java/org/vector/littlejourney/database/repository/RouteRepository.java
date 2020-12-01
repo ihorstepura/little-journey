@@ -14,9 +14,9 @@ public class RouteRepository implements CrudRepository<Route> {
     @Override
     public Route get(Route route) {
 
-        String SQL = "SELECT * FROM get_route_by_stations_name(?, ?)";
+        String sql = "SELECT * FROM get_route_by_stations_name(?, ?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setString(1, route.getDeparture().getName());
 
@@ -28,9 +28,9 @@ public class RouteRepository implements CrudRepository<Route> {
 
                 route.setId(resultSet.getInt(1));
 
-                route.setDeparture(StationRepository.getStationByRouteId(resultSet.getInt(2)));
+                route.setDeparture(StationRepository.getStationById(resultSet.getInt(2)));
 
-                route.setArrival(StationRepository.getStationByRouteId(resultSet.getInt(3)));
+                route.setArrival(StationRepository.getStationById(resultSet.getInt(3)));
             }
         } catch (SQLException e) {
 
@@ -42,9 +42,9 @@ public class RouteRepository implements CrudRepository<Route> {
     @Override
     public Route add(Route route) {
 
-        String SQL = "CALL add_route(?, ?)";
+        String sql = "CALL add_route(?, ?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setString(1, route.getDeparture().getName());
 
@@ -70,9 +70,9 @@ public class RouteRepository implements CrudRepository<Route> {
     @Override
     public void delete(Route route) {
 
-        String SQL = "CALL delete_route(?, ?)";
+        String sql = "CALL delete_route(?, ?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setString(1, route.getDeparture().getName());
 
@@ -88,9 +88,9 @@ public class RouteRepository implements CrudRepository<Route> {
 
     public static int getRouteIdByTripId(int id) {
 
-        String SQL = "SELECT * FROM get_route_id(?)";
+        String sql = "SELECT * FROM get_route_id(?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             id = EntityHelper.getEntityId(statement, id);
 
@@ -105,9 +105,9 @@ public class RouteRepository implements CrudRepository<Route> {
 
         int routeId = 0;
 
-        String SQL = "SELECT * FROM get_route_id(?, ?)";
+        String sql = "SELECT * FROM get_route_id(?, ?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setString(1, departure.getName());
 
@@ -130,9 +130,9 @@ public class RouteRepository implements CrudRepository<Route> {
 
         Route route = new Route(id);
 
-        String SQL = "SELECT * FROM get_route_by_id(?)";
+        String sql = "SELECT * FROM get_route_by_id(?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setInt(1, id);
 
@@ -142,9 +142,9 @@ public class RouteRepository implements CrudRepository<Route> {
 
                 route.setId(resultSet.getInt(1));
 
-                route.setDeparture(StationRepository.getStationByRouteId(resultSet.getInt(2)));
+                route.setDeparture(StationRepository.getStationById(resultSet.getInt(2)));
 
-                route.setArrival(StationRepository.getStationByRouteId(resultSet.getInt(3)));
+                route.setArrival(StationRepository.getStationById(resultSet.getInt(3)));
             }
         } catch (SQLException e) {
 

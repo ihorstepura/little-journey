@@ -11,6 +11,9 @@ public class Route {
 
     private Station arrival;
 
+    public Route() {
+    }
+
     public Route(int id) {
 
         this.id = id;

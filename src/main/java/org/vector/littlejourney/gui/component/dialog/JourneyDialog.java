@@ -1,5 +1,6 @@
 package org.vector.littlejourney.gui.component.dialog;
 
+import org.vector.littlejourney.database.repository.TripRepository;
 import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.*;
 import org.vector.littlejourney.entity.Trip;
@@ -34,6 +35,8 @@ public class JourneyDialog extends JDialog implements Runnable {
     private JButton uploadButton;
 
     private JButton searchButton;
+
+    private JButton uploadDatabaseButton;
 
     private JSpinner timeSpinner;
 
@@ -104,7 +107,7 @@ public class JourneyDialog extends JDialog implements Runnable {
         }
     }
 
-    private void uploadTrips() {
+    private void uploadTripsFromFile() {
 
         List<Trip> loadedTrips;
 
@@ -117,6 +120,11 @@ public class JourneyDialog extends JDialog implements Runnable {
 
             GuiHandler.generateExceptionDialog(this, exception.getMessage());
         }
+    }
+
+    private void uploadTripsFromDatabase() {
+
+        createTripsForUser(TripRepository.getTrips());
     }
 
     private void saveTrips() {
@@ -172,8 +180,9 @@ public class JourneyDialog extends JDialog implements Runnable {
         selectedTripsOutput.setFont(FontConstant.TIMES_NEW_ROMAN_ITALIC_20);
 
         searchButton.addActionListener(e -> searchTrips());
-        uploadButton.addActionListener(e -> uploadTrips());
+        uploadButton.addActionListener(e -> uploadTripsFromFile());
         saveToFileButton.addActionListener(e -> saveTrips());
+        uploadDatabaseButton.addActionListener(e -> uploadTripsFromDatabase());
 
         getRootPane().setDefaultButton(searchButton);
     }

@@ -1,11 +1,15 @@
 package org.vector.littlejourney.database.repository;
 
 import org.vector.littlejourney.database.DatabaseConnector;
+import org.vector.littlejourney.entity.Route;
+import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.DateUtils;
 import org.vector.littlejourney.util.constant.DateConstant;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TripRepository implements CrudRepository<Trip> {
 
@@ -14,9 +18,9 @@ public class TripRepository implements CrudRepository<Trip> {
     @Override
     public Trip get(Trip trip) {
 
-        String SQL = "SELECT * FROM get_trip(?, ?, ?)";
+        String sql = "SELECT * FROM get_trip(?, ?, ?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setDouble(1, trip.getCost());
 
@@ -48,9 +52,9 @@ public class TripRepository implements CrudRepository<Trip> {
     @Override
     public Trip add(Trip trip) {
 
-        String SQL = "CALL add_trip(?, ?, ?)";
+        String sql = "CALL add_trip(?, ?, ?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setDouble(1, trip.getCost());
 
@@ -78,9 +82,9 @@ public class TripRepository implements CrudRepository<Trip> {
     @Override
     public void delete(Trip trip) {
 
-        String SQL = "CALL delete_trip(?, ?, ?, ?)";
+        String sql = "CALL delete_trip(?, ?, ?, ?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             setProcedureParameters(trip, statement);
 
@@ -108,9 +112,9 @@ public class TripRepository implements CrudRepository<Trip> {
 
         Trip trip = new Trip(id);
 
-        String SQL = "SELECT * FROM get_trip_by_id(?)";
+        String sql = "SELECT * FROM get_trip_by_id(?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setInt(1, id);
 
@@ -127,5 +131,55 @@ public class TripRepository implements CrudRepository<Trip> {
             e.printStackTrace();
         }
         return trip;
+    }
+
+    public static List<Trip> getTrips() {
+
+        List<Trip> trips = new ArrayList<>();
+
+        String sql = "SELECT * FROM get_trips()";
+
+        try (CallableStatement statement = connection.prepareCall(sql)) {
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                Trip trip = new Trip();
+                Route route = new Route();
+                Station departure = new Station();
+                Station arrival = new Station();
+
+                int tripId = resultSet.getInt(1);
+                double tripCost = resultSet.getDouble(2);
+                String tripDuration = resultSet.getString(3);
+                int routeId = resultSet.getInt(4);
+
+                route.setId(routeId);
+
+                int departureStationId = StationRepository.getDepartureStationIdByRouteId(routeId);
+                departure.setId(departureStationId);
+                departure.setName(StationRepository.getStationById(departureStationId).getName());
+
+                int arrivalStationId = StationRepository.getArrivalStationIdByRouteId(routeId);
+                arrival.setId(arrivalStationId);
+                arrival.setName(StationRepository.getStationById(arrivalStationId).getName());
+
+                route.setDeparture(departure);
+                route.setArrival(arrival);
+
+                trip.setId(tripId);
+                trip.setCost(tripCost);
+                trip.setDuration(DateUtils.toDateFormat(tripDuration));
+                trip.setRoute(route);
+
+                trips.add(trip);
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return trips;
     }
 }

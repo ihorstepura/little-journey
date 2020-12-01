@@ -10,6 +10,6 @@ public class StationService {
 
     public static Station generateStation(Station station) {
 
-        return StationRepository.getStationByRouteId(station.getId());
+        return StationRepository.getStationById(station.getId());
     }
 }

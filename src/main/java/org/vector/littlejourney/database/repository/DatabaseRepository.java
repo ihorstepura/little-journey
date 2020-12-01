@@ -16,9 +16,9 @@ public class DatabaseRepository {
 
     public static void filterTripsByCost(double minCost, double maxCost) {
 
-        String SQL = "SELECT * FROM filter_by_cost(?, ?)";
+        String sql = "SELECT * FROM filter_by_cost(?, ?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setDouble(1, minCost);
             statement.setDouble(2, maxCost);
@@ -33,9 +33,9 @@ public class DatabaseRepository {
 
     public static void filterTripsByDuration(Date duration) {
 
-        String SQL = "SELECT * FROM filter_by_duration(?)";
+        String sql = "SELECT * FROM filter_by_duration(?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setString(1, DateUtils.toSimpleFormat(duration, DateConstant.DATE_FORMAT_dd_HH_mm));
 
@@ -49,9 +49,9 @@ public class DatabaseRepository {
 
     public static void filterTripsByRoute(Station departure, Station arrival) {
 
-        String SQL = "SELECT * FROM filter_by_route(?, ?)";
+        String sql = "SELECT * FROM filter_by_route(?, ?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setString(1, departure.getName());
 

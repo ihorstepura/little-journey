@@ -16,9 +16,9 @@ public class StationRepository implements CrudRepository<Station> {
     @Override
     public Station get(Station station) {
 
-        String SQL = "SELECT * FROM get_station_by_name(?)";
+        String sql = "SELECT * FROM get_station_by_name(?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setString(1, station.getName());
 
@@ -41,9 +41,9 @@ public class StationRepository implements CrudRepository<Station> {
     @Override
     public Station add(Station station) {
 
-        String SQL = "CALL add_station(?)";
+        String sql = "CALL add_station(?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setString(1, station.getName());
 
@@ -67,9 +67,9 @@ public class StationRepository implements CrudRepository<Station> {
     @Override
     public void delete(Station station) {
 
-        String SQL = "CALL delete_station(?)";
+        String sql = "CALL delete_station(?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setString(1, station.getName());
 
@@ -81,13 +81,13 @@ public class StationRepository implements CrudRepository<Station> {
         }
     }
 
-    public static Station getStationByRouteId(int id) {
+    public static Station getStationById(int id) {
 
         Station station = new Station(id);
 
-        String SQL = "SELECT * FROM get_station_by_id(?)";
+        String sql = "SELECT * FROM get_station_by_id(?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             statement.setInt(1, station.getId());
 
@@ -110,9 +110,9 @@ public class StationRepository implements CrudRepository<Station> {
 
     public static int getDepartureStationIdByRouteId(int id) {
 
-        String SQL = "SELECT * FROM get_departure_station_id(?)";
+        String sql = "SELECT * FROM get_departure_station_id(?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             id = EntityHelper.getEntityId(statement, id);
 
@@ -125,9 +125,9 @@ public class StationRepository implements CrudRepository<Station> {
 
     public static int getArrivalStationIdByRouteId(int id) {
 
-        String SQL = "SELECT * FROM get_arrival_station_id(?)";
+        String sql = "SELECT * FROM get_arrival_station_id(?)";
 
-        try (CallableStatement statement = connection.prepareCall(SQL)) {
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
             id = EntityHelper.getEntityId(statement, id);
 

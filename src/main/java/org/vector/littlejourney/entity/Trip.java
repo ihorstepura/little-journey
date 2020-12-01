@@ -19,6 +19,9 @@ public class Trip {
 
     private Date duration;
 
+    public Trip() {
+    }
+
     public Trip(int id) {
 
         this.id = id;

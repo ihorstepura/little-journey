@@ -14,5 +14,5 @@ AS
 $$
 SELECT *
 FROM trip
-WHERE get_route_id(departure, arrival) = route_id
+WHERE get_route_id(departure, arrival) = route_id;
 $$;
