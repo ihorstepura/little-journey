@@ -1,7 +1,7 @@
 package org.vector.littlejourney.database.repository;
 
 import org.vector.littlejourney.database.DatabaseConnector;
-import org.vector.littlejourney.entity.Route;
+import org.vector.littlejourney.database.service.TripHelper;
 import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.DateUtils;
@@ -9,6 +9,7 @@ import org.vector.littlejourney.util.constant.DateConstant;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TripRepository implements CrudRepository<Trip> {
@@ -143,38 +144,75 @@ public class TripRepository implements CrudRepository<Trip> {
 
             ResultSet resultSet = statement.executeQuery();
 
-            while (resultSet.next()) {
+            TripHelper.prepareTrip(resultSet, trips);
 
-                Trip trip = new Trip();
-                Route route = new Route();
-                Station departure = new Station();
-                Station arrival = new Station();
+        } catch (SQLException e) {
 
-                int tripId = resultSet.getInt(1);
-                double tripCost = resultSet.getDouble(2);
-                String tripDuration = resultSet.getString(3);
-                int routeId = resultSet.getInt(4);
+            e.printStackTrace();
+        }
 
-                route.setId(routeId);
+        return trips;
+    }
 
-                int departureStationId = StationRepository.getDepartureStationIdByRouteId(routeId);
-                departure.setId(departureStationId);
-                departure.setName(StationRepository.getStationById(departureStationId).getName());
+    public static List<Trip> filterTripsByCost(double minCost, double maxCost) {
 
-                int arrivalStationId = StationRepository.getArrivalStationIdByRouteId(routeId);
-                arrival.setId(arrivalStationId);
-                arrival.setName(StationRepository.getStationById(arrivalStationId).getName());
+        List<Trip> trips = new ArrayList<>();
 
-                route.setDeparture(departure);
-                route.setArrival(arrival);
+        String sql = "SELECT * FROM filter_trips_by_cost(?, ?)";
 
-                trip.setId(tripId);
-                trip.setCost(tripCost);
-                trip.setDuration(DateUtils.toDateFormat(tripDuration));
-                trip.setRoute(route);
+        try (CallableStatement statement = connection.prepareCall(sql)) {
 
-                trips.add(trip);
-            }
+            statement.setDouble(1, minCost);
+
+            statement.setDouble(2, maxCost);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            TripHelper.prepareTrip(resultSet, trips);
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return trips;
+    }
+
+    public static List<Trip> filterTripsByDuration(Date duration) {
+
+        List<Trip> trips = new ArrayList<>();
+
+        String sql = "SELECT * FROM filter_trips_by_duration(?)";
+
+        try (CallableStatement statement = connection.prepareCall(sql)) {
+
+            statement.setString(1, DateUtils.toSimpleFormat(duration, DateConstant.DATE_FORMAT_dd_HH_mm));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            TripHelper.prepareTrip(resultSet, trips);
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return trips;
+    }
+
+    public static List<Trip> filterTripsByRoute(Station departure, Station arrival) {
+
+        List<Trip> trips = new ArrayList<>();
+
+        String sql = "SELECT * FROM filter_trips_by_route(?, ?)";
+
+        try (CallableStatement statement = connection.prepareCall(sql)) {
+
+            statement.setString(1, departure.getName());
+
+            statement.setString(2, arrival.getName());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            TripHelper.prepareTrip(resultSet, trips);
 
         } catch (SQLException e) {
 
