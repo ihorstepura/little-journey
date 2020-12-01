@@ -1,10 +1,10 @@
 package org.vector.littlejourney.gui.component.dialog;
 
 import org.vector.littlejourney.database.repository.TripRepository;
-import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.*;
 import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.util.constant.database.DatabaseConstant;
 import org.vector.littlejourney.util.gui.GuiHandler;
 import org.vector.littlejourney.service.DataFilter;
 import org.vector.littlejourney.util.gui.InputValidationUtils;
@@ -33,13 +33,13 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private JButton saveToFileButton;
 
-    private JButton uploadButton;
-
     private JButton searchButton;
 
-    private JButton uploadDatabaseButton;
+    private JButton uploadButton;
 
     private JSpinner timeSpinner;
+
+    private JComboBox<String> uploadComboBox;
 
     private static List<Trip> trips;
 
@@ -109,60 +109,6 @@ public class JourneyDialog extends JDialog implements Runnable {
         }
     }
 
-    private void searchTripsFromDatabase() {
-
-        Date time = editor.getModel().getDate();
-
-        if (InputValidationUtils.validateAll(departureInput, arrivalInput)
-                || InputValidationUtils.validateAll(minCostInput, maxCostInput)) {
-
-            selectedTripsOutput.setText(StringConstant.EMPTY);
-
-            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
-
-        } else {
-
-            selectedTripsOutput.setText(StringConstant.EMPTY);
-
-            List<Trip> databaseTrips;
-
-            if (!InputValidationUtils.validateAll(departureInput) || !InputValidationUtils.validateAll(arrivalInput)) {
-
-                Station departure = new Station(departureInput.getText());
-                Station arrival = new Station(arrivalInput.getText());
-
-                TripRepository.filterTripsByRoute(departure, arrival);
-            }
-            if (!InputValidationUtils.validateAll(minCostInput) || !InputValidationUtils.validateAll(maxCostInput)) {
-
-                String minimalCost = minCostInput.getText();
-                String maximalCost = maxCostInput.getText();
-
-                TripRepository.filterTripsByCost(Double.parseDouble(minimalCost), Double.parseDouble(maximalCost));
-            }
-            try {
-                if (GuiHandler.validateDuration(time)) {
-
-                    databaseTrips = TripRepository.filterTripsByDuration(time);
-
-                    if (databaseTrips.isEmpty()) {
-
-                        selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
-                    } else {
-
-                        createTripsForUser(databaseTrips);
-                    }
-                    setTrips(databaseTrips);
-
-                    saveToFileButton.setEnabled(true);
-                }
-            } catch (Exception exception) {
-
-                GuiHandler.generateExceptionDialog(this, exception.getMessage());
-            }
-        }
-    }
-
     private void uploadTripsFromFile() {
 
         List<Trip> loadedTrips;
@@ -182,13 +128,53 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private void uploadTripsFromDatabase() {
 
-        List<Trip> tripsFromDatabase = TripRepository.getTrips();
+        Date time = editor.getModel().getDate();
+
+        List<Trip> tripsFromDatabase = new ArrayList<>();
+
+        if (InputValidationUtils.validateAll(departureInput, arrivalInput)
+                || InputValidationUtils.validateAll(minCostInput, maxCostInput)) {
+
+            selectedTripsOutput.setText(StringConstant.EMPTY);
+
+            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
+        } else {
+            selectedTripsOutput.setText(StringConstant.EMPTY);
+
+            String departure = departureInput.getText();
+            String arrival = arrivalInput.getText();
+            Double minCost = Double.parseDouble(minCostInput.getText());
+            Double maxCost = Double.parseDouble(maxCostInput.getText());
+
+            TripRepository.filterTrips(tripsFromDatabase, departure, arrival, minCost, maxCost, time);
+        }
 
         setTrips(tripsFromDatabase);
 
-        createTripsForUser(tripsFromDatabase);
+        if (tripsFromDatabase.isEmpty()) {
 
-        saveToFileButton.setEnabled(true);
+            selectedTripsOutput.setText(StringConstant.EMPTY);
+
+            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
+
+        } else {
+
+            createTripsForUser(tripsFromDatabase);
+
+            saveToFileButton.setEnabled(true);
+        }
+    }
+
+    private void upload() {
+
+        if (Objects.requireNonNull(uploadComboBox.getSelectedItem()).toString().equals(DatabaseConstant.UPLOAD_FILE)) {
+
+            uploadTripsFromFile();
+
+        } else {
+
+            uploadTripsFromDatabase();
+        }
     }
 
     private void saveTrips() {
@@ -228,7 +214,7 @@ public class JourneyDialog extends JDialog implements Runnable {
 
         timeSpinner = new JSpinner(model);
 
-        editor = new JSpinner.DateEditor(timeSpinner, DateConstant.DATE_FORMAT_dd_HH_mm);
+        editor = new JSpinner.DateEditor(timeSpinner, DateConstant.DATE_FORMAT_HH_mm_ss);
 
         timeSpinner.setEditor(editor);
     }
@@ -244,11 +230,13 @@ public class JourneyDialog extends JDialog implements Runnable {
         selectedTripsOutput.setFont(FontConstant.TIMES_NEW_ROMAN_ITALIC_20);
 
         searchButton.addActionListener(e -> searchTrips());
-        uploadButton.addActionListener(e -> uploadTripsFromFile());
+        uploadButton.addActionListener(e -> upload());
         saveToFileButton.addActionListener(e -> saveTrips());
-        uploadDatabaseButton.addActionListener(e -> uploadTripsFromDatabase());
 
         getRootPane().setDefaultButton(searchButton);
+
+        uploadComboBox.addItem(DatabaseConstant.UPLOAD_FILE);
+        uploadComboBox.addItem(DatabaseConstant.UPLOAD_DATABASE);
     }
 
     @Override

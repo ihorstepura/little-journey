@@ -26,7 +26,7 @@ public class TripRepository implements CrudRepository<Trip> {
             statement.setDouble(1, trip.getCost());
 
             statement.setString(2, DateUtils.toSimpleFormat(trip.getDuration(),
-                    DateConstant.DATE_FORMAT_dd_HH_mm));
+                    DateConstant.DATE_FORMAT_HH_mm_ss));
 
             statement.setInt(3, RouteRepository.getRouteIdByStations(trip.getRoute().getDeparture(),
                     trip.getRoute().getArrival()));
@@ -59,7 +59,7 @@ public class TripRepository implements CrudRepository<Trip> {
 
             statement.setDouble(1, trip.getCost());
 
-            statement.setString(2, DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm));
+            statement.setString(2, DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_HH_mm_ss));
 
             statement.setInt(3, trip.getRoute().getId());
 
@@ -102,7 +102,7 @@ public class TripRepository implements CrudRepository<Trip> {
         statement.setDouble(1, trip.getCost());
 
         statement.setString(2, DateUtils.toSimpleFormat(trip.getDuration(),
-                DateConstant.DATE_FORMAT_dd_HH_mm));
+                DateConstant.DATE_FORMAT_HH_mm_ss));
 
         statement.setString(3, trip.getRoute().getDeparture().getName());
 
@@ -154,9 +154,7 @@ public class TripRepository implements CrudRepository<Trip> {
         return trips;
     }
 
-    public static List<Trip> filterTripsByCost(double minCost, double maxCost) {
-
-        List<Trip> trips = new ArrayList<>();
+    public static List<Trip> filterTripsByCost(List<Trip> trips, double minCost, double maxCost) {
 
         String sql = "SELECT * FROM filter_trips_by_cost(?, ?)";
 
@@ -177,15 +175,13 @@ public class TripRepository implements CrudRepository<Trip> {
         return trips;
     }
 
-    public static List<Trip> filterTripsByDuration(Date duration) {
-
-        List<Trip> trips = new ArrayList<>();
+    public static List<Trip> filterTripsByDuration(List<Trip> trips, Date duration) {
 
         String sql = "SELECT * FROM filter_trips_by_duration(?)";
 
         try (CallableStatement statement = connection.prepareCall(sql)) {
 
-            statement.setString(1, DateUtils.toSimpleFormat(duration, DateConstant.DATE_FORMAT_dd_HH_mm));
+            statement.setString(1, DateUtils.toSimpleFormat(duration, DateConstant.DATE_FORMAT_HH_mm_ss));
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -198,9 +194,7 @@ public class TripRepository implements CrudRepository<Trip> {
         return trips;
     }
 
-    public static List<Trip> filterTripsByRoute(Station departure, Station arrival) {
-
-        List<Trip> trips = new ArrayList<>();
+    public static List<Trip> filterTripsByRoute(List<Trip> trips, Station departure, Station arrival) {
 
         String sql = "SELECT * FROM filter_trips_by_route(?, ?)";
 
@@ -209,6 +203,29 @@ public class TripRepository implements CrudRepository<Trip> {
             statement.setString(1, departure.getName());
 
             statement.setString(2, arrival.getName());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            TripHelper.prepareTrip(resultSet, trips);
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return trips;
+    }
+
+    public static List<Trip> filterTrips(List<Trip> trips, String departure, String arrival, Double minCost, Double maxCost, Date time) {
+
+        String sql = "SELECT * FROM filter_trips(?, ?, ?, ?, ?)";
+
+        try (CallableStatement statement = connection.prepareCall(sql)) {
+
+            statement.setString(1, departure);
+            statement.setString(2, arrival);
+            statement.setDouble(3, minCost);
+            statement.setDouble(4, maxCost);
+            statement.setString(5, DateUtils.toSimpleFormat(time, DateConstant.DATE_FORMAT_HH_mm_ss));
 
             ResultSet resultSet = statement.executeQuery();
 
