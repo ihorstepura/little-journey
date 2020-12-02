@@ -10,7 +10,7 @@ public class TripService {
     private TripService() {
     }
 
-    public static Trip generateTrip(Trip trip) {
+    public static Trip getTripAttributes(Trip trip) {
 
         int tripId = trip.getId();
 
@@ -20,7 +20,7 @@ public class TripService {
 
         trip = TripRepository.getTripById(tripId);
 
-        trip.setRoute(RouteService.generateRoute(route));
+        trip.setRoute(RouteService.getRouteAttributes(route));
 
         return trip;
     }

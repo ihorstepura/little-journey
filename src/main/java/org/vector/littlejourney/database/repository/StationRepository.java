@@ -1,7 +1,7 @@
 package org.vector.littlejourney.database.repository;
 
 import org.vector.littlejourney.database.DatabaseConnector;
-import org.vector.littlejourney.database.service.EntityHelper;
+import org.vector.littlejourney.database.service.TripHelper;
 import org.vector.littlejourney.entity.Station;
 
 import java.sql.CallableStatement;
@@ -130,7 +130,7 @@ public class StationRepository implements CrudRepository<Station> {
 
         try (CallableStatement statement = connection.prepareCall(sql)) {
 
-            id = EntityHelper.getEntityId(statement, id);
+            id = TripHelper.getEntityId(statement, id);
 
         } catch (SQLException e) {
 
@@ -145,7 +145,7 @@ public class StationRepository implements CrudRepository<Station> {
 
         try (CallableStatement statement = connection.prepareCall(sql)) {
 
-            id = EntityHelper.getEntityId(statement, id);
+            id = TripHelper.getEntityId(statement, id);
 
         } catch (SQLException e) {
 

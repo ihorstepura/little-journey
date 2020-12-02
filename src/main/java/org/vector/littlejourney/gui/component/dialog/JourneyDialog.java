@@ -65,7 +65,9 @@ public class JourneyDialog extends JDialog implements Runnable {
 
             selectedTripsOutput.setText(StringConstant.EMPTY);
 
-            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
+            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND + FormatConstant.NEW_LINE_SYMBOL);
+
+            selectedTripsOutput.append(WarningConstant.EMPTY_SEARCH_FIELDS);
 
         } else {
             selectedTripsOutput.setText(StringConstant.EMPTY);
@@ -138,7 +140,9 @@ public class JourneyDialog extends JDialog implements Runnable {
             selectedTripsOutput.setText(StringConstant.EMPTY);
 
             selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
+
         } else {
+
             selectedTripsOutput.setText(StringConstant.EMPTY);
 
             String departure = departureInput.getText();
@@ -155,7 +159,9 @@ public class JourneyDialog extends JDialog implements Runnable {
 
             selectedTripsOutput.setText(StringConstant.EMPTY);
 
-            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
+            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND + FormatConstant.NEW_LINE_SYMBOL);
+
+            selectedTripsOutput.append(WarningConstant.EMPTY_SEARCH_FIELDS);
 
         } else {
 
@@ -232,11 +238,37 @@ public class JourneyDialog extends JDialog implements Runnable {
         searchButton.addActionListener(e -> searchTrips());
         uploadButton.addActionListener(e -> upload());
         saveToFileButton.addActionListener(e -> saveTrips());
-
-        getRootPane().setDefaultButton(searchButton);
+        uploadComboBox.addActionListener(e -> resolveItem());
 
         uploadComboBox.addItem(DatabaseConstant.UPLOAD_FILE);
         uploadComboBox.addItem(DatabaseConstant.UPLOAD_DATABASE);
+        uploadComboBox.addItem(DatabaseConstant.UPLOAD_MOCK);
+
+        getRootPane().setDefaultButton(searchButton);
+    }
+
+    private void resolveItem() {
+
+        if (Objects.requireNonNull(uploadComboBox.getSelectedItem()).toString().equals(DatabaseConstant.UPLOAD_FILE)) {
+
+            searchButton.setEnabled(true);
+
+            uploadButton.setEnabled(true);
+        }
+
+        if (uploadComboBox.getSelectedItem().toString().equals(DatabaseConstant.UPLOAD_DATABASE)) {
+
+            searchButton.setEnabled(false);
+
+            uploadButton.setEnabled(true);
+        }
+
+        if (uploadComboBox.getSelectedItem().toString().equals(DatabaseConstant.UPLOAD_MOCK)) {
+
+            searchButton.setEnabled(true);
+
+            uploadButton.setEnabled(false);
+        }
     }
 
     @Override

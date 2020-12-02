@@ -8,7 +8,7 @@ public class StationService {
     private StationService() {
     }
 
-    public static Station generateStation(Station station) {
+    public static Station getStationAttributes(Station station) {
 
         return StationRepository.getStationById(station.getId());
     }

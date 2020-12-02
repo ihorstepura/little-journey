@@ -6,6 +6,7 @@ import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.DateUtils;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -49,5 +50,18 @@ public class TripHelper {
 
             trips.add(trip);
         }
+    }
+
+    public static int getEntityId(CallableStatement statement, int id) throws SQLException {
+
+        statement.setInt(1, id);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+
+            id = resultSet.getInt(1);
+        }
+        return id;
     }
 }

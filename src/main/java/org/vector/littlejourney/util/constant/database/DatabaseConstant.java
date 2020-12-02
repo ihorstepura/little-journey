@@ -18,4 +18,6 @@ public class DatabaseConstant {
     public static final String UPLOAD_FILE = "Upload file";
 
     public static final String UPLOAD_DATABASE = "Upload database";
+
+    public static final String UPLOAD_MOCK = "Upload mock";
 }

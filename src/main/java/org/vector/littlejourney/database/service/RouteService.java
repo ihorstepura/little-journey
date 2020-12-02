@@ -9,7 +9,7 @@ public class RouteService {
     private RouteService() {
     }
 
-    public static Route generateRoute(Route route) {
+    public static Route getRouteAttributes(Route route) {
 
         int routeId = route.getId();
 
@@ -19,8 +19,8 @@ public class RouteService {
         Station departure = new Station(departureStationId);
         Station arrival = new Station(arrivalStationId);
 
-        route.setDeparture(StationService.generateStation(departure));
-        route.setArrival(StationService.generateStation(arrival));
+        route.setDeparture(StationService.getStationAttributes(departure));
+        route.setArrival(StationService.getStationAttributes(arrival));
 
         return route;
     }
