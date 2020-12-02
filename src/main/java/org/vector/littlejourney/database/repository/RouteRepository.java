@@ -64,7 +64,25 @@ public class RouteRepository implements CrudRepository<Route> {
     @Override
     public Route update(Route route) {
 
-        return null;
+        String sql = "CALL update_route(?, ?, ?)";
+
+        try (CallableStatement statement = connection.prepareCall(sql)) {
+
+            statement.setInt(1, route.getDeparture().getId());
+
+            statement.setString(2, route.getArrival().getName());
+
+            statement.setString(3, route.getDeparture().getName());
+
+            statement.execute();
+
+            route = get(route);
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return route;
     }
 
     @Override

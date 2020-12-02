@@ -61,7 +61,23 @@ public class StationRepository implements CrudRepository<Station> {
     @Override
     public Station update(Station station) {
 
-        return null;
+        String sql = "CALL update_station(?, ?)";
+
+        try (CallableStatement statement = connection.prepareCall(sql)) {
+
+            statement.setInt(1, station.getId());
+
+            statement.setString(2, station.getName());
+
+            statement.execute();
+
+            station = get(station);
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return station;
     }
 
     @Override

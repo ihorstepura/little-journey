@@ -77,7 +77,29 @@ public class TripRepository implements CrudRepository<Trip> {
     @Override
     public Trip update(Trip trip) {
 
-        return null;
+        String sql = "CALL update_trip(?, ?, ?, ?, ?)";
+
+        try (CallableStatement statement = connection.prepareCall(sql)) {
+
+            statement.setInt(1, trip.getId());
+
+            statement.setDouble(2, trip.getCost());
+
+            statement.setString(3, DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_HH_mm_ss));
+
+            statement.setString(4, trip.getRoute().getDeparture().getName());
+
+            statement.setString(5, trip.getRoute().getArrival().getName());
+
+            statement.execute();
+
+            trip = get(trip);
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return trip;
     }
 
     @Override
@@ -215,7 +237,7 @@ public class TripRepository implements CrudRepository<Trip> {
         return trips;
     }
 
-    public static List<Trip> filterTrips(List<Trip> trips, String departure, String arrival, Double minCost, Double maxCost, Date time) {
+    public static void filterTrips(List<Trip> trips, String departure, String arrival, Double minCost, Double maxCost, Date time) {
 
         String sql = "SELECT * FROM filter_trips(?, ?, ?, ?, ?)";
 
@@ -235,6 +257,5 @@ public class TripRepository implements CrudRepository<Trip> {
 
             e.printStackTrace();
         }
-        return trips;
     }
 }
