@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION get_station_id(station_name varchar)
     RETURNS int
-    LANGUAGE SQL
+    LANGUAGE sql
 AS
 $$
 SELECT id

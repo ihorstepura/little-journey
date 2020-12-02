@@ -1,14 +1,5 @@
-CREATE OR REPLACE PROCEDURE delete_route(route_id integer)
-    LANGUAGE SQL
-AS
-$$
-DELETE
-FROM route
-WHERE id = route_id;
-$$;
-
 CREATE OR REPLACE PROCEDURE delete_route(departure_station_name varchar, arrival_station_name varchar)
-    LANGUAGE SQL
+    LANGUAGE sql
 AS
 $$
 DELETE

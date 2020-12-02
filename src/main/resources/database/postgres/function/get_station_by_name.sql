@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION get_station_by_name(station_name varchar)
                 id   int,
                 name varchar
             )
-    LANGUAGE SQL
+    LANGUAGE sql
 AS
 $$
 SELECT id, name

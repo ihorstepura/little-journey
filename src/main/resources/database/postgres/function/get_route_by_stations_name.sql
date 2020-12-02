@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION get_route_by_stations_name(departure_station_name var
                 departure_station_id int,
                 arrival_station_id   int
             )
-    LANGUAGE SQL
+    LANGUAGE sql
 AS
 $$
 SELECT id, departure_station_id, arrival_station_id

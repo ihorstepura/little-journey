@@ -1,15 +1,6 @@
-CREATE OR REPLACE PROCEDURE delete_trip(trip_id integer)
-    LANGUAGE SQL
-AS
-$$
-DELETE
-FROM trip
-WHERE id = trip_id;
-$$;
-
 CREATE OR REPLACE PROCEDURE delete_trip(trip_cost double precision, trip_duration varchar,
                                         departure_station varchar, arrival_station varchar)
-    LANGUAGE SQL
+    LANGUAGE sql
 AS
 $$
 DELETE

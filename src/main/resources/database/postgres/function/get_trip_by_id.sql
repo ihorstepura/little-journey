@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION get_trip_by_id(trip_id int)
                 duration interval,
                 route_id int
             )
-    LANGUAGE SQL
+    LANGUAGE sql
 AS
 $$
 SELECT cost, duration, route_id

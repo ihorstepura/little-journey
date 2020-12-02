@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION get_departure_station_id(route_id int)
     RETURNS int
-    LANGUAGE SQL
+    LANGUAGE sql
 AS
 $$
 SELECT departure_station_id

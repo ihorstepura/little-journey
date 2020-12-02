@@ -1,5 +1,5 @@
 CREATE OR REPLACE PROCEDURE add_trip(trip_cost double precision, trip_duration varchar, trip_route_id integer)
-    LANGUAGE SQL
+    LANGUAGE sql
 AS
 $$
 INSERT INTO trip (cost, duration, route_id)

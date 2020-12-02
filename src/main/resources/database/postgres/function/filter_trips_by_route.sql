@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION filter_trips_by_route(departure varchar, arrival varchar) RETURNS SETOF trip
-    LANGUAGE SQL
+    LANGUAGE sql
 AS
 $$
 SELECT *

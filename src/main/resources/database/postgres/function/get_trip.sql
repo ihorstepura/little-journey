@@ -6,7 +6,7 @@ CREATE OR REPLACE FUNCTION get_trip(trip_cost double precision, trip_duration va
                 duration interval,
                 route_id int
             )
-    LANGUAGE SQL
+    LANGUAGE sql
 AS
 $$
 SELECT id, cost, duration, route_id
