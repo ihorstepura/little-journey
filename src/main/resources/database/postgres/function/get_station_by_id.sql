@@ -7,7 +7,7 @@ CREATE OR REPLACE FUNCTION get_station_by_id(station_id int)
     LANGUAGE sql
 AS
 $$
-SELECT id, name
+SELECT *
 FROM station
 WHERE id = station_id;
 $$;
