@@ -1,13 +1,9 @@
 CREATE OR REPLACE FUNCTION get_station_by_name(station_name varchar)
-    RETURNS TABLE
-            (
-                id   int,
-                name varchar
-            )
+    RETURNS int
     LANGUAGE sql
 AS
 $$
-SELECT id, name
+SELECT id
 FROM station
 WHERE name = station_name;
 $$;

@@ -9,7 +9,7 @@ CREATE OR REPLACE FUNCTION get_trip(trip_cost double precision, trip_duration va
     LANGUAGE sql
 AS
 $$
-SELECT id, cost, duration, route_id
+SELECT *
 FROM trip
 WHERE cost = trip_cost
   AND duration = cast(trip_duration AS interval)

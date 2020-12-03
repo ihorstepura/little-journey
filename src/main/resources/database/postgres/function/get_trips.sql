@@ -1,7 +1,0 @@
-CREATE OR REPLACE FUNCTION get_trips() RETURNS SETOF trip
-    LANGUAGE sql
-AS
-$$
-SELECT *
-FROM trip;
-$$;

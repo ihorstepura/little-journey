@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION get_route_by_stations_name(departure_station_name var
     LANGUAGE sql
 AS
 $$
-SELECT id, departure_station_id, arrival_station_id
+SELECT *
 FROM route
 WHERE departure_station_id = get_station_id(departure_station_name)
   AND arrival_station_id = get_station_id(arrival_station_name);
