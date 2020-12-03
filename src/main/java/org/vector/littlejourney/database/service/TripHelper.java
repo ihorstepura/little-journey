@@ -13,6 +13,8 @@ import java.util.List;
 
 public class TripHelper {
 
+    private static final StationRepository stationRepository = StationRepository.getStationRepository();
+
     private TripHelper() {
     }
 
@@ -32,13 +34,13 @@ public class TripHelper {
 
             route.setId(routeId);
 
-            int departureStationId = StationRepository.getDepartureStationIdByRouteId(routeId);
+            int departureStationId = stationRepository.getDepartureStationIdByRouteId(routeId);
             departure.setId(departureStationId);
-            departure.setName(StationRepository.getStationById(departureStationId).getName());
+            departure.setName(StationService.getStationById(departureStationId).getName());
 
-            int arrivalStationId = StationRepository.getArrivalStationIdByRouteId(routeId);
+            int arrivalStationId = stationRepository.getArrivalStationIdByRouteId(routeId);
             arrival.setId(arrivalStationId);
-            arrival.setName(StationRepository.getStationById(arrivalStationId).getName());
+            arrival.setName(StationService.getStationById(arrivalStationId).getName());
 
             route.setDeparture(departure);
             route.setArrival(arrival);

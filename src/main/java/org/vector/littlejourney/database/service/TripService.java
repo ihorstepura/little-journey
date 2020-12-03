@@ -1,27 +1,17 @@
 package org.vector.littlejourney.database.service;
 
-import org.vector.littlejourney.database.repository.RouteRepository;
 import org.vector.littlejourney.database.repository.TripRepository;
-import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Trip;
 
 public class TripService {
 
+    private static final TripRepository tripRepository = TripRepository.getTripRepository();
+
     private TripService() {
     }
 
-    public static Trip getTripAttributes(Trip trip) {
+    public static Trip getTrip(int tripId) {
 
-        int tripId = trip.getId();
-
-        int routeId = RouteRepository.getRouteIdByTripId(tripId);
-
-        Route route = new Route(routeId);
-
-        trip = TripRepository.getTripById(tripId);
-
-        trip.setRoute(RouteService.getRouteAttributes(route));
-
-        return trip;
+        return tripRepository.getById(tripId);
     }
 }

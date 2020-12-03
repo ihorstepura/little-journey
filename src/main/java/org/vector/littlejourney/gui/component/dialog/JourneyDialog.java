@@ -150,7 +150,9 @@ public class JourneyDialog extends JDialog implements Runnable {
             Double minCost = Double.parseDouble(minCostInput.getText());
             Double maxCost = Double.parseDouble(maxCostInput.getText());
 
-            TripRepository.filterTrips(tripsFromDatabase, departure, arrival, minCost, maxCost, time);
+            TripRepository tripRepository = TripRepository.getTripRepository();
+
+            tripRepository.filterTrips(tripsFromDatabase, departure, arrival, minCost, maxCost, time);
         }
 
         setTrips(tripsFromDatabase);

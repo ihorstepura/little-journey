@@ -5,11 +5,13 @@ import org.vector.littlejourney.entity.Station;
 
 public class StationService {
 
+    private static final StationRepository stationRepository = StationRepository.getStationRepository();
+
     private StationService() {
     }
 
-    public static Station getStationAttributes(Station station) {
+    public static Station getStationById(int stationId) {
 
-        return StationRepository.getStationById(station.getId());
+        return stationRepository.getById(stationId);
     }
 }

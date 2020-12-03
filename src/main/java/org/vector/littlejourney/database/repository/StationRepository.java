@@ -11,16 +11,32 @@ import java.sql.SQLException;
 
 public class StationRepository implements CrudRepository<Station> {
 
+    private static StationRepository stationRepository;
+
     private static final Connection connection = DatabaseConnector.getConnection();
 
-    @Override
-    public Station get(Station station) {
+    private StationRepository() {
+    }
 
-        String sql = "SELECT * FROM get_station_by_name(?)";
+    public static StationRepository getStationRepository() {
+
+        if (stationRepository == null) {
+
+            stationRepository = new StationRepository();
+        }
+        return stationRepository;
+    }
+
+    @Override
+    public Station getById(int stationId) {
+
+        Station station = new Station();
+
+        String sql = "SELECT * FROM get_station_by_id(?)";
 
         try (CallableStatement statement = connection.prepareCall(sql)) {
 
-            statement.setString(1, station.getName());
+            statement.setInt(1, stationId);
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -49,7 +65,7 @@ public class StationRepository implements CrudRepository<Station> {
 
             statement.execute();
 
-            station = get(station);
+            station = getById(getStationIdByName(station.getName()));
 
         } catch (SQLException e) {
 
@@ -71,7 +87,7 @@ public class StationRepository implements CrudRepository<Station> {
 
             statement.execute();
 
-            station = get(station);
+            station = getById(getStationIdByName(station.getName()));
 
         } catch (SQLException e) {
 
@@ -97,34 +113,31 @@ public class StationRepository implements CrudRepository<Station> {
         }
     }
 
-    public static Station getStationById(int id) {
+    private int getStationIdByName(String stationName) {
 
-        Station station = new Station(id);
+        int id = 0;
 
-        String sql = "SELECT * FROM get_station_by_id(?)";
+        String sql = "SELECT * FROM get_station_by_name(?)";
 
         try (CallableStatement statement = connection.prepareCall(sql)) {
 
-            statement.setInt(1, station.getId());
+            statement.setString(1, stationName);
 
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
 
-                station.setId(resultSet.getInt(1));
-
-                station.setName(resultSet.getString(2));
+                id = resultSet.getInt(1);
             }
-            statement.execute();
 
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
-        return station;
+        return id;
     }
 
-    public static int getDepartureStationIdByRouteId(int id) {
+    public int getDepartureStationIdByRouteId(int id) {
 
         String sql = "SELECT * FROM get_departure_station_id(?)";
 
@@ -139,7 +152,7 @@ public class StationRepository implements CrudRepository<Station> {
         return id;
     }
 
-    public static int getArrivalStationIdByRouteId(int id) {
+    public int getArrivalStationIdByRouteId(int id) {
 
         String sql = "SELECT * FROM get_arrival_station_id(?)";
 

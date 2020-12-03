@@ -1,7 +1,7 @@
 package org.vector.littlejourney.database.repository;
 
 import org.vector.littlejourney.database.DatabaseConnector;
-import org.vector.littlejourney.database.service.TripHelper;
+import org.vector.littlejourney.database.service.StationService;
 import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Station;
 
@@ -9,18 +9,32 @@ import java.sql.*;
 
 public class RouteRepository implements CrudRepository<Route> {
 
+    private static RouteRepository routeRepository;
+
     private static final Connection connection = DatabaseConnector.getConnection();
 
-    @Override
-    public Route get(Route route) {
+    private RouteRepository() {
+    }
 
-        String sql = "SELECT * FROM get_route_by_stations_name(?, ?)";
+    public static RouteRepository getRouteRepository() {
+
+        if (routeRepository == null) {
+
+            routeRepository = new RouteRepository();
+        }
+        return routeRepository;
+    }
+
+    @Override
+    public Route getById(int routeId) {
+
+        Route route = new Route();
+
+        String sql = "SELECT * FROM get_route_by_id(?)";
 
         try (CallableStatement statement = connection.prepareCall(sql)) {
 
-            statement.setString(1, route.getDeparture().getName());
-
-            statement.setString(2, route.getArrival().getName());
+            statement.setInt(1, routeId);
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -28,9 +42,9 @@ public class RouteRepository implements CrudRepository<Route> {
 
                 route.setId(resultSet.getInt(1));
 
-                route.setDeparture(StationRepository.getStationById(resultSet.getInt(2)));
+                route.setDeparture(StationService.getStationById(resultSet.getInt(2)));
 
-                route.setArrival(StationRepository.getStationById(resultSet.getInt(3)));
+                route.setArrival(StationService.getStationById(resultSet.getInt(3)));
             }
         } catch (SQLException e) {
 
@@ -52,7 +66,7 @@ public class RouteRepository implements CrudRepository<Route> {
 
             statement.execute();
 
-            route = get(route);
+            route = getById(getRouteIdByStations(route.getDeparture(), route.getArrival()));
 
         } catch (SQLException e) {
 
@@ -76,7 +90,7 @@ public class RouteRepository implements CrudRepository<Route> {
 
             statement.execute();
 
-            route = get(route);
+            route = getById(getRouteIdByStations(route.getDeparture(), route.getArrival()));
 
         } catch (SQLException e) {
 
@@ -104,22 +118,7 @@ public class RouteRepository implements CrudRepository<Route> {
         }
     }
 
-    public static int getRouteIdByTripId(int id) {
-
-        String sql = "SELECT * FROM get_route_id(?)";
-
-        try (CallableStatement statement = connection.prepareCall(sql)) {
-
-            id = TripHelper.getEntityId(statement, id);
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-        return id;
-    }
-
-    public static int getRouteIdByStations(Station departure, Station arrival) {
+    public int getRouteIdByStations(Station departure, Station arrival) {
 
         int routeId = 0;
 
@@ -142,32 +141,5 @@ public class RouteRepository implements CrudRepository<Route> {
             e.printStackTrace();
         }
         return routeId;
-    }
-
-    public static Route getRouteByTripId(int id) {
-
-        Route route = new Route(id);
-
-        String sql = "SELECT * FROM get_route_by_id(?)";
-
-        try (CallableStatement statement = connection.prepareCall(sql)) {
-
-            statement.setInt(1, id);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-
-                route.setId(resultSet.getInt(1));
-
-                route.setDeparture(StationRepository.getStationById(resultSet.getInt(2)));
-
-                route.setArrival(StationRepository.getStationById(resultSet.getInt(3)));
-            }
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-        return route;
     }
 }
