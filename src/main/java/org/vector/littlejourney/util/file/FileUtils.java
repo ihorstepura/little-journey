@@ -1,7 +1,7 @@
 package org.vector.littlejourney.util.file;
 
 import org.vector.littlejourney.util.constant.StringConstant;
-import org.vector.littlejourney.exception.file.FileException;
+import org.vector.littlejourney.util.exception.file.FileException;
 import org.vector.littlejourney.util.constant.Extension;
 import org.vector.littlejourney.util.constant.WarningConstant;
 

@@ -1,12 +1,14 @@
 package org.vector.littlejourney.gui.component.dialog;
 
+import org.vector.littlejourney.database.repository.TripRepository;
 import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.*;
 import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.util.constant.database.DatabaseConstant;
 import org.vector.littlejourney.util.gui.GuiHandler;
 import org.vector.littlejourney.service.DataFilter;
 import org.vector.littlejourney.util.gui.InputValidationUtils;
-import org.vector.littlejourney.exception.file.FileException;
+import org.vector.littlejourney.util.exception.file.FileException;
 
 import javax.swing.*;
 import javax.swing.JSpinner.*;
@@ -29,13 +31,15 @@ public class JourneyDialog extends JDialog implements Runnable {
 
     private DateEditor editor;
 
-    private JButton saveButton;
-
-    private JButton uploadButton;
+    private JButton saveToFileButton;
 
     private JButton searchButton;
 
+    private JButton uploadButton;
+
     private JSpinner timeSpinner;
+
+    private JComboBox<String> uploadComboBox;
 
     private static List<Trip> trips;
 
@@ -49,6 +53,7 @@ public class JourneyDialog extends JDialog implements Runnable {
         setLocationRelativeTo(null);
 
         configureGuiElements();
+        createUIComponents();
     }
 
     private void searchTrips() {
@@ -60,12 +65,14 @@ public class JourneyDialog extends JDialog implements Runnable {
 
             selectedTripsOutput.setText(StringConstant.EMPTY);
 
-            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
+            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND + FormatConstant.NEW_LINE_SYMBOL);
+
+            selectedTripsOutput.append(WarningConstant.EMPTY_SEARCH_FIELDS);
 
         } else {
             selectedTripsOutput.setText(StringConstant.EMPTY);
 
-            List<Trip> mockTrips = JourneyDialog.trips;
+            List<Trip> mockTrips = trips;
 
             if (!InputValidationUtils.validateAll(departureInput) || !InputValidationUtils.validateAll(arrivalInput)) {
 
@@ -95,7 +102,7 @@ public class JourneyDialog extends JDialog implements Runnable {
                     }
                     setTrips(mockTrips);
 
-                    saveButton.setEnabled(true);
+                    saveToFileButton.setEnabled(true);
                 }
             } catch (Exception exception) {
 
@@ -104,18 +111,77 @@ public class JourneyDialog extends JDialog implements Runnable {
         }
     }
 
-    private void uploadTrips() {
+    private void uploadTripsFromFile() {
 
         List<Trip> loadedTrips;
 
         try {
             loadedTrips = GuiHandler.generateFileLoader();
+
             setTrips(loadedTrips);
+
             createTripsForUser(loadedTrips);
 
         } catch (FileException exception) {
 
             GuiHandler.generateExceptionDialog(this, exception.getMessage());
+        }
+    }
+
+    private void uploadTripsFromDatabase() {
+
+        Date time = editor.getModel().getDate();
+
+        List<Trip> tripsFromDatabase = new ArrayList<>();
+
+        if (InputValidationUtils.validateAll(departureInput, arrivalInput)
+                || InputValidationUtils.validateAll(minCostInput, maxCostInput)) {
+
+            selectedTripsOutput.setText(StringConstant.EMPTY);
+
+            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND);
+
+        } else {
+
+            selectedTripsOutput.setText(StringConstant.EMPTY);
+
+            String departure = departureInput.getText();
+            String arrival = arrivalInput.getText();
+            Double minCost = Double.parseDouble(minCostInput.getText());
+            Double maxCost = Double.parseDouble(maxCostInput.getText());
+
+            TripRepository tripRepository = TripRepository.getTripRepository();
+
+            tripRepository.filterTrips(tripsFromDatabase, departure, arrival, minCost, maxCost, time);
+        }
+
+        setTrips(tripsFromDatabase);
+
+        if (tripsFromDatabase.isEmpty()) {
+
+            selectedTripsOutput.setText(StringConstant.EMPTY);
+
+            selectedTripsOutput.append(WarningConstant.DATA_NOT_FOUND + FormatConstant.NEW_LINE_SYMBOL);
+
+            selectedTripsOutput.append(WarningConstant.EMPTY_SEARCH_FIELDS);
+
+        } else {
+
+            createTripsForUser(tripsFromDatabase);
+
+            saveToFileButton.setEnabled(true);
+        }
+    }
+
+    private void upload() {
+
+        if (Objects.requireNonNull(uploadComboBox.getSelectedItem()).toString().equals(DatabaseConstant.UPLOAD_FILE)) {
+
+            uploadTripsFromFile();
+
+        } else {
+
+            uploadTripsFromDatabase();
         }
     }
 
@@ -150,13 +216,13 @@ public class JourneyDialog extends JDialog implements Runnable {
         }
     }
 
-    public void createUIComponents() {
+    private void createUIComponents() {
 
         SpinnerDateModel model = new SpinnerDateModel(new Date(), null, null, Calendar.HOUR_OF_DAY);
 
         timeSpinner = new JSpinner(model);
 
-        editor = new JSpinner.DateEditor(timeSpinner, DateConstant.DATE_FORMAT_dd_HH_mm);
+        editor = new JSpinner.DateEditor(timeSpinner, DateConstant.DATE_FORMAT_HH_mm_ss);
 
         timeSpinner.setEditor(editor);
     }
@@ -172,10 +238,39 @@ public class JourneyDialog extends JDialog implements Runnable {
         selectedTripsOutput.setFont(FontConstant.TIMES_NEW_ROMAN_ITALIC_20);
 
         searchButton.addActionListener(e -> searchTrips());
-        uploadButton.addActionListener(e -> uploadTrips());
-        saveButton.addActionListener(e -> saveTrips());
+        uploadButton.addActionListener(e -> upload());
+        saveToFileButton.addActionListener(e -> saveTrips());
+        uploadComboBox.addActionListener(e -> resolveItem());
+
+        uploadComboBox.addItem(DatabaseConstant.UPLOAD_FILE);
+        uploadComboBox.addItem(DatabaseConstant.UPLOAD_DATABASE);
+        uploadComboBox.addItem(DatabaseConstant.UPLOAD_MOCK);
 
         getRootPane().setDefaultButton(searchButton);
+    }
+
+    private void resolveItem() {
+
+        if (Objects.requireNonNull(uploadComboBox.getSelectedItem()).toString().equals(DatabaseConstant.UPLOAD_FILE)) {
+
+            searchButton.setEnabled(true);
+
+            uploadButton.setEnabled(true);
+        }
+
+        if (uploadComboBox.getSelectedItem().toString().equals(DatabaseConstant.UPLOAD_DATABASE)) {
+
+            searchButton.setEnabled(false);
+
+            uploadButton.setEnabled(true);
+        }
+
+        if (uploadComboBox.getSelectedItem().toString().equals(DatabaseConstant.UPLOAD_MOCK)) {
+
+            searchButton.setEnabled(true);
+
+            uploadButton.setEnabled(false);
+        }
     }
 
     @Override

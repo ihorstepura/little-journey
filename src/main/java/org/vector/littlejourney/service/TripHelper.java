@@ -4,7 +4,7 @@ import org.vector.littlejourney.entity.Route;
 import org.vector.littlejourney.entity.Station;
 import org.vector.littlejourney.entity.Trip;
 import org.vector.littlejourney.util.constant.*;
-import org.vector.littlejourney.exception.file.FileException;
+import org.vector.littlejourney.util.exception.file.FileException;
 import org.vector.littlejourney.util.DateUtils;
 import org.vector.littlejourney.util.file.Property;
 
@@ -57,7 +57,7 @@ public class TripHelper {
 
                 "цена: " + String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, trip.getCost()) + "; " +
 
-                "длительность маршрута: " + DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm);
+                "длительность маршрута: " + DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_HH_mm_ss);
     }
 
     public static String prepareDocument(Trip trip) {
@@ -65,7 +65,7 @@ public class TripHelper {
         String departure = TripConstant.DEPARTURE + StringConstant.COLON + trip.getRoute().getDeparture().getName();
         String arrival = TripConstant.ARRIVAL + StringConstant.COLON + trip.getRoute().getArrival().getName();
         String cost = TripConstant.COST + StringConstant.COLON + String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, trip.getCost());
-        String duration = TripConstant.DURATION + StringConstant.COLON + DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm);
+        String duration = TripConstant.DURATION + StringConstant.COLON + DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_HH_mm_ss);
 
         return departure + StringConstant.COMMA
                 + arrival + StringConstant.COMMA
@@ -78,7 +78,7 @@ public class TripHelper {
         String departure = trip.getRoute().getDeparture().getName();
         String arrival = trip.getRoute().getArrival().getName();
         String cost = String.valueOf(String.format(FormatConstant.TWO_SYMBOLS_AFTER_POINT, trip.getCost()));
-        String duration = DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_dd_HH_mm);
+        String duration = DateUtils.toSimpleFormat(trip.getDuration(), DateConstant.DATE_FORMAT_HH_mm_ss);
 
         return departure + FormatConstant.TAB_SYMBOL
                 + arrival + FormatConstant.TAB_SYMBOL

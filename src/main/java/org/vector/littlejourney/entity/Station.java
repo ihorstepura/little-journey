@@ -2,13 +2,23 @@ package org.vector.littlejourney.entity;
 
 import org.vector.littlejourney.util.constant.WarningConstant;
 import org.vector.littlejourney.util.constant.station.StationWarning;
-import org.vector.littlejourney.exception.entity.InvalidStationException;
+import org.vector.littlejourney.util.exception.entity.InvalidStationException;
 
 import java.util.Objects;
 
 public class Station {
 
-    private final String name;
+    private int id;
+
+    private String name;
+
+    public Station() {
+    }
+
+    public Station(int id) {
+
+        this.id = id;
+    }
 
     public Station(String name) {
 
@@ -23,9 +33,24 @@ public class Station {
         this.name = name;
     }
 
+    public int getId() {
+
+        return id;
+    }
+
+    public void setId(int id) {
+
+        this.id = id;
+    }
+
     public String getName() {
 
         return name;
+    }
+
+    public void setName(String name) {
+
+        this.name = name;
     }
 
     @Override
@@ -44,5 +69,14 @@ public class Station {
     public int hashCode() {
 
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+
+        return "Station{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

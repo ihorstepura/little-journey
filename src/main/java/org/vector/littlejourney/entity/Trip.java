@@ -3,19 +3,29 @@ package org.vector.littlejourney.entity;
 import org.vector.littlejourney.util.constant.CostWarning;
 import org.vector.littlejourney.util.constant.duration.DurationWarning;
 import org.vector.littlejourney.util.constant.route.RouteWarning;
-import org.vector.littlejourney.exception.entity.InvalidDurationException;
-import org.vector.littlejourney.exception.entity.InvalidRouteException;
-import org.vector.littlejourney.exception.entity.InvalidCostException;
+import org.vector.littlejourney.util.exception.entity.InvalidDurationException;
+import org.vector.littlejourney.util.exception.entity.InvalidRouteException;
+import org.vector.littlejourney.util.exception.entity.InvalidCostException;
 
 import java.util.Date;
 
 public class Trip {
+
+    private int id;
 
     private Route route;
 
     private double cost;
 
     private Date duration;
+
+    public Trip() {
+    }
+
+    public Trip(int id) {
+
+        this.id = id;
+    }
 
     public Trip(Route route, double cost, Date duration) {
 
@@ -30,6 +40,16 @@ public class Trip {
         this.route = route;
         this.cost = cost;
         this.duration = duration;
+    }
+
+    public int getId() {
+
+        return id;
+    }
+
+    public void setId(int id) {
+
+        this.id = id;
     }
 
     public Route getRoute() {
@@ -78,5 +98,16 @@ public class Trip {
             }
         }
         this.duration = duration;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Trip{" +
+                "id=" + id +
+                ", route=" + route +
+                ", cost=" + cost +
+                ", duration=" + duration +
+                '}';
     }
 }

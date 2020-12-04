@@ -1,13 +1,23 @@
 package org.vector.littlejourney.entity;
 
 import org.vector.littlejourney.util.constant.WarningConstant;
-import org.vector.littlejourney.exception.entity.InvalidStationException;
+import org.vector.littlejourney.util.exception.entity.InvalidStationException;
 
 public class Route {
+
+    private int id;
 
     private Station departure;
 
     private Station arrival;
+
+    public Route() {
+    }
+
+    public Route(int id) {
+
+        this.id = id;
+    }
 
     public Route(Station departure, Station arrival) {
 
@@ -17,6 +27,16 @@ public class Route {
         }
         this.departure = departure;
         this.arrival = arrival;
+    }
+
+    public int getId() {
+
+        return id;
+    }
+
+    public void setId(int id) {
+
+        this.id = id;
     }
 
     public Station getDeparture() {
@@ -45,5 +65,15 @@ public class Route {
             throw new InvalidStationException(WarningConstant.NULL_REFERENCE);
         }
         this.arrival = arrival;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Route{" +
+                "id=" + id +
+                ", departure=" + departure +
+                ", arrival=" + arrival +
+                '}';
     }
 }
