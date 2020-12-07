@@ -1,7 +1,7 @@
 package org.vector.littlejourney.database.service;
 
 import org.vector.littlejourney.database.repository.RouteRepository;
-import org.vector.littlejourney.entity.Route;
+import org.vector.littlejourney.database.entity.Route;
 
 public class RouteService {
 

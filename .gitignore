@@ -1,6 +1,8 @@
-# IntellijIdea files
+# IntelliJ Idea
 *.iml
 .idea
-out
-target
-Test.java
+/out
+/target
+#Gradle
+.gradle
+/build

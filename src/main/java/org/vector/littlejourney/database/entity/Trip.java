@@ -1,4 +1,4 @@
-package org.vector.littlejourney.entity;
+package org.vector.littlejourney.database.entity;
 
 import org.vector.littlejourney.util.constant.CostWarning;
 import org.vector.littlejourney.util.constant.duration.DurationWarning;

@@ -1,7 +1,7 @@
 package org.vector.littlejourney.database.service;
 
 import org.vector.littlejourney.database.repository.TripRepository;
-import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.database.entity.Trip;
 
 public class TripService {
 

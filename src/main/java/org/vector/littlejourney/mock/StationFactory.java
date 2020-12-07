@@ -1,6 +1,6 @@
 package org.vector.littlejourney.mock;
 
-import org.vector.littlejourney.entity.Station;
+import org.vector.littlejourney.database.entity.Station;
 import org.vector.littlejourney.util.RandomDataGenerationUtils;
 
 import java.util.*;

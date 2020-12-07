@@ -2,8 +2,8 @@ package org.vector.littlejourney.database.repository;
 
 import org.vector.littlejourney.database.DatabaseConnector;
 import org.vector.littlejourney.database.service.StationService;
-import org.vector.littlejourney.entity.Route;
-import org.vector.littlejourney.entity.Station;
+import org.vector.littlejourney.database.entity.Route;
+import org.vector.littlejourney.database.entity.Station;
 
 import java.sql.*;
 

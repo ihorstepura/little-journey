@@ -1,6 +1,6 @@
 package org.vector.littlejourney.util.file;
 
-import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.database.entity.Trip;
 import org.vector.littlejourney.service.TripHelper;
 import org.vector.littlejourney.util.constant.StringConstant;
 

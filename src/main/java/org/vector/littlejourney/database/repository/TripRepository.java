@@ -3,8 +3,8 @@ package org.vector.littlejourney.database.repository;
 import org.vector.littlejourney.database.DatabaseConnector;
 import org.vector.littlejourney.database.service.RouteService;
 import org.vector.littlejourney.database.service.TripHelper;
-import org.vector.littlejourney.entity.Station;
-import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.database.entity.Station;
+import org.vector.littlejourney.database.entity.Trip;
 import org.vector.littlejourney.util.DateUtils;
 import org.vector.littlejourney.util.constant.DateConstant;
 

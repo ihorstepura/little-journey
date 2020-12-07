@@ -1,7 +1,7 @@
 package org.vector.littlejourney.mock;
 
-import org.vector.littlejourney.entity.Route;
-import org.vector.littlejourney.entity.Station;
+import org.vector.littlejourney.database.entity.Route;
+import org.vector.littlejourney.database.entity.Station;
 
 import java.util.ArrayList;
 import java.util.List;

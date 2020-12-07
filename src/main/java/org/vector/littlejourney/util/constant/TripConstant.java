@@ -3,7 +3,6 @@ package org.vector.littlejourney.util.constant;
 public class TripConstant {
 
     private TripConstant() {
-
     }
 
     public static final String DEPARTURE = "DEPARTURE";

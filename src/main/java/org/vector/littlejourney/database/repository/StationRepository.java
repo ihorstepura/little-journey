@@ -2,7 +2,7 @@ package org.vector.littlejourney.database.repository;
 
 import org.vector.littlejourney.database.DatabaseConnector;
 import org.vector.littlejourney.database.service.TripHelper;
-import org.vector.littlejourney.entity.Station;
+import org.vector.littlejourney.database.entity.Station;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

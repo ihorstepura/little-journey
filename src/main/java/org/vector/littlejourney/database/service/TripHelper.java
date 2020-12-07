@@ -1,9 +1,9 @@
 package org.vector.littlejourney.database.service;
 
 import org.vector.littlejourney.database.repository.StationRepository;
-import org.vector.littlejourney.entity.Route;
-import org.vector.littlejourney.entity.Station;
-import org.vector.littlejourney.entity.Trip;
+import org.vector.littlejourney.database.entity.Route;
+import org.vector.littlejourney.database.entity.Station;
+import org.vector.littlejourney.database.entity.Trip;
 import org.vector.littlejourney.util.DateUtils;
 
 import java.sql.CallableStatement;
