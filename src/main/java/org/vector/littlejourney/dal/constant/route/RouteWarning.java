@@ -1,4 +1,4 @@
-package org.vector.littlejourney.util.constant.route;
+package org.vector.littlejourney.dal.constant.route;
 
 public class RouteWarning {
 

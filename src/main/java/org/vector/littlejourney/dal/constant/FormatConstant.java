@@ -1,4 +1,4 @@
-package org.vector.littlejourney.util.constant;
+package org.vector.littlejourney.dal.constant;
 
 public class FormatConstant {
 

@@ -1,4 +1,4 @@
-package org.vector.littlejourney.mock;
+package mock;
 
 import java.util.ArrayList;
 import java.util.List;

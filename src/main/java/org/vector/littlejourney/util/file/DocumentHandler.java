@@ -1,8 +1,6 @@
 package org.vector.littlejourney.util.file;
 
-import org.vector.littlejourney.database.entity.Trip;
-import org.vector.littlejourney.service.TripHelper;
-import org.vector.littlejourney.util.constant.StringConstant;
+import org.vector.littlejourney.dal.constant.StringConstant;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -60,7 +58,7 @@ public class DocumentHandler implements FileHandler {
 
             for (E element : elements) {
 
-                writer.write(TripHelper.prepareDocument((Trip) element));
+                writer.write((String) element);
 
                 writer.newLine();
             }

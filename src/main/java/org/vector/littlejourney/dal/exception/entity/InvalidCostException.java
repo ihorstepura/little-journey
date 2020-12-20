@@ -1,7 +1,7 @@
-package org.vector.littlejourney.util.exception.entity;
+package org.vector.littlejourney.dal.exception.entity;
 
-import org.vector.littlejourney.util.constant.CostWarning;
-import org.vector.littlejourney.util.constant.StringConstant;
+import org.vector.littlejourney.dal.constant.CostWarning;
+import org.vector.littlejourney.dal.constant.StringConstant;
 
 public class InvalidCostException extends RuntimeException {
 

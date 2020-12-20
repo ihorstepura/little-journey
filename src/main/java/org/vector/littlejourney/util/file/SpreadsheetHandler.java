@@ -1,8 +1,6 @@
 package org.vector.littlejourney.util.file;
 
-import org.vector.littlejourney.database.entity.Trip;
-import org.vector.littlejourney.service.TripHelper;
-import org.vector.littlejourney.util.constant.FormatConstant;
+import org.vector.littlejourney.dal.constant.FormatConstant;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -41,13 +39,13 @@ public class SpreadsheetHandler implements FileHandler {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, false))) {
 
             //header writing
-            writer.write(TripHelper.prepareSpreadSheetHeader());
+            writer.write(String.valueOf(elements));
             writer.newLine();
 
             //body writing
             for (E element : elements) {
 
-                writer.write(TripHelper.prepareSpreadSheet((Trip) element));
+                writer.write((String) element);
                 writer.newLine();
             }
             writer.flush();

@@ -1,7 +1,6 @@
-package org.vector.littlejourney.mock;
+package mock;
 
-import org.vector.littlejourney.database.entity.Station;
-import org.vector.littlejourney.util.RandomDataGenerationUtils;
+import org.vector.littlejourney.dal.dao.StationEntity;
 
 import java.util.*;
 
@@ -21,15 +20,15 @@ public class StationFactory {
         return station;
     }
 
-    public List<Station> generateStations(int count) {
+    public List<StationEntity> generateStations(int count) {
 
-        List<Station> stations = new ArrayList<>(count);
+        List<StationEntity> stations = new ArrayList<>(count);
 
         List<String> cities = new MockJourney().getCity();
 
         for (int i = 0; i < count; i++) {
 
-            stations.add(new Station(RandomDataGenerationUtils.getRandomElement(cities)));
+            stations.add(new StationEntity(/*RandomDataGenerationUtils.getRandomElement(cities)*/));
         }
 
         return stations;

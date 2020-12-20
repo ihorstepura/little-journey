@@ -1,7 +1,7 @@
-package org.vector.littlejourney.util.exception.entity;
+package org.vector.littlejourney.dal.exception.entity;
 
-import org.vector.littlejourney.util.constant.StringConstant;
-import org.vector.littlejourney.util.constant.station.StationWarning;
+import org.vector.littlejourney.dal.constant.StringConstant;
+import org.vector.littlejourney.dal.constant.station.StationWarning;
 
 public class InvalidStationException extends RuntimeException {
 
