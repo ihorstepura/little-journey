@@ -41,8 +41,10 @@ public class StationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+        StationEntity stationEntity = stationService.findById(stationId);
+
         StationModel stationModel = MapService
-                .convertStationEntityToStationModel(stationService.findById(stationId));
+                .convertStationEntityToStationModel(stationEntity);
 
         return new ResponseEntity<>(stationModel, HttpStatus.OK);
     }

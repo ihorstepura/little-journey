@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.vector.littlejourney.dal.dao.RouteEntity;
 import org.vector.littlejourney.dal.repository.RouteRepository;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -24,8 +23,7 @@ public class RouteService implements PersistenceService<RouteEntity> {
     @Override
     public RouteEntity findById(Long id) {
 
-        return routeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Route was not found by id " + id));
+        return routeRepository.getOne(id);
     }
 
     @Override

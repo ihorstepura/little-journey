@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.vector.littlejourney.dal.dao.StationEntity;
 import org.vector.littlejourney.dal.repository.StationRepository;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -23,8 +22,7 @@ public class StationService implements PersistenceService<StationEntity> {
     @Override
     public StationEntity findById(Long id) {
 
-        return stationRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Station was not found by id " + id));
+        return stationRepository.getOne(id);
     }
 
     @Override

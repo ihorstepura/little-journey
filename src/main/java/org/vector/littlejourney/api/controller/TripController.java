@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vector.littlejourney.api.dto.TripModel;
+import org.vector.littlejourney.dal.dao.StationEntity;
 import org.vector.littlejourney.dal.dao.TripEntity;
 import org.vector.littlejourney.dal.service.MapService;
 import org.vector.littlejourney.dal.service.TripService;
@@ -41,8 +42,10 @@ public class TripController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+        TripEntity tripEntity = tripService.findById(tripId);
+
         TripModel tripModel = MapService
-                .convertTripEntityToTripModel(tripService.findById(tripId));
+                .convertTripEntityToTripModel(tripEntity);
 
         return new ResponseEntity<>(tripModel, HttpStatus.OK);
     }
@@ -94,5 +97,47 @@ public class TripController {
         return new ResponseEntity<>(MapService.convertTripEntityToTripModel(trip), HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/minCost/{minCost}/maxCost/{maxCost}")
+    public ResponseEntity<List<TripModel>> findTripByCostBetween(@PathVariable Double minCost,
+                                                                 @PathVariable Double maxCost) {
 
+        List<TripModel> tripModels = MapService
+                .convertTripEntityToTripModel(tripService.findByCostBetween(minCost, maxCost));
+
+        if (tripModels.isEmpty()) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(tripModels, HttpStatus.OK);
+    }
+
+    @GetMapping("/minDuration/{minDuration}/maxDuration/{maxDuration}")
+    public ResponseEntity<List<TripModel>> findTripByDurationBetween(@PathVariable String minDuration,
+                                                                     @PathVariable String maxDuration) {
+
+        List<TripModel> tripModels = MapService
+                .convertTripEntityToTripModel(tripService.findByDurationBetween(minDuration, maxDuration));
+
+        if (tripModels.isEmpty()) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(tripModels, HttpStatus.OK);
+    }
+
+    @GetMapping("/departureStation/{departureStation}")
+    public ResponseEntity<List<TripModel>> findTripByDurationBetween(@PathVariable StationEntity departureStation) {
+
+        List<TripModel> tripModels = MapService
+                .convertTripEntityToTripModel(tripService.findByDepartureStation(departureStation));
+
+        if (tripModels.isEmpty()) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(tripModels, HttpStatus.OK);
+    }
 }
