@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS trip
 (
     id       SERIAL PRIMARY KEY,
     cost     NUMERIC(8, 2) NOT NULL,
-    duration INTERVAL      NOT NULL,
+    duration VARCHAR(8)    NOT NULL,
     route_id INTEGER       NOT NULL,
     CONSTRAINT positive_cost CHECK (cost >= 0),
     CONSTRAINT trip_unique UNIQUE (cost, duration, route_id),

@@ -3,8 +3,6 @@ package org.vector.littlejourney.api.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class TripModel {
 
@@ -15,7 +13,7 @@ public class TripModel {
     private Double cost;
 
     @JsonProperty(value = "duration")
-    private Date duration;
+    private String duration;
 
     @JsonProperty(value = "route")
     private RouteModel route;

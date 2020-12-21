@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -22,5 +21,5 @@ public class TripEntity extends BaseEntity {
     private Double cost;
 
     @Column(name = "duration")
-    private Date duration;
+    private String duration;
 }
