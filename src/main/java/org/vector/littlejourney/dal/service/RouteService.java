@@ -16,37 +16,36 @@ public class RouteService implements PersistenceService<RouteEntity> {
     private RouteRepository routeRepository;
 
     @Override
-
-    public List<RouteEntity> findAll() {
-        log.info("IN RouteService findAll");
-
-        return routeRepository.findAll();
-    }
-
-    @Override
-    public RouteEntity findById(Long id) {
-        log.info("IN RouteService findById {}", id);
+    public RouteEntity getById(Long id) {
+        log.info("Finding route with id {}", id);
 
         return routeRepository.getOne(id);
     }
 
     @Override
-    public void add(RouteEntity route) {
-        log.info("IN RouteService add {}", route);
+    public List<RouteEntity> getAll() {
+        log.info("Finding all routes");
 
-        routeRepository.save(route);
+        return routeRepository.findAll();
     }
 
     @Override
-    public void update(RouteEntity route) {
-        log.info("IN RouteService update {}", route);
+    public RouteEntity insert(RouteEntity route) {
+        log.info("Insertion route {}", route);
 
-        routeRepository.save(route);
+        return routeRepository.save(route);
+    }
+
+    @Override
+    public RouteEntity update(RouteEntity route) {
+        log.info("Updating route {}", route);
+
+        return routeRepository.save(route);
     }
 
     @Override
     public void delete(Long id) {
-        log.info("IN RouteService delete {}", id);
+        log.info("Deleting route with id {}", id);
 
         routeRepository.deleteById(id);
     }

@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface PersistenceService<T> {
 
-    List<T> findAll();
+    T getById(Long id);
 
-    T findById(Long id);
+    List<T> getAll();
 
-    void add(T e);
+    T insert(T e);
 
-    void update(T e);
+    T update(T e);
 
     void delete(Long id);
 }

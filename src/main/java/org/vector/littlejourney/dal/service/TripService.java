@@ -18,42 +18,42 @@ public class TripService implements PersistenceService<TripEntity> {
     private TripRepository tripRepository;
 
     @Override
-    public List<TripEntity> findAll() {
-        log.info("IN TripRepository findAll");
-
-        return tripRepository.findAll();
-    }
-
-    @Override
-    public TripEntity findById(Long id) {
-        log.info("IN TripRepository findById {}", id);
+    public TripEntity getById(Long id) {
+        log.info("Finding trip with id {}", id);
 
         return tripRepository.getOne(id);
     }
 
     @Override
-    public void add(TripEntity trip) {
-        log.info("IN TripRepository add {}", trip);
+    public List<TripEntity> getAll() {
+        log.info("Finding all trips");
 
-        tripRepository.save(trip);
+        return tripRepository.findAll();
     }
 
     @Override
-    public void update(TripEntity trip) {
-        log.info("IN TripRepository update {}", trip);
+    public TripEntity insert(TripEntity trip) {
+        log.info("Insertion trip {}", trip);
 
-        tripRepository.save(trip);
+        return tripRepository.save(trip);
+    }
+
+    @Override
+    public TripEntity update(TripEntity trip) {
+        log.info("Updating trip {}", trip);
+
+        return tripRepository.save(trip);
     }
 
     @Override
     public void delete(Long id) {
-        log.info("IN TripRepository delete {}", id);
+        log.info("Deleting trip {}", id);
 
         tripRepository.deleteById(id);
     }
 
     public List<TripEntity> findByCostBetween(Double minCost, Double maxCost) {
-        log.info("IN TripRepository findByCostBetween {} {}", minCost, maxCost);
+        log.info("Finding trip with minimal cost {} and maximal cost {}", minCost, maxCost);
 
         return tripRepository.findByCostBetween(minCost, maxCost)
                 .orElseThrow(() -> new EntityNotFoundException
@@ -61,22 +61,22 @@ public class TripService implements PersistenceService<TripEntity> {
     }
 
     public List<TripEntity> findByDurationBetween(String minDuration, String maxDuration) {
-        log.info("IN TripRepository findByDurationBetween {} {}", minDuration, maxDuration);
+        log.info("Finding trip with minimal duration {} and maximal duration {}", minDuration, maxDuration);
 
         return tripRepository.findByDurationBetween(minDuration, maxDuration)
                 .orElseThrow(() -> new EntityNotFoundException
                         ("Trip was not found by minDuration " + minDuration + " and maxDuration " + maxDuration));
     }
 
-    public List<TripEntity> findByDepartureStation(StationEntity stationEntity) {
-        log.info("IN TripRepository findByDepartureStation {}", stationEntity);
+    public List<TripEntity> findByDepartureStation(StationEntity departureStation) {
+        log.info("Finding trip with departure station {}", departureStation);
 
-        return tripRepository.findByRouteDepartureStation(stationEntity)
-                .orElseThrow(() -> new EntityNotFoundException("Trip was not found by departureStation " + stationEntity));
+        return tripRepository.findByRouteDepartureStation(departureStation)
+                .orElseThrow(() -> new EntityNotFoundException("Trip was not found by departureStation " + departureStation));
     }
 
     public List<TripEntity> findTripEntitiesByCostBetween(Double minCost, Double maxCost) {
-        log.info("IN TripRepository findTripEntitiesByCostBetween {} {}", minCost, maxCost);
+        log.info("Finding trip with minimal cost {} and maximal cost {}", minCost, maxCost);
 
         return tripRepository.findTripEntitiesByCostBetween(minCost, maxCost);
     }

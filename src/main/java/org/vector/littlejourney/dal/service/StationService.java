@@ -18,43 +18,45 @@ public class StationService implements PersistenceService<StationEntity> {
     private StationRepository stationRepository;
 
     @Override
-    public List<StationEntity> findAll() {
-        log.info("IN StationService findAll");
-
-        return stationRepository.findAll();
-    }
-
-    @Override
-    public StationEntity findById(Long id) {
-        log.info("IN StationService findById {}", id);
+    public StationEntity getById(Long id) {
+        log.info("Finding station with id {}", id);
 
         return stationRepository.getOne(id);
     }
 
     @Override
-    public void add(StationEntity station) {
-        log.info("IN StationService add {}", station);
+    public List<StationEntity> getAll() {
+        log.info("Finding all stations");
 
-        stationRepository.save(station);
+        return stationRepository.findAll();
     }
 
     @Override
-    public void update(StationEntity station) {
-        log.info("IN StationService update {}", station);
+    public StationEntity insert(StationEntity station) {
+        log.info("Insertion station {}", station);
 
-        stationRepository.save(station);
+        return stationRepository.save(station);
+    }
+
+    @Override
+    public StationEntity update(StationEntity station) {
+        log.info("Updating station {}", station);
+
+        return stationRepository.save(station);
     }
 
     @Override
     public void delete(Long id) {
-        log.info("IN StationService delete {}", id);
+        log.info("Deleting station with id {}", id);
 
         stationRepository.deleteById(id);
     }
 
     public List<StationEntity> findStationsWithExampleMatcher(String stationName) {
+        log.info("Finding stations with ExampleMatcher");
 
         StationEntity stationEntity = new StationEntity();
+
         stationEntity.setName(stationName);
 
         Example<StationEntity> example = Example.of(stationEntity, MatcherConst.matcherEndsWith);
