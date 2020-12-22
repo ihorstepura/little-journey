@@ -74,4 +74,10 @@ public class TripService implements PersistenceService<TripEntity> {
         return tripRepository.findByRouteDepartureStation(stationEntity)
                 .orElseThrow(() -> new EntityNotFoundException("Trip was not found by departureStation " + stationEntity));
     }
+
+    public List<TripEntity> findTripEntitiesByCostBetween(Double minCost, Double maxCost) {
+        log.info("IN TripRepository findTripEntitiesByCostBetween {} {}", minCost, maxCost);
+
+        return tripRepository.findTripEntitiesByCostBetween(minCost, maxCost);
+    }
 }

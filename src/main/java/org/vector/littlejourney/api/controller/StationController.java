@@ -95,4 +95,18 @@ public class StationController {
 
         return new ResponseEntity<>(MapService.convertStationEntityToStationModel(station), HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("matcher/{name}")
+    public ResponseEntity<List<StationModel>> findStationByName(@PathVariable String name) {
+
+        List<StationModel> stationModels =
+                MapService.convertStationEntityToStationModel(stationService.findStationsWithExampleMatcher(name));
+
+        if (stationModels.isEmpty()) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(stationModels, HttpStatus.OK);
+    }
 }

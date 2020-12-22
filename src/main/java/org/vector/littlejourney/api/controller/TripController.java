@@ -140,4 +140,19 @@ public class TripController {
 
         return new ResponseEntity<>(tripModels, HttpStatus.OK);
     }
+
+    @GetMapping("/query/minCost/{minCost}/maxCost/{maxCost}")
+    public ResponseEntity<List<TripModel>> findTripEntitiesByCostBetween(@PathVariable Double minCost,
+                                                                         @PathVariable Double maxCost) {
+
+        List<TripModel> tripModels = MapService
+                .convertTripEntityToTripModel(tripService.findTripEntitiesByCostBetween(minCost, maxCost));
+
+        if (tripModels.isEmpty()) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(tripModels, HttpStatus.OK);
+    }
 }
