@@ -1,4 +1,4 @@
-package org.vector.littlejourney.dal.exception.entity;
+package org.vector.littlejourney.aop;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
