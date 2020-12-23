@@ -59,7 +59,7 @@ public class StationService implements PersistenceService<StationEntity> {
 
         stationEntity.setName(stationName);
 
-        Example<StationEntity> example = Example.of(stationEntity, MatcherConst.matcherEndsWith);
+        Example<StationEntity> example = Example.of(stationEntity, MatcherConst.matcherIgnoreCase);
 
         return stationRepository.findAll(example);
     }

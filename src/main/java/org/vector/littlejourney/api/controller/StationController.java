@@ -5,9 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vector.littlejourney.api.dto.StationModel;
-import org.vector.littlejourney.dal.dao.StationEntity;
-import org.vector.littlejourney.dal.service.MapService;
-import org.vector.littlejourney.dal.service.StationService;
+import org.vector.littlejourney.converter.StationConvertService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,13 +15,12 @@ import java.util.List;
 public class StationController {
 
     @Autowired
-    private StationService stationService;
+    private StationConvertService stationConvertService;
 
     @GetMapping
     public ResponseEntity<List<StationModel>> findAllStations() {
 
-        List<StationModel> stationModels = MapService
-                .convertStationEntityToStationModel(stationService.findAll());
+        List<StationModel> stationModels = stationConvertService.getAll();
 
         if (stationModels.isEmpty()) {
 
@@ -34,73 +31,42 @@ public class StationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StationModel> findStationById(@PathVariable("id") Long stationId) {
+    public ResponseEntity<StationModel> findStationById(@PathVariable(value = "id") Long stationId) {
 
-        if (stationId == null) {
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        StationEntity stationEntity = stationService.findById(stationId);
-
-        StationModel stationModel = MapService
-                .convertStationEntityToStationModel(stationEntity);
+        StationModel stationModel = stationConvertService.getById(stationId);
 
         return new ResponseEntity<>(stationModel, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<StationModel> addStation(@RequestBody @Valid StationModel station) {
+    public ResponseEntity<StationModel> addStation(@RequestBody @Valid StationModel stationModel) {
 
-        if (station == null) {
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        StationEntity stationEntity = MapService.convertStationModelToStationEntity(station);
-
-        stationService.add(stationEntity);
-
-        station.setId(stationEntity.getId());
+        StationModel station = stationConvertService.insert(stationModel);
 
         return new ResponseEntity<>(station, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<StationModel> updateStation(@RequestBody @Valid StationModel station) {
+    public ResponseEntity<StationModel> updateStation(@RequestBody @Valid StationModel stationModel) {
 
-        if (station == null) {
+        stationConvertService.update(stationModel);
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        StationEntity stationEntity = MapService.convertStationModelToStationEntity(station);
-
-        stationService.update(stationEntity);
-
-        return new ResponseEntity<>(station, HttpStatus.OK);
+        return new ResponseEntity<>(stationModel, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<StationModel> deleteStation(@PathVariable("id") Long stationId) {
 
-        StationEntity station = stationService.findById(stationId);
+        StationModel stationModel = stationConvertService.delete(stationId);
 
-        if (station == null) {
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        stationService.delete(stationId);
-
-        return new ResponseEntity<>(MapService.convertStationEntityToStationModel(station), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(stationModel, HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("matcher/{name}")
-    public ResponseEntity<List<StationModel>> findStationByName(@PathVariable String name) {
+    @GetMapping("/stationByName")
+    public ResponseEntity<List<StationModel>> findStationByName(@RequestParam(name = "name") String name) {
 
         List<StationModel> stationModels =
-                MapService.convertStationEntityToStationModel(stationService.findStationsWithExampleMatcher(name));
+                stationConvertService.findStationsWithExampleMatcher(name);
 
         if (stationModels.isEmpty()) {
 

@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vector.littlejourney.api.dto.TripModel;
-import org.vector.littlejourney.dal.dao.StationEntity;
-import org.vector.littlejourney.dal.dao.TripEntity;
-import org.vector.littlejourney.dal.service.MapService;
-import org.vector.littlejourney.dal.service.TripService;
+import org.vector.littlejourney.converter.TripConvertService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,13 +15,12 @@ import java.util.List;
 public class TripController {
 
     @Autowired
-    private TripService tripService;
+    private TripConvertService tripConvertService;
 
     @GetMapping
     public ResponseEntity<List<TripModel>> findAllTrips() {
 
-        List<TripModel> tripModels = MapService
-                .convertTripEntityToTripModel(tripService.findAll());
+        List<TripModel> tripModels = tripConvertService.getAll();
 
         if (tripModels.isEmpty()) {
 
@@ -37,72 +33,40 @@ public class TripController {
     @GetMapping("/{id}")
     public ResponseEntity<TripModel> findTripById(@PathVariable("id") Long tripId) {
 
-        if (tripId == null) {
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        TripEntity tripEntity = tripService.findById(tripId);
-
-        TripModel tripModel = MapService
-                .convertTripEntityToTripModel(tripEntity);
+        TripModel tripModel = tripConvertService.getById(tripId);
 
         return new ResponseEntity<>(tripModel, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<TripModel> addTrip(@RequestBody @Valid TripModel trip) {
+    public ResponseEntity<TripModel> addTrip(@RequestBody @Valid TripModel tripModel) {
 
-        if (trip == null) {
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        TripEntity tripEntity = MapService.convertTripModelToTripEntity(trip);
-
-        tripService.add(tripEntity);
-
-        trip.setId(tripEntity.getId());
+        TripModel trip = tripConvertService.insert(tripModel);
 
         return new ResponseEntity<>(trip, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<TripModel> updateTrip(@RequestBody @Valid TripModel trip) {
+    public ResponseEntity<TripModel> updateTrip(@RequestBody @Valid TripModel tripModel) {
 
-        if (trip == null) {
+        tripConvertService.update(tripModel);
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        TripEntity tripEntity = MapService.convertTripModelToTripEntity(trip);
-
-        tripService.update(tripEntity);
-
-        return new ResponseEntity<>(trip, HttpStatus.OK);
+        return new ResponseEntity<>(tripModel, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<TripModel> deleteRoute(@PathVariable("id") Long tripId) {
 
-        TripEntity trip = tripService.findById(tripId);
+        TripModel tripModel = tripConvertService.delete(tripId);
 
-        if (trip == null) {
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        tripService.delete(tripId);
-
-        return new ResponseEntity<>(MapService.convertTripEntityToTripModel(trip), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(tripModel, HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/minCost/{minCost}/maxCost/{maxCost}")
-    public ResponseEntity<List<TripModel>> findTripByCostBetween(@PathVariable Double minCost,
-                                                                 @PathVariable Double maxCost) {
+    @GetMapping("/tripByCost")
+    public ResponseEntity<List<TripModel>> findTripByCostBetween(@RequestParam(name = "minCost") Double minCost,
+                                                                 @RequestParam(name = "maxCost") Double maxCost) {
 
-        List<TripModel> tripModels = MapService
-                .convertTripEntityToTripModel(tripService.findByCostBetween(minCost, maxCost));
+        List<TripModel> tripModels = tripConvertService.findByCostBetween(minCost, maxCost);
 
         if (tripModels.isEmpty()) {
 
@@ -112,26 +76,12 @@ public class TripController {
         return new ResponseEntity<>(tripModels, HttpStatus.OK);
     }
 
-    @GetMapping("/minDuration/{minDuration}/maxDuration/{maxDuration}")
-    public ResponseEntity<List<TripModel>> findTripByDurationBetween(@PathVariable String minDuration,
-                                                                     @PathVariable String maxDuration) {
+    @GetMapping("/tripByDuration")
+    public ResponseEntity<List<TripModel>> findTripByDurationBetween(
+            @RequestParam(name = "minDuration") String minDuration,
+            @RequestParam(name = "maxDuration") String maxDuration) {
 
-        List<TripModel> tripModels = MapService
-                .convertTripEntityToTripModel(tripService.findByDurationBetween(minDuration, maxDuration));
-
-        if (tripModels.isEmpty()) {
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(tripModels, HttpStatus.OK);
-    }
-
-    @GetMapping("/departureStation/{departureStation}")
-    public ResponseEntity<List<TripModel>> findTripByDurationBetween(@PathVariable StationEntity departureStation) {
-
-        List<TripModel> tripModels = MapService
-                .convertTripEntityToTripModel(tripService.findByDepartureStation(departureStation));
+        List<TripModel> tripModels = tripConvertService.findByDurationBetween(minDuration, maxDuration);
 
         if (tripModels.isEmpty()) {
 
@@ -141,12 +91,25 @@ public class TripController {
         return new ResponseEntity<>(tripModels, HttpStatus.OK);
     }
 
-    @GetMapping("/query/minCost/{minCost}/maxCost/{maxCost}")
-    public ResponseEntity<List<TripModel>> findTripEntitiesByCostBetween(@PathVariable Double minCost,
-                                                                         @PathVariable Double maxCost) {
+    @GetMapping("/tripByDepartureStation")
+    public ResponseEntity<List<TripModel>> findTripByDepartureStation(
+            @RequestParam(name = "departureStationName") String departureStationName) {
 
-        List<TripModel> tripModels = MapService
-                .convertTripEntityToTripModel(tripService.findTripEntitiesByCostBetween(minCost, maxCost));
+        List<TripModel> tripModels = tripConvertService.findByDepartureStation(departureStationName);
+
+        if (tripModels.isEmpty()) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(tripModels, HttpStatus.OK);
+    }
+
+    @GetMapping("/tripByCostQuery")
+    public ResponseEntity<List<TripModel>> findTripEntitiesByCostBetween(@RequestParam("minCost") Double minCost,
+                                                                         @RequestParam("maxCost") Double maxCost) {
+
+        List<TripModel> tripModels = tripConvertService.findTripEntitiesByCostBetween(minCost, maxCost);
 
         if (tripModels.isEmpty()) {
 

@@ -5,9 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vector.littlejourney.api.dto.RouteModel;
-import org.vector.littlejourney.dal.dao.RouteEntity;
-import org.vector.littlejourney.dal.service.MapService;
-import org.vector.littlejourney.dal.service.RouteService;
+import org.vector.littlejourney.converter.RouteConvertService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,13 +15,12 @@ import java.util.List;
 public class RouteController {
 
     @Autowired
-    private RouteService routeService;
+    private RouteConvertService routeConvertService;
 
     @GetMapping
     public ResponseEntity<List<RouteModel>> findAllRoutes() {
 
-        List<RouteModel> routeModels = MapService
-                .convertRouteEntityToRouteModel(routeService.findAll());
+        List<RouteModel> routeModels = routeConvertService.getAll();
 
         if (routeModels.isEmpty()) {
 
@@ -36,61 +33,32 @@ public class RouteController {
     @GetMapping("/{id}")
     public ResponseEntity<RouteModel> findRouteById(@PathVariable("id") Long routeId) {
 
-        if (routeId == null) {
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        RouteModel routeModel = MapService
-                .convertRouteEntityToRouteModel(routeService.findById(routeId));
+        RouteModel routeModel = routeConvertService.getById(routeId);
 
         return new ResponseEntity<>(routeModel, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<RouteModel> addRoute(@RequestBody @Valid RouteModel route) {
+    public ResponseEntity<RouteModel> addRoute(@RequestBody @Valid RouteModel routeModel) {
 
-        if (route == null) {
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        RouteEntity routeEntity = MapService.convertRouteModelToRouteEntity(route);
-
-        routeService.add(routeEntity);
-
-        route.setId(routeEntity.getId());
+        RouteModel route = routeConvertService.insert(routeModel);
 
         return new ResponseEntity<>(route, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<RouteModel> updateRoute(@RequestBody @Valid RouteModel route) {
+    public ResponseEntity<RouteModel> updateRoute(@RequestBody @Valid RouteModel routeModel) {
 
-        if (route == null) {
+        routeConvertService.update(routeModel);
 
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        RouteEntity routeEntity = MapService.convertRouteModelToRouteEntity(route);
-
-        routeService.update(routeEntity);
-
-        return new ResponseEntity<>(route, HttpStatus.OK);
+        return new ResponseEntity<>(routeModel, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<RouteModel> deleteRoute(@PathVariable("id") Long routeId) {
 
-        RouteEntity route = routeService.findById(routeId);
+        RouteModel routeModel = routeConvertService.delete(routeId);
 
-        if (route == null) {
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        routeService.delete(routeId);
-
-        return new ResponseEntity<>(MapService.convertRouteEntityToRouteModel(route), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(routeModel, HttpStatus.NO_CONTENT);
     }
 }

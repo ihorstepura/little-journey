@@ -3,7 +3,6 @@ package org.vector.littlejourney.dal.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vector.littlejourney.dal.dao.StationEntity;
 import org.vector.littlejourney.dal.dao.TripEntity;
 import org.vector.littlejourney.dal.repository.TripRepository;
 
@@ -68,11 +67,11 @@ public class TripService implements PersistenceService<TripEntity> {
                         ("Trip was not found by minDuration " + minDuration + " and maxDuration " + maxDuration));
     }
 
-    public List<TripEntity> findByDepartureStation(StationEntity departureStation) {
-        log.info("Finding trip with departure station {}", departureStation);
+    public List<TripEntity> findByDepartureStation(String departureStationName) {
+        log.info("Finding trip with departure station name {}", departureStationName);
 
-        return tripRepository.findByRouteDepartureStation(departureStation)
-                .orElseThrow(() -> new EntityNotFoundException("Trip was not found by departureStation " + departureStation));
+        return tripRepository.findByRouteDepartureStationName(departureStationName)
+                .orElseThrow(() -> new EntityNotFoundException("Trip was not found by departureStation " + departureStationName));
     }
 
     public List<TripEntity> findTripEntitiesByCostBetween(Double minCost, Double maxCost) {
